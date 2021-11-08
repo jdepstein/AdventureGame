@@ -12,7 +12,12 @@ public class Pickup implements AdventureCommand {
 
 
   @Override
-  public void go(Dungeon d) {
-    System.out.println("Remember TO DO");
+  public boolean runCmd(Dungeon d) {
+    boolean hold = d.search();
+    if (!hold) {
+      throw new IllegalArgumentException(
+              "You picked up but there was nothing to pick up");
+    }
+    return hold;
   }
 }

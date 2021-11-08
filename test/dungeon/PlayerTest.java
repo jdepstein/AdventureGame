@@ -1,16 +1,15 @@
 package dungeon;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import dungeon.enums.CaveObject;
+import dungeon.enums.Direction;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
-
-import dungeon.enums.CaveObject;
-import dungeon.enums.Direction;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Test for the playerImpl Class.

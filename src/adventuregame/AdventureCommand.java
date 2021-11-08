@@ -14,5 +14,5 @@ public interface AdventureCommand {
    *
    * @param d the model to use
    */
-  void go(Dungeon d);
+  boolean runCmd(Dungeon d);
 }

@@ -38,7 +38,13 @@ public class Move implements AdventureCommand {
   }
 
   @Override
-  public void go(Dungeon d) {
-    System.out.println("Remember TO DO");
+  public boolean runCmd(Dungeon d) {
+    if (!d.movePlayer(dir)) {
+      throw new IllegalArgumentException(
+              "Move given provides no progression");
+    }
+    return d.escaped();
   }
 }
+
+

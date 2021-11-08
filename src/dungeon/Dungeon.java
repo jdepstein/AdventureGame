@@ -56,6 +56,12 @@ public interface Dungeon {
   boolean movePlayer(Direction direction);
 
   /**
+   * Tells us weather or not the player had to escape a monster on their previous move.
+   * @return the boolean to tell us if they escaped a monster.
+   */
+  boolean escaped();
+
+  /**
    * Player searches for treasure at their current location returns true if they found some.
    * @return Boolean if they found treasure or not
    */

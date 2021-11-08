@@ -1,16 +1,15 @@
 package dungeon;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.List;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import dungeon.enums.CaveObject;
 import dungeon.enums.Direction;
 import dungeon.enums.Smell;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import java.util.List;
 
 
 /**

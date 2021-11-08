@@ -34,9 +34,8 @@ public class AdvGameConsoleController implements AdvGameController {
     }
     this.knownCommands = new HashMap<>();
     knownCommands.put("M", s -> new Move(s.next()));
-    knownCommands.put("S", s -> new Shoot(s.nextInt()));
+    knownCommands.put("S", s -> new Shoot(s.nextInt(), s.next()));
     knownCommands.put("P", s -> new Pickup());
-
 
     this.out = out;
     scan = new Scanner(in);
@@ -61,8 +60,17 @@ public class AdvGameConsoleController implements AdvGameController {
         stringAppend(dir);
       }
 
+      stringAppend(d.toString());
+
+
       boolean execute = false;
       while (!execute) {
+        if (d.hasSolved()) {
+          stringAppend("You Have reached the end of the Dungeon type Q or q to leave");
+          stringAppend("You Can still Explore but you run the risk of dying or"
+                  + " not finding your way back");
+        }
+
         stringAppend("Move, Pickup, or Shoot (M-P-S)?");
         String in = scan.next();
         if (in.equalsIgnoreCase("q") || in.equalsIgnoreCase("Q")) {
@@ -74,12 +82,33 @@ public class AdvGameConsoleController implements AdvGameController {
           stringAppend("Unknown command");
         } else {
           try {
-            try {
-              AdventureCommand c = cmd1.apply(scan);
-              execute = true;
-            } catch (IllegalArgumentException e) {
-              stringAppend(e.getMessage());
+            AdventureCommand c = cmd1.apply(scan);
+            boolean val = c.runCmd(d);
+            execute = true;
+
+            if (in.equals("P")) {
+              Description play = d.getPlayerDescription();
+              stringAppend("You Now have: ");
+              for (String cur : play.getPlayerItems()) {
+                if (!cur.contains(": 0")) {
+                  stringAppend(cur);
+                }
+              }
             }
+
+            if (in.equals("M") && val) {
+              stringAppend("You Narrowly escaped a Otyugh and "
+                        + "returned to your previous location");
+            }
+
+            if (in.equals("S") && val) {
+              stringAppend("You Hear a loud roar in the distance");
+            }
+
+
+
+          } catch (IllegalArgumentException e) {
+            stringAppend(e.getMessage());
           } catch (InputMismatchException e) {
             String got = scan.next();
             stringAppend("Expected an Integer But got: " + got);
@@ -88,7 +117,7 @@ public class AdvGameConsoleController implements AdvGameController {
       }
     }
 
-    if (quitting) {
+    if (quitting && !d.hasSolved()) {
       stringAppend("Quit the dungeon So no items were collected");
     }
 

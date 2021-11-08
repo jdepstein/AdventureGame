@@ -26,6 +26,7 @@ public class DungeonImpl implements Dungeon {
   private Location end;
   private Location start;
   private final int interConnectivity;
+  private boolean escaped;
 
 
   /**
@@ -107,6 +108,7 @@ public class DungeonImpl implements Dungeon {
       }
     }
 
+    this.escaped = false;
     this.xDim = width;
     this.yDim = height;
     this.interConnectivity = interConnectivity;
@@ -197,9 +199,20 @@ public class DungeonImpl implements Dungeon {
     if (move == null) {
       return false;
     }
+    this.escaped = false;
     Cave cave = this.caves[move.getY()][move.getX()];
+    Location previous = player.getLocation();
     player.updateLocation(cave);
+    if (previous.equals(player.getLocation())) {
+      this.escaped = true;
+    }
+
     return true;
+  }
+
+  @Override
+  public boolean escaped() {
+    return this.escaped;
   }
 
   @Override
@@ -564,7 +577,7 @@ public class DungeonImpl implements Dungeon {
           }
           for (int x = 0; x < this.caves[0].length; x++) {
             if (!myCave[x].getLocation().equals(new Location(0,0))) {
-              if (myCave[x].addMonster(new Otyugh())){
+              if (myCave[x].addMonster(new Otyugh())) {
                 monsterCount--;
                 this.caves[0][0].addArrow();
                 this.caves[0][0].addArrow();

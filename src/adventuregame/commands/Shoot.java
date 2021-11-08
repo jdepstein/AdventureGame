@@ -2,6 +2,7 @@ package adventuregame.commands;
 
 import adventuregame.AdventureCommand;
 import dungeon.Dungeon;
+import dungeon.enums.Direction;
 
 /**
  * This allows the player to shoot an arrow in a given direction with the given distance
@@ -9,18 +10,35 @@ import dungeon.Dungeon;
  * that it was shot.
  */
 public class Shoot implements AdventureCommand {
-  private int distance;
+  private final int distance;
+  private final Direction dir;
 
   /**
    * The distance the arrow will travel.
    * @param dist teh distance of the arrow
    */
-  public Shoot(int dist) {
+  public Shoot(int dist, String dir) {
     this.distance = dist;
+    switch (dir) {
+      case "N":
+        this.dir = Direction.NORTH;
+        break;
+      case "S":
+        this.dir = Direction.SOUTH;
+        break;
+      case "E":
+        this.dir = Direction.EAST;
+        break;
+      case "W":
+        this.dir = Direction.WEST;
+        break;
+      default:
+        throw new IllegalArgumentException("Invalid move option");
+    }
   }
 
   @Override
-  public void go(Dungeon d) {
-    System.out.println("Remember TO DO");
+  public boolean runCmd(Dungeon d) {
+    return d.shoot(distance, dir);
   }
 }

@@ -447,7 +447,7 @@ public class DungeonTest {
   }
 
   /**
-   * Test to make sure a player dies correctly move after
+   * Test to make sure a player dies correctly move after.
    */
   @Test(expected = IllegalStateException.class)
   public void dying2() {
@@ -465,7 +465,7 @@ public class DungeonTest {
   }
 
   /**
-   * Test to make sure a player dies correctly shoot after
+   * Test to make sure a player dies correctly shoot after.
    */
   @Test(expected = IllegalStateException.class)
   public void dying3() {
@@ -483,7 +483,7 @@ public class DungeonTest {
   }
 
   /**
-   * Test to make sure a player dies correctly search after
+   * Test to make sure a player dies correctly search after.
    */
   @Test(expected = IllegalStateException.class)
   public void dying4() {
@@ -799,6 +799,8 @@ public class DungeonTest {
         assertFalse(dung.getCave(new Location(1, 0)).getMonster().isDead());
         dung.movePlayer(Direction.EAST);
         if (!dung.hasLost()) {
+          assertEquals(new Location(0,0), dung.getPlayerLocation());
+          assertTrue(dung.escaped());
           count++;
         }
       }
