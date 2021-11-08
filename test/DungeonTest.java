@@ -1,6 +1,5 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -9,7 +8,6 @@ import dungeon.Cave;
 import dungeon.Description;
 import dungeon.Dungeon;
 import dungeon.DungeonImpl;
-import dungeon.Edge;
 import dungeon.Location;
 import dungeon.enums.CaveObject;
 import dungeon.enums.Direction;
@@ -17,7 +15,6 @@ import dungeon.enums.Smell;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,28 +41,6 @@ public class DungeonTest {
   private Dungeon dungeon(int w, int h, int i, boolean wrap, int treasure,
                           String name, boolean random, int monsterCount) {
     return new DungeonImpl(w, h, i, wrap, treasure, name, random, monsterCount);
-  }
-
-
-  private List<Location> dfs(Dungeon dung) {
-    return this.dfsHelper(new ArrayList<>(), dung.getStart(), dung);
-  }
-
-  /**
-   * Helper function for the dfs of the dungeon return a list of locations.
-   *
-   * @param locations the accumulator of the locations visited
-   * @param cur       The current location you are at
-   * @return a list of locations that were visited
-   */
-  private List<Location> dfsHelper(List<Location> locations, Location cur, Dungeon dung) {
-    locations.add(cur);
-    for (Location loc : dung.getCave(cur).getDirections().values()) {
-      if (!locations.contains(loc)) {
-        locations = this.dfsHelper(locations, loc, dung);
-      }
-    }
-    return locations;
   }
 
   /**
@@ -136,940 +111,40 @@ public class DungeonTest {
   }
 
   /**
-   * Make sure the dungeon is not solved and make sure that the sizes are set correctly.
-   */
-  @Test
-  public void initialization() {
-    assertEquals(6, dungeonNoWrap.getHeight());
-    assertEquals(6, dungeonNoWrap.getWidth());
-    assertEquals(7, dungeonWrap.getHeight());
-    assertEquals(6, dungeonWrap.getWidth());
-
-    assertFalse(dungeonWrap.hasSolved());
-    assertFalse(dungeonNoWrap.hasSolved());
-    Dungeon dungeon1;
-    Dungeon dungeon2;
-    for (int x = 0; x < 500; x++) {
-      dungeon1 = dungeon(6, 6, 5, false, 25, "John", true, 1);
-      dungeon2 = dungeon(6, 7, 10, true, 25, "John", true, 1);
-      assertEquals(dungeon1.getStart(), dungeon1.getPlayerLocation());
-      assertEquals(dungeon2.getStart(), dungeon2.getPlayerLocation());
-      assertTrue(dungeon1.getStart().getDistance(dungeon1.getEnd()) >= 5);
-      assertTrue(dungeon2.getStart().wrappingDistance(dungeon2.getEnd(),
-              dungeon2.getWidth() - 1, dungeon2.getHeight() - 1) >= 5);
-    }
-    assertEquals(dungeonWrap.getStart(), dungeonWrap.getPlayerLocation());
-    assertEquals(dungeonNoWrap.getStart(), dungeonNoWrap.getPlayerLocation());
-  }
-
-  /**
-   * We have full connectivity of the graph show that if a move can't happen it will
-   * just keep the player in the same location.
-   */
-  @Test
-  public void movingThePlayerNoWrap() {
-    while (dungeonNoWrap.getPlayerLocation().getX() != 0) {
-      Location loc = new Location(dungeonNoWrap.getPlayerLocation().getX() - 1,
-              dungeonNoWrap.getPlayerLocation().getY());
-      if (loc.equals(dungeonNoWrap.getEnd())) {
-        dungeonNoWrap.shoot(1, Direction.WEST);
-        dungeonNoWrap.shoot(1, Direction.WEST);
-      }
-      dungeonNoWrap.movePlayer(Direction.WEST);
-    }
-    while (dungeonNoWrap.getPlayerLocation().getY() != 0) {
-      Location loc = new Location(dungeonNoWrap.getPlayerLocation().getX(),
-              dungeonNoWrap.getPlayerLocation().getY() - 1);
-      if (loc.equals(dungeonNoWrap.getEnd())) {
-        dungeonNoWrap.shoot(1, Direction.NORTH);
-        dungeonNoWrap.shoot(1, Direction.NORTH);
-      }
-      dungeonNoWrap.movePlayer(Direction.NORTH);
-    }
-    assertEquals(new Location(0, 0), dungeonNoWrap.getPlayerLocation());
-
-    dungeonNoWrap.movePlayer(Direction.WEST);
-    assertEquals(new Location(0, 0), dungeonNoWrap.getPlayerLocation());
-
-    dungeonNoWrap.movePlayer(Direction.NORTH);
-    assertEquals(new Location(0, 0), dungeonNoWrap.getPlayerLocation());
-  }
-
-  /**
-   * We have full connectivity of the graph show that wrapping works.
-   */
-  @Test
-  public void movingThePlayerWrap() {
-    while (dungeonWrap.getPlayerLocation().getX() != 0) {
-      Location loc = new Location(dungeonWrap.getPlayerLocation().getX() - 1,
-              dungeonWrap.getPlayerLocation().getY());
-      if (loc.equals(dungeonWrap.getEnd())) {
-        dungeonWrap.shoot(1, Direction.WEST);
-        dungeonWrap.shoot(1, Direction.WEST);
-      }
-      dungeonWrap.movePlayer(Direction.WEST);
-    }
-    while (dungeonWrap.getPlayerLocation().getY() != 0) {
-      Location loc = new Location(dungeonWrap.getPlayerLocation().getX(),
-              dungeonWrap.getPlayerLocation().getY() - 1);
-      if (loc.equals(dungeonWrap.getEnd())) {
-        dungeonWrap.shoot(1, Direction.NORTH);
-        dungeonWrap.shoot(1, Direction.NORTH);
-      }
-      dungeonWrap.movePlayer(Direction.NORTH);
-    }
-    assertEquals(new Location(0, 0), dungeonWrap.getPlayerLocation());
-
-    Location loc = new Location(dungeonWrap.getWidth() - 1,
-             dungeonWrap.getPlayerLocation().getY());
-    if (loc.equals(dungeonWrap.getEnd())) {
-      dungeonWrap.shoot(1, Direction.WEST);
-      dungeonWrap.shoot(1, Direction.WEST);
-    }
-    dungeonWrap.movePlayer(Direction.WEST);
-
-    assertEquals(new Location(5, 0), dungeonWrap.getPlayerLocation());
-    dungeonWrap.movePlayer(Direction.EAST);
-    assertEquals(new Location(0, 0), dungeonWrap.getPlayerLocation());
-    dungeonWrap.movePlayer(Direction.NORTH);
-
-
-    loc = new Location(dungeonWrap.getPlayerLocation().getX(),
-             dungeonWrap.getHeight() - 1);
-    if (loc.equals(dungeonWrap.getEnd())) {
-      dungeonWrap.shoot(1, Direction.NORTH);
-      dungeonWrap.shoot(1, Direction.NORTH);
-    }
-    assertEquals(new Location(0, 6), dungeonWrap.getPlayerLocation());
-    dungeonWrap.movePlayer(Direction.SOUTH);
-    assertEquals(new Location(0, 0), dungeonWrap.getPlayerLocation());
-  }
-
-  /**
-   * Null move.
+   * Can't have 0 monsters.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void badMove1() {
-    dungeonNoWrap.movePlayer(null);
+  public void badMonsterCount() {
+    dungeon(6, 6, 3, true, 100, "John", true, 0);
   }
 
+
   /**
-   * Null move.
+   * Can't have negative monsters.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void badMove2() {
-    dungeonWrap.movePlayer(null);
+  public void badMonsterCount2() {
+    dungeon(6, 6, 3, true, 100, "John", true, -1);
   }
 
   /**
-   * We have full connectivity so in a no-wrapping there should be no treasure in coroners.
+   * Must have only 20% of total dungeon have monsters.
    */
-  @Test
-  public void treasureHuntNoWrap() {
-    while (dungeonNoWrap.getPlayerLocation().getX() != 0) {
-      Location loc = new Location(dungeonNoWrap.getPlayerLocation().getX() - 1,
-              dungeonNoWrap.getPlayerLocation().getY());
-      if (loc.equals(dungeonNoWrap.getEnd())) {
-        dungeonNoWrap.shoot(1, Direction.WEST);
-        dungeonNoWrap.shoot(1, Direction.WEST);
-      }
-      dungeonNoWrap.movePlayer(Direction.WEST);
-    }
-    while (dungeonNoWrap.getPlayerLocation().getY() != 0) {
-      Location loc = new Location(dungeonNoWrap.getPlayerLocation().getX(),
-              dungeonNoWrap.getPlayerLocation().getY() - 1);
-      if (loc.equals(dungeonNoWrap.getEnd())) {
-        dungeonNoWrap.shoot(1, Direction.NORTH);
-        dungeonNoWrap.shoot(1, Direction.NORTH);
-      }
-      dungeonNoWrap.movePlayer(Direction.NORTH);
-    }
-    assertEquals(new Location(0, 0), dungeonNoWrap.getPlayerLocation());
-    dungeonNoWrap.search();
-
-    String diamonds = dungeonNoWrap.getPlayerDescription().getPlayerItems().get(0);
-    String rubies = dungeonNoWrap.getPlayerDescription().getPlayerItems().get(1);
-    String sapphires = dungeonNoWrap.getPlayerDescription().getPlayerItems().get(2);
-    assertEquals("Diamonds: 0", diamonds);
-    assertEquals("Rubies: 0", rubies);
-    assertEquals("Sapphires: 0", sapphires);
-
-
-    String diamondsPrev = diamonds;
-    String rubiesPrev = rubies;
-    String sapphiresPrev = sapphires;
-    Location loc = new Location(dungeonNoWrap.getPlayerLocation().getX() + 1,
-            dungeonNoWrap.getPlayerLocation().getY());
-    if (loc.equals(dungeonNoWrap.getEnd())) {
-      dungeonNoWrap.shoot(1, Direction.EAST);
-      dungeonNoWrap.shoot(1, Direction.EAST);
-    }
-    dungeonNoWrap.movePlayer(Direction.EAST);
-    while (dungeonNoWrap.getPlayerLocation().getX() != dungeonNoWrap.getWidth() - 1) {
-      assertTrue(dungeonNoWrap.search());
-
-      diamonds = dungeonNoWrap.getPlayerDescription().getPlayerItems().get(0);
-      rubies = dungeonNoWrap.getPlayerDescription().getPlayerItems().get(1);
-      sapphires = dungeonNoWrap.getPlayerDescription().getPlayerItems().get(2);
-      assertFalse(diamonds.equals(diamondsPrev) && rubies.equals(rubiesPrev)
-              && sapphires.equals(sapphiresPrev));
-
-      diamondsPrev = diamonds;
-      rubiesPrev = rubies;
-      sapphiresPrev = sapphires;
-
-      assertFalse(dungeonNoWrap.search());
-      loc = new Location(dungeonNoWrap.getPlayerLocation().getX() + 1,
-              dungeonNoWrap.getPlayerLocation().getY());
-      if (loc.equals(dungeonNoWrap.getEnd())) {
-        dungeonNoWrap.shoot(1, Direction.EAST);
-        dungeonNoWrap.shoot(1, Direction.EAST);
-      }
-
-      dungeonNoWrap.movePlayer(Direction.EAST);
-    }
-    dungeonNoWrap.search();
-    assertEquals(diamondsPrev, dungeonNoWrap.getPlayerDescription().getPlayerItems().get(0));
-    assertEquals(rubiesPrev, dungeonNoWrap.getPlayerDescription().getPlayerItems().get(1));
-    assertEquals(sapphiresPrev, dungeonNoWrap.getPlayerDescription().getPlayerItems().get(2));
-
-
-    loc = new Location(dungeonNoWrap.getPlayerLocation().getX(),
-            dungeonNoWrap.getPlayerLocation().getY() + 1);
-    if (loc.equals(dungeonNoWrap.getEnd())) {
-      dungeonNoWrap.shoot(1, Direction.SOUTH);
-      dungeonNoWrap.shoot(1, Direction.SOUTH);
-    }
-    dungeonNoWrap.movePlayer(Direction.SOUTH);
-    while (dungeonNoWrap.getPlayerLocation().getY() != dungeonNoWrap.getHeight() - 1) {
-      assertTrue(dungeonNoWrap.search());
-      assertFalse(dungeonNoWrap.search());
-      loc = new Location(dungeonNoWrap.getPlayerLocation().getX(),
-              dungeonNoWrap.getPlayerLocation().getY() + 1);
-      if (loc.equals(dungeonNoWrap.getEnd())) {
-        dungeonNoWrap.shoot(1, Direction.SOUTH);
-        dungeonNoWrap.shoot(1, Direction.SOUTH);
-      }
-
-      dungeonNoWrap.movePlayer(Direction.SOUTH);
-      diamonds = dungeonNoWrap.getPlayerDescription().getPlayerItems().get(0);
-      rubies = dungeonNoWrap.getPlayerDescription().getPlayerItems().get(1);
-      sapphires = dungeonNoWrap.getPlayerDescription().getPlayerItems().get(2);
-      diamondsPrev = diamonds;
-      rubiesPrev = rubies;
-      sapphiresPrev = sapphires;
-
-
-    }
-    dungeonNoWrap.search();
-    assertEquals(diamondsPrev, dungeonNoWrap.getPlayerDescription().getPlayerItems().get(0));
-    assertEquals(rubiesPrev, dungeonNoWrap.getPlayerDescription().getPlayerItems().get(1));
-    assertEquals(sapphiresPrev, dungeonNoWrap.getPlayerDescription().getPlayerItems().get(2));
-
+  @Test(expected = IllegalArgumentException.class)
+  public void badMonsterCount3() {
+    dungeon(6, 6, 3, true, 100, "John", true, 8);
   }
 
-  /**
-   * We have full connectivity so in a wrapping there should be treasure in every location.
-   */
-  @Test
-  public void treasureHuntWrap() {
-    while (dungeonWrap.getPlayerLocation().getX() != 0) {
-      Location loc = new Location(dungeonWrap.getPlayerLocation().getX() - 1,
-              dungeonWrap.getPlayerLocation().getY());
-      if (loc.equals(dungeonWrap.getEnd())) {
-        dungeonWrap.shoot(1, Direction.WEST);
-        dungeonWrap.shoot(1, Direction.WEST);
-      }
-      dungeonWrap.movePlayer(Direction.WEST);
-    }
-
-    while (dungeonWrap.getPlayerLocation().getY() != 0) {
-      Location loc = new Location(dungeonWrap.getPlayerLocation().getX(),
-              dungeonWrap.getPlayerLocation().getY() - 1);
-      if (loc.equals(dungeonWrap.getEnd())) {
-        dungeonWrap.shoot(1, Direction.NORTH);
-        dungeonWrap.shoot(1, Direction.NORTH);
-      }
-      dungeonWrap.movePlayer(Direction.NORTH);
-    }
-
-    assertEquals(new Location(0, 0), dungeonWrap.getPlayerLocation());
-    assertTrue(dungeonWrap.search());
-
-    String diamonds = dungeonWrap.getPlayerDescription().getPlayerItems().get(0);
-    String rubies = dungeonWrap.getPlayerDescription().getPlayerItems().get(1);
-    String sapphires = dungeonWrap.getPlayerDescription().getPlayerItems().get(2);
-    String diamondsPrev = diamonds;
-    String rubiesPrev = rubies;
-    String sapphiresPrev = sapphires;
-
-    Location loc = new Location(dungeonWrap.getPlayerLocation().getX() + 1,
-            dungeonWrap.getPlayerLocation().getY());
-    if (loc.equals(dungeonWrap.getEnd())) {
-      dungeonWrap.shoot(1, Direction.EAST);
-      dungeonWrap.shoot(1, Direction.EAST);
-    }
-    dungeonWrap.movePlayer(Direction.EAST);
-    while (dungeonWrap.getPlayerLocation().getX() != dungeonWrap.getWidth() - 1) {
-      assertTrue(dungeonWrap.search());
-
-      diamonds = dungeonWrap.getPlayerDescription().getPlayerItems().get(0);
-      rubies = dungeonWrap.getPlayerDescription().getPlayerItems().get(1);
-      sapphires = dungeonWrap.getPlayerDescription().getPlayerItems().get(2);
-      assertFalse(diamonds.equals(diamondsPrev) && rubies.equals(rubiesPrev)
-              && sapphires.equals(sapphiresPrev));
-
-      diamondsPrev = diamonds;
-      rubiesPrev = rubies;
-      sapphiresPrev = sapphires;
-      assertFalse(dungeonWrap.search());
-      dungeonWrap.movePlayer(Direction.EAST);
-      loc = new Location(dungeonWrap.getPlayerLocation().getX() + 1,
-              dungeonWrap.getPlayerLocation().getY());
-      if (loc.equals(dungeonWrap.getEnd())) {
-        dungeonWrap.shoot(1, Direction.EAST);
-        dungeonWrap.shoot(1, Direction.EAST);
-      }
-    }
-    assertTrue(dungeonWrap.search());
-    assertFalse(dungeonWrap.search());
-
-  }
-
-
-  /**
-   * Testing the toString plus getting the dungeon output.
-   */
-  @Test
-  public void toStringTest() {
-    Cave[][] dung = dungeonWrap.getDungeon();
-    assertEquals(dung.length, dungeonWrap.getHeight());
-    assertEquals(dung[0].length, dungeonWrap.getWidth());
-    StringBuilder builder = new StringBuilder();
-    for (int y = 0; y < dung.length; y++) {
-      if (y != 0) {
-        builder.append("\n");
-      }
-      for (int x = 0; x < dung[0].length; x++) {
-        if (dungeonWrap.getStart().equals(new Location(x, y))) {
-          String[] split = dung[y][x].toString().split("  ");
-          builder.append(String.format("%sSP%s", split[0], split[1]));
-        } else if (dungeonWrap.getEnd().equals(new Location(x, y))) {
-          String[] split = dung[y][x].toString().split("  ");
-          builder.append(String.format("%sOE%s", split[0], split[1]));
-        } else {
-          builder.append(dung[y][x].toString());
-        }
-        builder.append("  ");
-      }
-    }
-    assertEquals(builder.toString(), dungeonWrap.toString());
-    dungeonWrap.movePlayer(Direction.NORTH);
-    assertNotEquals(builder.toString(), dungeonWrap.toString());
-  }
-
-  /**
-   * Testing the description of the cave Wrapping.
-   */
-  @Test
-  public void descriptionTestWrap() {
-    while (dungeonWrap.getPlayerLocation().getX() != 0) {
-      Location loc = new Location(dungeonWrap.getPlayerLocation().getX() - 1,
-              dungeonWrap.getPlayerLocation().getY());
-      if (loc.equals(dungeonWrap.getEnd())) {
-        dungeonWrap.shoot(1, Direction.WEST);
-        dungeonWrap.shoot(1, Direction.WEST);
-      }
-      dungeonWrap.movePlayer(Direction.WEST);
-    }
-    while (dungeonWrap.getPlayerLocation().getY() != 0) {
-      Location loc = new Location(dungeonWrap.getPlayerLocation().getX(),
-              dungeonWrap.getPlayerLocation().getY() - 1 );
-      if (loc.equals(dungeonWrap.getEnd())) {
-        dungeonWrap.shoot(1, Direction.NORTH);
-        dungeonWrap.shoot(1, Direction.NORTH);
-      }
-      dungeonWrap.movePlayer(Direction.NORTH);
-    }
-    Description description = dungeonWrap.getPlayerDescription();
-    List<String> dir = description.getCaveDirections();
-    assertTrue(dir.contains("NORTH"));
-    assertTrue(dir.contains("SOUTH"));
-    assertTrue(dir.contains("EAST"));
-    assertTrue(dir.contains("WEST"));
-    List<String> tres = description.getCaveItems();
-    assertFalse(tres.contains("Diamonds: 0") && tres.contains("Rubies: 0")
-            && tres.contains("Sapphires: 0"));
-    dungeonWrap.search();
-    description = dungeonWrap.getPlayerDescription();
-    tres = description.getCaveItems();
-    assertTrue(tres.contains("Diamonds: 0") && tres.contains("Rubies: 0")
-            && tres.contains("Sapphires: 0"));
-
-  }
-
-  /**
-   * Testing the description of the cave Non-Wrapping.
-   */
-  @Test
-  public void descriptionTestNoWrap() {
-    while (dungeonNoWrap.getPlayerLocation().getX() != 0) {
-      Location loc = new Location(dungeonNoWrap.getPlayerLocation().getX() - 1,
-              dungeonNoWrap.getPlayerLocation().getY());
-      if (loc.equals(dungeonNoWrap.getEnd())) {
-        dungeonNoWrap.shoot(1, Direction.WEST);
-        dungeonNoWrap.shoot(1, Direction.WEST);
-      }
-      dungeonNoWrap.movePlayer(Direction.WEST);
-    }
-    while (dungeonNoWrap.getPlayerLocation().getY() != 0) {
-      Location loc = new Location(dungeonNoWrap.getPlayerLocation().getX(),
-              dungeonNoWrap.getPlayerLocation().getY() - 1);
-      if (loc.equals(dungeonNoWrap.getEnd())) {
-        dungeonNoWrap.shoot(1, Direction.NORTH);
-        dungeonNoWrap.shoot(1, Direction.NORTH);
-      }
-      dungeonNoWrap.movePlayer(Direction.NORTH);
-    }
-    Description description = dungeonNoWrap.getPlayerDescription();
-    List<String> dir = description.getCaveDirections();
-    assertFalse(dir.contains("NORTH"));
-    assertTrue(dir.contains("SOUTH"));
-    assertTrue(dir.contains("EAST"));
-    assertFalse(dir.contains("WEST"));
-    List<String> tres = description.getCaveItems();
-    assertTrue(tres.contains("Diamonds: 0") && tres.contains("Rubies: 0")
-            && tres.contains("Sapphires: 0"));
-
-    Location loc = new Location(dungeonNoWrap.getPlayerLocation().getX() + 1,
-            dungeonNoWrap.getPlayerLocation().getY());
-    if (loc.equals(dungeonNoWrap.getEnd())) {
-      dungeonNoWrap.shoot(1, Direction.EAST);
-      dungeonNoWrap.shoot(1, Direction.EAST);
-
-    }
-
-    dungeonNoWrap.movePlayer(Direction.EAST);
-
-    description = dungeonNoWrap.getPlayerDescription();
-    dir = description.getCaveDirections();
-    assertFalse(dir.contains("NORTH"));
-    assertTrue(dir.contains("SOUTH"));
-    assertTrue(dir.contains("EAST"));
-    assertTrue(dir.contains("WEST"));
-    tres = description.getCaveItems();
-    assertFalse(tres.contains("Diamonds: 0") && tres.contains("Rubies: 0")
-            && tres.contains("Sapphires: 0"));
-
-    dungeonNoWrap.search();
-    description = dungeonNoWrap.getPlayerDescription();
-    tres = description.getCaveItems();
-    assertTrue(tres.contains("Diamonds: 0") && tres.contains("Rubies: 0")
-            && tres.contains("Sapphires: 0"));
-
-    loc = new Location(dungeonNoWrap.getPlayerLocation().getX(),
-            dungeonNoWrap.getPlayerLocation().getY() + 1);
-    if (loc.equals(dungeonNoWrap.getEnd())) {
-      dungeonNoWrap.shoot(1, Direction.SOUTH);
-      dungeonNoWrap.shoot(1, Direction.SOUTH);
-
-    }
-
-
-    dungeonNoWrap.movePlayer(Direction.SOUTH);
-    description = dungeonNoWrap.getPlayerDescription();
-    dir = description.getCaveDirections();
-    assertTrue(dir.contains("NORTH"));
-    assertTrue(dir.contains("SOUTH"));
-    assertTrue(dir.contains("EAST"));
-    assertTrue(dir.contains("WEST"));
-
-  }
-
-  /**
-   * Collect Treasure and prove percentage.
-   * In a non wrapping dungeon with 32 caves and full interconnectivity we have 21
-   * valid caves that can hold treasure 25 % of 32 is about 8, so we expect that in
-   * return.
-   */
-  @Test
-  public void correctTreasurePercent1() {
-    Dungeon dung = dungeon(6, 6, 25, false, 25, "Jack", true, 1);
-    while (dung.getPlayerLocation().getX() != 0) {
-      Location loc = new Location(dung.getPlayerLocation().getX() - 1,
-              dung.getPlayerLocation().getY());
-      if (loc.equals(dung.getEnd())) {
-        dung.shoot(1, Direction.WEST);
-        dung.shoot(1, Direction.WEST);
-      }
-      dung.movePlayer(Direction.WEST);
-    }
-    while (dung.getPlayerLocation().getY() != 0) {
-      Location loc = new Location(dung.getPlayerLocation().getX(),
-              dung.getPlayerLocation().getY() - 1);
-      if (loc.equals(dung.getEnd())) {
-        dung.shoot(1, Direction.NORTH);
-        dung.shoot(1, Direction.NORTH);
-      }
-      dung.movePlayer(Direction.NORTH);
-    }
-    int count = 0;
-    boolean moving_east = true;
-    for (int y = 0; y < dung.getHeight(); y++) {
-      for (int x = 0; x < dung.getWidth(); x++) {
-        Description description = dung.getPlayerDescription();
-        if (!description.getCaveItems().contains("Diamonds: 0")
-                || !description.getCaveItems().contains("Rubies: 0")
-                || !description.getCaveItems().contains("Sapphires: 0")) {
-          count++;
-        }
-        if (moving_east) {
-          Location loc = new Location(dung.getPlayerLocation().getX() + 1,
-                  dung.getPlayerLocation().getY());
-          if (dung.getPlayerLocation().getX() + 1 < dung.getWidth()) {
-            if (dung.getCave(loc).getMonster() != null && !dung.getCave(loc).getMonster().isDead()) {
-              dung.shoot(1, Direction.EAST);
-              dung.shoot(1, Direction.EAST);
-            }
-          }
-
-          dung.movePlayer(Direction.EAST);
-        } else {
-          if (dung.getPlayerLocation().getX() - 1 > 0) {
-            Location loc = new Location(dung.getPlayerLocation().getX() - 1,
-                    dung.getPlayerLocation().getY());
-            if (dung.getCave(loc).getMonster() != null && !dung.getCave(loc).getMonster().isDead()) {
-              dung.shoot(1, Direction.WEST);
-              dung.shoot(1, Direction.WEST);
-            }
-          }
-          dung.movePlayer(Direction.WEST);
-        }
-      }
-      Location loc = new Location(dung.getPlayerLocation().getX(),
-              dung.getPlayerLocation().getY() + 1);
-      if (dung.getPlayerLocation().getY() + 1 < dung.getHeight()) {
-        if (dung.getCave(loc).getMonster() != null && !dung.getCave(loc).getMonster().isDead()) {
-          dung.shoot(1, Direction.SOUTH);
-          dung.shoot(1, Direction.SOUTH);
-        }
-      }
-      dung.movePlayer(Direction.SOUTH);
-      moving_east = !moving_east;
-    }
-    assertEquals(new Location(0, 5), dung.getPlayerLocation());
-    double val = ((double) count / 32);
-    assertEquals(.25, val, .0001);
-    assertEquals(32 / 4, count);
-  }
-
-  /**
-   * Collect Treasure and prove percentage.
-   * In a non wrapping dungeon with 32 caves and full interconnectivity we have 21
-   * valid caves that can hold treasure 100 % of 32 is 32, so we expect that in
-   * return.
-   */
-  @Test
-  public void correctTreasurePercent2() {
-    for (int z = 0; z < 500; z++) {
-      Dungeon dung = dungeon(6, 6, 25, false, 100, "Jack", true, 1);
-      while (dung.getPlayerLocation().getX() != 0) {
-        Location loc = new Location(dung.getPlayerLocation().getX() - 1,
-                dung.getPlayerLocation().getY());
-        if (loc.equals(dung.getEnd())) {
-          dung.shoot(1, Direction.WEST);
-          dung.shoot(1, Direction.WEST);
-        }
-        dung.movePlayer(Direction.WEST);
-      }
-      while (dung.getPlayerLocation().getY() != 0) {
-        Location loc = new Location(dung.getPlayerLocation().getX(),
-                dung.getPlayerLocation().getY() - 1);
-        if (loc.equals(dung.getEnd())) {
-          dung.shoot(1, Direction.NORTH);
-          dung.shoot(1, Direction.NORTH);
-        }
-        dung.movePlayer(Direction.NORTH);
-      }
-      int count = 0;
-      boolean moving_east = true;
-      for (int y = 0; y < dung.getHeight(); y++) {
-        for (int x = 0; x < dung.getWidth(); x++) {
-          Description description = dung.getPlayerDescription();
-          if (!description.getCaveItems().contains("Diamonds: 0")
-                  || !description.getCaveItems().contains("Rubies: 0")
-                  || !description.getCaveItems().contains("Sapphires: 0")) {
-            count++;
-          }
-
-          if (moving_east) {
-            if (dung.getPlayerLocation().getX() + 1 < dung.getWidth()) {
-              Location loc = new Location(dung.getPlayerLocation().getX() + 1,
-                      dung.getPlayerLocation().getY());
-              if (dung.getCave(loc).getMonster() != null && !dung.getCave(loc).getMonster().isDead()) {
-                dung.shoot(1, Direction.EAST);
-                dung.shoot(1, Direction.EAST);
-              }
-            }
-            dung.movePlayer(Direction.EAST);
-          } else {
-            if (dung.getPlayerLocation().getX() - 1 > -1) {
-              Location loc = new Location(dung.getPlayerLocation().getX() - 1,
-                      dung.getPlayerLocation().getY());
-              if (dung.getCave(loc).getMonster() != null && !dung.getCave(loc).getMonster().isDead()) {
-                dung.shoot(1, Direction.WEST);
-                dung.shoot(1, Direction.WEST);
-              }
-            }
-            dung.movePlayer(Direction.WEST);
-          }
-        }
-        Location loc = new Location(dung.getPlayerLocation().getX(),
-                dung.getPlayerLocation().getY() + 1);
-        if (dung.getPlayerLocation().getY() + 1 < dung.getHeight()) {
-          if (dung.getCave(loc).getMonster() != null && !dung.getCave(loc).getMonster().isDead()) {
-            dung.shoot(1, Direction.SOUTH);
-            dung.shoot(1, Direction.SOUTH);
-          }
-        }
-        dung.movePlayer(Direction.SOUTH);
-        moving_east = !moving_east;
-      }
-      assertEquals(new Location(0, 5), dung.getPlayerLocation());
-      assertEquals(32, count);
-    }
-  }
-
-  /**
-   * Collect Treasure and prove percentage.
-   * In a non wrapping dungeon with 32 caves and full interconnectivity we have 21
-   * valid caves that can hold treasure 0 % of 32 is about 0, so we expect that in
-   * return.
-   */
-  @Test
-  public void correctTreasurePercent3() {
-    Dungeon dung = dungeon(6, 6, 25, false, 0, "Jack", true, 1);
-
-    while (dung.getPlayerLocation().getX() != 0) {
-      Location loc = new Location(dung.getPlayerLocation().getX() - 1,
-              dung.getPlayerLocation().getY());
-      if (loc.equals(dung.getEnd())) {
-        dung.shoot(1, Direction.WEST);
-        dung.shoot(1, Direction.WEST);
-      }
-      dung.movePlayer(Direction.WEST);
-    }
-    while (dung.getPlayerLocation().getY() != 0) {
-      Location loc = new Location(dung.getPlayerLocation().getX(),
-              dung.getPlayerLocation().getY() - 1);
-      if (loc.equals(dung.getEnd())) {
-        dung.shoot(1, Direction.NORTH);
-        dung.shoot(1, Direction.NORTH);
-      }
-      dung.movePlayer(Direction.NORTH);
-    }
-    int count = 0;
-    boolean moving_east = true;
-    for (int y = 0; y < dung.getHeight(); y++) {
-      for (int x = 0; x < dung.getWidth(); x++) {
-        if (dung.search()) {
-          count++;
-        }
-        if (moving_east) {
-          Location loc = new Location(dung.getPlayerLocation().getX() + 1,
-                  dung.getPlayerLocation().getY());
-          if (dung.getPlayerLocation().getX() + 1 < dung.getWidth()) {
-            if (dung.getCave(loc).getMonster() != null && !dung.getCave(loc).getMonster().isDead()) {
-              dung.shoot(1, Direction.EAST);
-              dung.shoot(1, Direction.EAST);
-            }
-          }
-
-          dung.movePlayer(Direction.EAST);
-        } else {
-          if (dung.getPlayerLocation().getX() - 1 >= 0) {
-            Location loc = new Location(dung.getPlayerLocation().getX() - 1,
-                    dung.getPlayerLocation().getY());
-            if (dung.getCave(loc).getMonster() != null && !dung.getCave(loc).getMonster().isDead()) {
-              dung.shoot(1, Direction.WEST);
-              dung.shoot(1, Direction.WEST);
-            }
-          }
-          dung.movePlayer(Direction.WEST);
-        }
-      }
-      Location loc = new Location(dung.getPlayerLocation().getX(),
-              dung.getPlayerLocation().getY() + 1);
-      if (dung.getPlayerLocation().getY() + 1 < dung.getHeight()) {
-        if (dung.getCave(loc).getMonster() != null && !dung.getCave(loc).getMonster().isDead()) {
-          dung.shoot(1, Direction.SOUTH);
-          dung.shoot(1, Direction.SOUTH);
-        }
-      }
-
-      dung.movePlayer(Direction.SOUTH);
-      moving_east = !moving_east;
-    }
-    assertEquals(new Location(0, 5), dung.getPlayerLocation());
-    assertEquals(0, count);
-  }
-
-
-  /**
-   * Solving the Dungeon.
-   */
-  @Test
-  public void solvedIt() {
-    Dungeon dung = dungeon(6, 6, 25, false, 25, "Jack", false, 1);
-    assertEquals(new Location(0, 0), dung.getPlayerLocation());
-
-    dung.movePlayer(Direction.SOUTH);
-    assertEquals(new Location(0, 1), dung.getPlayerLocation());
-    dung.movePlayer(Direction.SOUTH);
-    assertEquals(new Location(0, 2), dung.getPlayerLocation());
-
-    dung.movePlayer(Direction.SOUTH);
-    assertEquals(new Location(0, 3), dung.getPlayerLocation());
-
-    dung.movePlayer(Direction.EAST);
-    assertEquals(new Location(1, 3), dung.getPlayerLocation());
-
-    dung.movePlayer(Direction.EAST);
-    assertEquals(new Location(2, 3), dung.getPlayerLocation());
-
-
-    dung.shoot(1, Direction.EAST);
-    dung.shoot(1, Direction.EAST);
-    dung.movePlayer(Direction.EAST);
-    assertEquals(new Location(3, 3), dung.getPlayerLocation());
-
-    assertTrue(dung.hasSolved());
-    assertTrue(dung.movePlayer(Direction.EAST));
-    assertTrue(dung.movePlayer(Direction.SOUTH));
-    assertEquals(new Location(4, 4), dung.getPlayerLocation());
-    assertFalse(dung.hasSolved());
-  }
-
-  /**
-   * Solving the Dungeon.
-   */
-  @Test
-  public void solvedIt2() {
-    Dungeon dung = new DungeonImpl(6, 6, 37,
-            true, 25, "Jack", false, 1);
-    assertEquals(new Location(0, 0), dung.getPlayerLocation());
-
-    dung.movePlayer(Direction.WEST);
-    assertEquals(new Location(5, 0), dung.getPlayerLocation());
-
-    dung.movePlayer(Direction.NORTH);
-    assertEquals(new Location(5, 5), dung.getPlayerLocation());
-
-    dung.movePlayer(Direction.WEST);
-    assertEquals(new Location(4, 5), dung.getPlayerLocation());
-
-    dung.movePlayer(Direction.NORTH);
-    assertEquals(new Location(4, 4), dung.getPlayerLocation());
-
-    dung.movePlayer(Direction.WEST);
-    assertEquals(new Location(3, 4), dung.getPlayerLocation());
-
-    dung.shoot(1,Direction.NORTH);
-    dung.shoot(1,Direction.NORTH);
-    dung.movePlayer(Direction.NORTH);
-    assertEquals(new Location(3, 3), dung.getPlayerLocation());
-    assertTrue(dung.hasSolved());
-
-    dung.movePlayer(Direction.NORTH);
-    assertFalse(dung.hasSolved());
-  }
-
-
-  /**
-   * Checking interconnectivity.
-   */
-  @Test
-  public void interconnectivityTest() {
-    Cave[][] caves = dungeonNoWrap.getDungeon();
-    List<Edge> edges = new ArrayList<>();
-    for (Cave[] cave : caves) {
-      for (int x = 0; x < caves[0].length; x++) {
-        Cave cave1 = cave[x];
-        for (Direction dir : cave1.getDirections().keySet()) {
-          Location loc = cave1.getDirections().get(dir);
-          Cave cave2 = caves[loc.getY()][loc.getX()];
-          if (dir == Direction.NORTH) {
-            edges.add(new Edge(cave1, cave2, Direction.NORTH, Direction.SOUTH));
-          } else if (dir == Direction.SOUTH) {
-            edges.add(new Edge(cave1, cave2, Direction.SOUTH, Direction.NORTH));
-          } else if (dir == Direction.EAST) {
-            edges.add(new Edge(cave1, cave2, Direction.EAST, Direction.WEST));
-          } else {
-            edges.add(new Edge(cave1, cave2, Direction.WEST, Direction.EAST));
-          }
-        }
-      }
-    }
-    List<Edge> edgesNoRepeats = new ArrayList<>();
-    for (Edge e : edges) {
-      if (!edgesNoRepeats.contains(e)) {
-        edgesNoRepeats.add(e);
-      }
-    }
-    int interConnectivity = edgesNoRepeats.size()
-            - ((dungeonNoWrap.getWidth() * dungeonNoWrap.getHeight()) - 1);
-    assertEquals(interConnectivity, dungeonNoWrap.getConnectivity());
-  }
-
-
-  /**
-   * Checking interconnectivity.
-   */
-  @Test
-  public void interconnectivityTest2() {
-    Cave[][] caves = dungeonWrap.getDungeon();
-    List<Edge> edges = new ArrayList<>();
-    for (Cave[] cave : caves) {
-      for (int x = 0; x < caves[0].length; x++) {
-        Cave cave1 = cave[x];
-        for (Direction dir : cave1.getDirections().keySet()) {
-          Location loc = cave1.getDirections().get(dir);
-          Cave cave2 = caves[loc.getY()][loc.getX()];
-          if (dir == Direction.NORTH) {
-            edges.add(new Edge(cave1, cave2, Direction.NORTH, Direction.SOUTH));
-          } else if (dir == Direction.SOUTH) {
-            edges.add(new Edge(cave1, cave2, Direction.SOUTH, Direction.NORTH));
-          } else if (dir == Direction.EAST) {
-            edges.add(new Edge(cave1, cave2, Direction.EAST, Direction.WEST));
-          } else {
-            edges.add(new Edge(cave1, cave2, Direction.WEST, Direction.EAST));
-          }
-        }
-      }
-    }
-    List<Edge> edgesNoRepeats = new ArrayList<>();
-    for (Edge e : edges) {
-      if (!edgesNoRepeats.contains(e)) {
-        edgesNoRepeats.add(e);
-      }
-    }
-    int interConnectivity = edgesNoRepeats.size()
-            - ((dungeonWrap.getWidth() * dungeonWrap.getHeight()) - 1);
-    assertEquals(interConnectivity, dungeonWrap.getConnectivity());
-  }
-
-  /**
-   * visit every node test.
-   */
-  @Test
-  public void visitNodesTest() {
-    Dungeon dung = new DungeonImpl(9, 11, 0,
-            false, 100, "Jack", true, 1);
-
-
-    List<Location> locations = dfs(dung);
-    assertEquals(99, locations.size());
-    assertEquals(99, locations.stream().distinct().count());
-
-  }
-
-  /**
-   * testing getting the cave.
-   */
-  @Test
-  public void getCaveTest() {
-    Cave myCave = dungeonWrap.getCave(new Location(1, 3));
-    assertEquals(new Location(1, 3), myCave.getLocation());
-
-    myCave.addTreasure(CaveObject.DIAMOND);
-    myCave.addTreasure(CaveObject.RUBY);
-    myCave.addTreasure(CaveObject.SAPPHIRE);
-
-    Cave check = dungeonWrap.getCave(new Location(1, 3));
-    assertNotEquals(check.getItems().get(CaveObject.DIAMOND),
-            myCave.getItems().get(CaveObject.DIAMOND));
-    assertNotEquals(check.getItems().get(CaveObject.RUBY),
-            myCave.getItems().get(CaveObject.RUBY));
-    assertNotEquals(check.getItems().get(CaveObject.SAPPHIRE),
-            myCave.getItems().get(CaveObject.SAPPHIRE));
-  }
-
-  /**
-   * Making sure the deep copies are built correctly.
-   */
-  @Test
-  public void DeepCopiesTest() {
-    Cave[][] caves = dungeonWrap.getDungeon();
-    Cave changing = caves[0][0];
-    changing.addTreasure(CaveObject.DIAMOND);
-    changing.addTreasure(CaveObject.RUBY);
-    changing.addTreasure(CaveObject.SAPPHIRE);
-
-    Cave[][] caveDidNotChange = dungeonWrap.getDungeon();
-    Cave check = caveDidNotChange[0][0];
-
-
-    assertNotEquals(check.getItems().get(CaveObject.DIAMOND),
-            changing.getItems().get(CaveObject.DIAMOND));
-    assertNotEquals(check.getItems().get(CaveObject.RUBY),
-            changing.getItems().get(CaveObject.RUBY));
-    assertNotEquals(check.getItems().get(CaveObject.SAPPHIRE),
-            changing.getItems().get(CaveObject.SAPPHIRE));
-
-    Dungeon dung = dungeon(6, 6, 25, false, 25, "John", false, 1);
-    assertEquals(new Location(0, 0), dung.getPlayerLocation());
-
-    Cave[][] caves2 = dung.getDungeon();
-    Cave changing2 = caves2[0][0];
-    changing2.addConnection(Direction.NORTH, new Location(4, 3));
-    changing2.addConnection(Direction.WEST, new Location(4, 5));
-
-    Cave[][] caveDidNotChange2 = dung.getDungeon();
-    Cave check2 = caveDidNotChange2[0][0];
-    assertNotEquals(check2.getDirections().get(Direction.NORTH),
-            changing2.getDirections().get(Direction.NORTH));
-    assertNotEquals(check2.getDirections().get(Direction.WEST),
-            changing2.getDirections().get(Direction.WEST));
-    assertNull(check2.getDirections().get(Direction.NORTH));
-    assertNull(check2.getDirections().get(Direction.WEST));
-
-  }
-
-  /**
-   * Making sure start and end are not tunnels.
-   */
-  @Test
-  public void NotTunnelTest() {
-    Dungeon dung1;
-    Dungeon dung2;
-    for (int x = 0; x < 800; x++) {
-      dung1 = new DungeonImpl(6, 6, 10,
-              true, 100, "Jack", true, 1);
-
-      dung2 = new DungeonImpl(6, 6, 15,
-              false, 100, "Jack", true, 1);
-
-      Cave dung1Start = dung1.getCave(dung1.getStart());
-      Cave dung2Start = dung2.getCave(dung2.getStart());
-      Cave dung1End = dung1.getCave(dung1.getEnd());
-      Cave dung2End = dung2.getCave(dung2.getEnd());
-      assertNotEquals(2, dung1Start.getDirections().size());
-      assertNotEquals(2, dung2Start.getDirections().size());
-      assertNotEquals(2, dung1End.getDirections().size());
-      assertNotEquals(2, dung2End.getDirections().size());
-    }
-  }
 
   /**
    * Test that arrows are added accordingly.
    */
   @Test
   public void arrowTest1() {
-    Cave[][] myCaves = dungeonWrap.getDungeon();
     int count = 0;
-    for (Cave[] myCave : myCaves) {
-      for (int x = 0; x < myCaves[0].length; x++) {
-        Cave cave = myCave[x];
+    for (int y = 0; y < dungeonWrap.getHeight(); y++) {
+      for (int x = 0; x < dungeonWrap.getWidth(); x++) {
+        Cave cave = dungeonWrap.getCave(new Location(x, y));
         if (cave.getItems().get(CaveObject.CROOKEDARROW) > 0) {
           count++;
         }
@@ -1084,11 +159,10 @@ public class DungeonTest {
    */
   @Test
   public void arrowTest2() {
-    Cave[][] myCaves = dungeonNoWrap.getDungeon();
     int count = 0;
-    for (Cave[] myCave : myCaves) {
-      for (int x = 0; x < myCaves[0].length; x++) {
-        Cave cave = myCave[x];
+    for (int y = 0; y < dungeonNoWrap.getHeight(); y++) {
+      for (int x = 0; x < dungeonNoWrap.getWidth(); x++) {
+        Cave cave = dungeonNoWrap.getCave(new Location(x, y));
         if (cave.getItems().get(CaveObject.CROOKEDARROW) > 0) {
           count++;
         }
@@ -1103,11 +177,10 @@ public class DungeonTest {
   @Test
   public void arrowTest3() {
     Dungeon dung = dungeon(7, 8, 5, false, 25, "Jack", false, 1);
-    Cave[][] myCaves = dung.getDungeon();
     int count = 0;
-    for (Cave[] myCave : myCaves) {
-      for (int x = 0; x < myCaves[0].length; x++) {
-        Cave cave = myCave[x];
+    for (int y = 0; y < dung.getHeight(); y++) {
+      for (int x = 0; x < dung.getWidth(); x++) {
+        Cave cave = dung.getCave(new Location(x, y));
         if (cave.getItems().get(CaveObject.CROOKEDARROW) > 0) {
           count++;
         }
@@ -1123,11 +196,10 @@ public class DungeonTest {
   @Test
   public void arrowTest4() {
     Dungeon dung = dungeon(7, 7, 5, false, 100, "Jack", false, 1);
-    Cave[][] myCaves = dung.getDungeon();
     int count = 0;
-    for (Cave[] myCave : myCaves) {
-      for (int x = 0; x < myCaves[0].length; x++) {
-        Cave cave = myCave[x];
+    for (int y = 0; y < dung.getHeight(); y++) {
+      for (int x = 0; x < dung.getWidth(); x++) {
+        Cave cave = dung.getCave(new Location(x, y));
         if (cave.getItems().get(CaveObject.CROOKEDARROW) > 0) {
           count++;
         }
@@ -1151,18 +223,100 @@ public class DungeonTest {
   }
 
   /**
+   * Test no monster at start.
+   */
+  @Test
+  public void monsterStart() {
+    Dungeon dung;
+    for (int x = 0; x < 700; x++) {
+      dung = dungeon(7, 7, 5, false, 100, "Jack", true, 9);
+      Cave cave = dung.getCave(dung.getStart());
+      assertNull(cave.getMonster());
+    }
+  }
+
+  /**
+   * Test no monster at a Tunnel.
+   */
+  @Test
+  public void monsterTunnel() {
+    Dungeon dung;
+    for (int z = 0; z < 700; z++) {
+      dung = dungeon(7, 7, 5, false, 100, "Jack", true, 9);
+      for (int y = 0; y < dung.getHeight(); y++) {
+        for (int x = 0; x < dung.getWidth(); x++) {
+          Cave cave = dung.getCave(new Location(x, y));
+          if (cave.getDirections().size() == 2) {
+            assertNull(cave.getMonster());
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Test monster can have treasure in their cave.
+   */
+  @Test
+  public void monsterTreasure() {
+    Dungeon dung;
+    for (int z = 0; z < 700; z++) {
+      dung = dungeon(7, 7, 5, false, 100, "Jack", true, 9);
+      for (int y = 0; y < dung.getHeight(); y++) {
+        for (int x = 0; x < dung.getWidth(); x++) {
+          Cave cave = dung.getCave(new Location(x, y));
+          if (cave.getMonster() != null) {
+            int count = 0;
+            for (CaveObject item : cave.getItems().keySet()) {
+              if (item.getType().equals("treasure")) {
+                count += cave.getItems().get(item);
+              }
+            }
+            assertTrue(count > 0);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Test monster can have Arrows in their cave.
+   */
+  @Test
+  public void monsterArrow() {
+    Dungeon dung;
+    for (int z = 0; z < 700; z++) {
+      dung = dungeon(7, 7, 5, false, 100, "Jack", true, 9);
+      for (int y = 0; y < dung.getHeight(); y++) {
+        for (int x = 0; x < dung.getWidth(); x++) {
+          Cave cave = dung.getCave(new Location(x, y));
+          if (cave.getMonster() != null) {
+            int count = 0;
+            for (CaveObject item : cave.getItems().keySet()) {
+              if (item.getType().equals("item")) {
+                count += cave.getItems().get(item);
+              }
+            }
+            assertTrue(count > 0);
+          }
+        }
+      }
+    }
+  }
+
+
+  /**
    * Test monster at the end.
    */
   @Test
   public void monsterTest() {
     Dungeon dung;
-    for (int x = 0; x < 700; x++) {
+    for (int z = 0; z < 700; z++) {
       int count = 0;
       dung = dungeon(7, 7, 5, false, 100, "Jack", true, 6);
-      Cave[][] myCaves = dung.getDungeon();
-      for (Cave[] myCave : myCaves) {
-        for (int y = 0; y < myCaves[0].length; y++) {
-          Cave cave = myCave[y];
+      for (int y = 0; y < dung.getHeight(); y++) {
+        for (int x = 0; x < dung.getWidth(); x++) {
+          Cave cave = dung.getCave(new Location(x, y));
           if (cave.getMonster() != null) {
             count++;
           }
@@ -1198,30 +352,28 @@ public class DungeonTest {
   @Test
   public void smellTest2() {
     Dungeon dung;
-    for (int x = 0; x < 700; x++) {
+    for (int z = 0; z < 700; z++) {
       dung = dungeon(7, 7, 5, false, 100, "Jack", true, 6);
-      Cave[][] myCaves = dung.getDungeon();
-      for (Cave[] myCave : myCaves) {
-        for (int y = 0; y < myCaves[0].length; y++) {
-          Cave cave = myCave[y];
+      for (int y = 0; y < dung.getHeight(); y++) {
+        for (int x = 0; x < dung.getWidth(); x++) {
+          Cave cave = dung.getCave(new Location(x, y));
           List<Cave> oneStep = new ArrayList<>();
           boolean gotSmell = false;
-          for (Location loc: cave.getDirections().values()) {
+          for (Location loc : cave.getDirections().values()) {
             if (cave.getLocation() != loc) {
               if (dung.getCave(loc).getMonster() != null) {
                 assertEquals(Smell.PUNGENT, cave.getSmell());
                 gotSmell = true;
                 break;
-              }
-              else {
+              } else {
                 oneStep.add(dung.getCave(loc));
               }
             }
           }
           if (!gotSmell) {
             List<Location> locs = new ArrayList<>();
-            for (Cave cur: oneStep) {
-              for (Location loc: cur.getDirections().values()) {
+            for (Cave cur : oneStep) {
+              for (Location loc : cur.getDirections().values()) {
                 if (cave.getLocation() != loc) {
                   locs.add(loc);
                 }
@@ -1229,7 +381,7 @@ public class DungeonTest {
             }
             locs = locs.stream().distinct().collect(Collectors.toList());
             int count = 0;
-            for (Location loc: locs) {
+            for (Location loc : locs) {
               if (dung.getCave(loc).getMonster() != null) {
                 count++;
               }
@@ -1248,13 +400,41 @@ public class DungeonTest {
   }
 
   /**
-   * Test to make sure a player dies correctly
+   * Testing smell.
+   */
+  @Test
+  public void smellTest3() {
+    Dungeon dung = dungeon(6, 6, 25, false, 100, "Jack", false, 6);
+    assertNotNull(dung.getCave(new Location(1, 0)).getMonster());
+    assertNotNull(dung.getCave(new Location(2, 0)).getMonster());
+    assertNotNull(dung.getCave(new Location(3, 0)).getMonster());
+    assertNotNull(dung.getCave(new Location(4, 0)).getMonster());
+    assertNotNull(dung.getCave(new Location(0, 1)).getMonster());
+    assertNotNull(dung.getCave(new Location(3, 3)).getMonster());
+    assertNull(dung.getCave(new Location(5, 0)).getMonster());
+    int count = 0;
+    for (int y = 0; y < dung.getHeight(); y++) {
+      for (int x = 0; x < dung.getWidth(); x++) {
+        if (dung.getCave(new Location(x, y)).getMonster() != null) {
+          count++;
+        }
+      }
+    }
+    assertEquals(6, count);
+    assertEquals(Smell.PUNGENT, dung.getCave(new Location(2, 2)).getSmell());
+  }
+
+
+  /**
+   * Test to make sure a player dies correctly.
    */
   @Test
   public void dying() {
-    Dungeon dung = dungeon(6,6,25,false,33,
-            "jack",false,1);
-
+    Dungeon dung = dungeon(6, 6, 25, false, 33,
+            "jack", false, 1);
+    assertNotNull(dung.getCave(new Location(3, 3)).getMonster());
+    assertFalse(dung.getCave(new Location(3, 3)).getMonster().isShot());
+    assertFalse(dung.getCave(new Location(3, 3)).getMonster().isDead());
     dung.movePlayer(Direction.SOUTH);
     dung.movePlayer(Direction.SOUTH);
     dung.movePlayer(Direction.SOUTH);
@@ -1267,12 +447,67 @@ public class DungeonTest {
   }
 
   /**
-   * Killing a Monster
+   * Test to make sure a player dies correctly move after
+   */
+  @Test(expected = IllegalStateException.class)
+  public void dying2() {
+    Dungeon dung = dungeon(6, 6, 25, false, 33,
+            "jack", false, 1);
+
+    dung.movePlayer(Direction.SOUTH);
+    dung.movePlayer(Direction.SOUTH);
+    dung.movePlayer(Direction.SOUTH);
+    dung.movePlayer(Direction.EAST);
+    dung.movePlayer(Direction.EAST);
+    dung.movePlayer(Direction.EAST);
+    assertTrue(dung.hasLost());
+    dung.movePlayer(Direction.EAST);
+  }
+
+  /**
+   * Test to make sure a player dies correctly shoot after
+   */
+  @Test(expected = IllegalStateException.class)
+  public void dying3() {
+    Dungeon dung = dungeon(6, 6, 25, false, 33,
+            "jack", false, 1);
+
+    dung.movePlayer(Direction.SOUTH);
+    dung.movePlayer(Direction.SOUTH);
+    dung.movePlayer(Direction.SOUTH);
+    dung.movePlayer(Direction.EAST);
+    dung.movePlayer(Direction.EAST);
+    dung.movePlayer(Direction.EAST);
+    assertTrue(dung.hasLost());
+    dung.shoot(3, Direction.NORTH);
+  }
+
+  /**
+   * Test to make sure a player dies correctly search after
+   */
+  @Test(expected = IllegalStateException.class)
+  public void dying4() {
+    Dungeon dung = dungeon(6, 6, 25, false, 33,
+            "jack", false, 1);
+
+    dung.movePlayer(Direction.SOUTH);
+    dung.movePlayer(Direction.SOUTH);
+    dung.movePlayer(Direction.SOUTH);
+    dung.movePlayer(Direction.EAST);
+    dung.movePlayer(Direction.EAST);
+    dung.movePlayer(Direction.EAST);
+    assertTrue(dung.hasLost());
+    dung.search();
+  }
+
+
+  /**
+   * Killing a Monster.
    */
   @Test
   public void shoot1() {
-    Dungeon dung = dungeon(6,6,25,false,33,
-            "jack",false,1);
+    Dungeon dung = dungeon(6, 6, 25, false, 33,
+            "jack", false, 1);
 
     dung.movePlayer(Direction.SOUTH);
     dung.movePlayer(Direction.SOUTH);
@@ -1287,12 +522,12 @@ public class DungeonTest {
   }
 
   /**
-   * shooting but no Monster
+   * shooting but no Monster.
    */
   @Test
   public void shoot2() {
-    Dungeon dung = dungeon(6,6,25,false,0,
-            "jack",false,1);
+    Dungeon dung = dungeon(6, 6, 25, false, 0,
+            "jack", false, 1);
     assertFalse(dung.shoot(1, Direction.EAST));
     assertFalse(dung.shoot(1, Direction.EAST));
     dung.movePlayer(Direction.EAST);
@@ -1302,17 +537,18 @@ public class DungeonTest {
   }
 
   /**
-   * OverShooting a Monster
+   * OverShooting a Monster.
    */
   @Test
   public void shoot3() {
-    Dungeon dung = dungeon(6,6,25,false,33,
-            "jack",false,1);
+    Dungeon dung = dungeon(6, 6, 25, false, 33,
+            "jack", false, 1);
     dung.movePlayer(Direction.SOUTH);
     dung.movePlayer(Direction.SOUTH);
     dung.movePlayer(Direction.SOUTH);
     dung.movePlayer(Direction.EAST);
     dung.movePlayer(Direction.EAST);
+    assertNotNull(dung.getCave(new Location(3, 3)).getMonster());
     assertFalse(dung.shoot(2, Direction.EAST));
     assertFalse(dung.shoot(2, Direction.EAST));
     dung.movePlayer(Direction.EAST);
@@ -1321,12 +557,12 @@ public class DungeonTest {
   }
 
   /**
-   * shoot a Monster using wrap
+   * shoot a Monster using wrap.
    */
   @Test
   public void shoot4() {
-    Dungeon dung = dungeon(6,6,37,true,33,
-            "jack",false,1);
+    Dungeon dung = dungeon(6, 6, 37, true, 33,
+            "jack", false, 1);
     dung.movePlayer(Direction.SOUTH);
     dung.movePlayer(Direction.SOUTH);
     dung.movePlayer(Direction.SOUTH);
@@ -1341,12 +577,12 @@ public class DungeonTest {
 
 
   /**
-   * shoot a Monster using wrap max Distance
+   * shoot a Monster using wrap max Distance.
    */
   @Test
   public void shoot5() {
-    Dungeon dung = dungeon(8,8,65,true,33,
-            "jack",false,1);
+    Dungeon dung = dungeon(8, 8, 65, true, 33,
+            "jack", false, 1);
     dung.movePlayer(Direction.SOUTH);
     dung.movePlayer(Direction.SOUTH);
     dung.movePlayer(Direction.SOUTH);
@@ -1361,12 +597,12 @@ public class DungeonTest {
 
 
   /**
-   * shoot a Monster  noWrap max Distance
+   * shoot a Monster  noWrap max Distance.
    */
   @Test
   public void shoot6() {
-    Dungeon dung = dungeon(9,9,64,false,33,
-            "jack",false,1);
+    Dungeon dung = dungeon(9, 9, 64, false, 33,
+            "jack", false, 1);
     dung.movePlayer(Direction.SOUTH);
     dung.movePlayer(Direction.SOUTH);
     dung.movePlayer(Direction.SOUTH);
@@ -1389,29 +625,41 @@ public class DungeonTest {
     assertTrue(dung.hasSolved());
   }
 
-  @Test(expected =  IllegalStateException.class)
+  /**
+   * Out of arrows.
+   */
+  @Test(expected = IllegalStateException.class)
   public void outOfArrows() {
-    Dungeon dung = dungeon(6,6,25,false, 10,"jack", false, 1);
-    dung.shoot(1,Direction.EAST);
-    dung.shoot(1,Direction.EAST);
-    dung.shoot(1,Direction.EAST);
-    dung.shoot(1,Direction.EAST);
+    Dungeon dung = dungeon(6, 6, 25, false, 10, "jack", false, 1);
+    dung.shoot(1, Direction.EAST);
+    dung.shoot(1, Direction.EAST);
+    dung.shoot(1, Direction.EAST);
+    dung.shoot(1, Direction.EAST);
   }
 
-  @Test(expected =  IllegalArgumentException.class)
+  /**
+   * shot directly into a wall west.
+   */
+  @Test(expected = IllegalArgumentException.class)
   public void shootingIntoWall() {
-    Dungeon dung = dungeon(6,6,25,false, 10,"jack", false, 1);
-    dung.shoot(1,Direction.WEST);
+    Dungeon dung = dungeon(6, 6, 25, false, 10, "jack", false, 1);
+    dung.shoot(1, Direction.WEST);
 
   }
 
-  @Test(expected =  IllegalArgumentException.class)
+  /**
+   * shot directly into a south.
+   */
+  @Test(expected = IllegalArgumentException.class)
   public void shootingIntoWall2() {
-    Dungeon dung = dungeon(6,6,25,false, 10,"jack", false, 1);
-    dung.shoot(1,Direction.NORTH);
+    Dungeon dung = dungeon(6, 6, 25, false, 10, "jack", false, 1);
+    dung.shoot(1, Direction.NORTH);
 
   }
 
+  /**
+   * See that smell updates when a monster dies.
+   */
   @Test
   public void monsterDeadSmellUpdate() {
     Dungeon dung = dungeon(6, 6, 25, false, 33,
@@ -1427,15 +675,137 @@ public class DungeonTest {
     dung.movePlayer(Direction.EAST);
     assertTrue(dung.hasSolved());
     assertFalse(dung.hasLost());
-    for (Cave[] myCave : dung.getDungeon()) {
-      for (int y = 0; y < dung.getDungeon()[0].length; y++) {
-        assertEquals(Smell.NONE, myCave[y].getSmell());
+    for (int y = 0; y < dung.getHeight(); y++) {
+      for (int x = 0; x < dung.getWidth(); x++) {
+        Cave cave = dung.getCave(new Location(x, y));
+        assertEquals(Smell.NONE, cave.getSmell());
       }
     }
   }
 
-}
 
+  /**
+   * Shooing around in a tunnel.
+   */
+  @Test
+  public void shootAround() {
+    Dungeon dung = dungeon(6, 6, 25, false, 33,
+            "jack", false, 5);
+
+    dung.search();
+    dung.movePlayer(Direction.SOUTH);
+    dung.movePlayer(Direction.SOUTH);
+    assertNotNull(dung.getCave(new Location(1, 0)).getMonster());
+    assertTrue(dung.shoot(2, Direction.NORTH));
+    System.out.println(dung.getCave(new Location(1, 0)).getMonster().isShot());
+    assertTrue(dung.getCave(new Location(1, 0)).getMonster().isShot());
+    assertFalse(dung.getCave(new Location(1, 0)).getMonster().isDead());
+    assertTrue(dung.shoot(2, Direction.NORTH));
+    assertTrue(dung.getCave(new Location(1, 0)).getMonster().isDead());
+
+    assertNotNull(dung.getCave(new Location(2, 0)).getMonster());
+    assertFalse(dung.getCave(new Location(2, 0)).getMonster().isDead());
+    assertTrue(dung.shoot(3, Direction.NORTH));
+    assertTrue(dung.getCave(new Location(2, 0)).getMonster().isShot());
+    assertFalse(dung.getCave(new Location(2, 0)).getMonster().isDead());
+    assertTrue(dung.shoot(3, Direction.NORTH));
+    assertTrue(dung.getCave(new Location(2, 0)).getMonster().isDead());
+
+    assertNotNull(dung.getCave(new Location(3, 0)).getMonster());
+    assertFalse(dung.getCave(new Location(3, 0)).getMonster().isDead());
+    assertTrue(dung.shoot(4, Direction.NORTH));
+    assertTrue(dung.getCave(new Location(3, 0)).getMonster().isShot());
+    assertFalse(dung.getCave(new Location(3, 0)).getMonster().isDead());
+    assertTrue(dung.shoot(4, Direction.NORTH));
+    assertTrue(dung.getCave(new Location(3, 0)).getMonster().isDead());
+
+    assertNotNull(dung.getCave(new Location(4, 0)).getMonster());
+    assertFalse(dung.getCave(new Location(4, 0)).getMonster().isDead());
+    assertTrue(dung.shoot(5, Direction.NORTH));
+    assertTrue(dung.getCave(new Location(4, 0)).getMonster().isShot());
+    assertFalse(dung.getCave(new Location(4, 0)).getMonster().isDead());
+    assertTrue(dung.shoot(5, Direction.NORTH));
+    assertTrue(dung.getCave(new Location(4, 0)).getMonster().isDead());
+
+    dung.movePlayer(Direction.NORTH);
+    dung.movePlayer(Direction.NORTH);
+
+    dung.movePlayer(Direction.EAST);
+    dung.movePlayer(Direction.EAST);
+    dung.movePlayer(Direction.EAST);
+    assertEquals(new Location(3, 0), dung.getPlayerLocation());
+  }
+
+  /**
+   * Shooing Shows arrow won't curve  in a non tunnel.
+   */
+  @Test
+  public void shootInto3WayCave() {
+    Dungeon dung = dungeon(6, 6, 25, false, 33,
+            "jack", false, 5);
+
+    dung.search();
+    dung.movePlayer(Direction.SOUTH);
+    dung.movePlayer(Direction.EAST);
+    dung.movePlayer(Direction.EAST);
+    assertNotNull(dung.getCave(new Location(1, 0)).getMonster());
+    assertNotNull(dung.getCave(new Location(2, 0)).getMonster());
+    assertNotNull(dung.getCave(new Location(3, 0)).getMonster());
+    assertEquals(new Location(2, 1), dung.getPlayerLocation());
+    assertTrue(dung.shoot(1, Direction.NORTH));
+    assertTrue(dung.shoot(1, Direction.NORTH));
+    assertTrue(dung.getCave(new Location(2, 0)).getMonster().isDead());
+    assertFalse(dung.shoot(2, Direction.NORTH));
+    assertFalse(dung.shoot(2, Direction.NORTH));
+    assertFalse(dung.getCave(new Location(1, 0)).getMonster().isShot());
+    assertFalse(dung.getCave(new Location(3, 0)).getMonster().isShot());
+
+  }
+
+  /**
+   * 2 shots to kill.
+   */
+  @Test
+  public void twoShotsToKill() {
+    Dungeon dung;
+
+    for (int x = 0; x < 600; x++) {
+      dung = dungeon(6, 6, 25, false, 33,
+              "jack", false, 5);
+      dung.search();
+      assertNotNull(dung.getCave(new Location(1, 0)).getMonster());
+      assertTrue(dung.shoot(1, Direction.EAST));
+      assertTrue(dung.getCave(new Location(1, 0)).getMonster().isShot());
+      assertFalse(dung.getCave(new Location(1, 0)).getMonster().isDead());
+      assertTrue(dung.shoot(1, Direction.EAST));
+      assertTrue(dung.getCave(new Location(1, 0)).getMonster().isDead());
+    }
+  }
+
+  /**
+   * Making sure a player has approximately 50% to live when entering a cave with an injured
+   * monster.
+   */
+  @Test
+  public void escapeTest() {
+    for (int y = 0; y < 500; y++) {
+      int count = 0;
+      Dungeon dung;
+      for (int x = 0; x < 500; x++) {
+        dung = dungeon(6, 6, 25, false, 33,
+                "jack", false, 5);
+        assertNotNull(dung.getCave(new Location(1, 0)).getMonster());
+        assertTrue(dung.shoot(1, Direction.EAST));
+        assertFalse(dung.getCave(new Location(1, 0)).getMonster().isDead());
+        dung.movePlayer(Direction.EAST);
+        if (!dung.hasLost()) {
+          count++;
+        }
+      }
+      assertEquals(.5, (double) count / 500, .1);
+    }
+  }
+}
 
 
 

@@ -144,7 +144,7 @@ public class DungeonImpl implements Dungeon {
       }
     }
 
-    this.player = new PlayerImpl(playerName, this.getCave(this.getStart()));
+    this.player = new PlayerImpl(playerName, this.caves[this.start.getY()][this.start.getX()]);
     this.addTreasure(notTunnels.size(), itemPercent);
     this.addArrows(itemPercent);
     this.addMonster(notTunnels, monsterCount, random);
@@ -204,6 +204,7 @@ public class DungeonImpl implements Dungeon {
 
   @Override
   public boolean search() {
+
     return player.search();
   }
 
@@ -215,19 +216,6 @@ public class DungeonImpl implements Dungeon {
   @Override
   public Location getEnd() {
     return this.end;
-  }
-
-  @Override
-  public Cave[][] getDungeon() {
-    Cave[][] defense = new Cave[this.yDim][this.xDim];
-    for (int y = 0; y < yDim; y++) {
-      for (int x = 0; x < xDim; x++) {
-        Cave hold = this.caves[y][x];
-        Cave deepCopy = this.getCave(hold.getLocation());
-        defense[y][x] = deepCopy;
-      }
-    }
-    return defense;
   }
 
 
@@ -278,7 +266,6 @@ public class DungeonImpl implements Dungeon {
       if (cur.getDirections().size() == 2 && x != origin) {
         for (Direction hold: cur.getDirections().keySet()) {
           if (hold != dir.getInverse()) {
-            x--;
             dir = hold;
             cur = this.caves[cur.getDirections().get(dir).getY()]
                     [cur.getDirections().get(dir).getX()];
@@ -298,6 +285,17 @@ public class DungeonImpl implements Dungeon {
         }
       }
     }
+    if (cur.getDirections().size() == 2) {
+      for (Direction hold : cur.getDirections().keySet()) {
+        if (hold != dir.getInverse()) {
+          dir = hold;
+          cur = this.caves[cur.getDirections().get(dir).getY()]
+                  [cur.getDirections().get(dir).getX()];
+          break;
+        }
+      }
+    }
+
     if (cur.getMonster() != null) {
       if (!cur.getMonster().isDead()) {
         cur.getMonster().shot();
@@ -561,15 +559,18 @@ public class DungeonImpl implements Dungeon {
     else {
       while (monsterCount > 0) {
         for (Cave[] myCave : this.caves) {
+          if (monsterCount == 0) {
+            break;
+          }
           for (int x = 0; x < this.caves[0].length; x++) {
             if (!myCave[x].getLocation().equals(new Location(0,0))) {
-              try {
-                myCave[x].addMonster(new Otyugh());
+              if (myCave[x].addMonster(new Otyugh())){
                 monsterCount--;
                 this.caves[0][0].addArrow();
                 this.caves[0][0].addArrow();
               }
-              catch (Exception ignored) {
+              if (monsterCount == 0) {
+                break;
               }
             }
           }
@@ -584,7 +585,7 @@ public class DungeonImpl implements Dungeon {
   private void setSmell() {
     for (Cave[] myCave : this.caves) {
       for (int x = 0; x < this.caves[0].length; x++) {
-          myCave[x].updateSmell(Smell.NONE);
+        myCave[x].updateSmell(Smell.NONE);
       }
     }
 

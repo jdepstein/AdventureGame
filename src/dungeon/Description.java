@@ -2,6 +2,7 @@ package dungeon;
 
 import dungeon.enums.CaveObject;
 import dungeon.enums.Direction;
+import dungeon.enums.Smell;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,4 +85,34 @@ public class Description {
     }
     return myDirections;
   }
+
+  /**
+   * Tells us weather or not the cave is a tunnel or regular.
+   * @return the type of the cave.
+   */
+  public String caveType() {
+    if (this.cave.getDirections().size() == 2) {
+      return "Tunnel";
+    }
+    else {
+      return "Cave";
+    }
+  }
+
+  /**
+   * The smell of the cave as a string.
+   * @return The string smell representation.
+   */
+  public String getCaveSmell() {
+    if (this.cave.getSmell().equals(Smell.PUNGENT)) {
+      return "There's a Fowl Smell close by";
+    }
+    else if (this.cave.getSmell().equals(Smell.LIGHT)) {
+      return "There's a Slightly foul smell in the distance";
+    }
+    else {
+      return String.format("The %s seems normal", this.caveType());
+    }
+  }
+
 }

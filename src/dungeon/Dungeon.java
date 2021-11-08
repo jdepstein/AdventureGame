@@ -73,11 +73,6 @@ public interface Dungeon {
    */
   Location getEnd();
 
-  /**
-   * Gets the dungeon cave set up as a 2-d array.
-   * @return the dungeon's caves 2-d array
-   */
-  Cave[][] getDungeon();
 
   /**
    * Gets a cave at the given location.

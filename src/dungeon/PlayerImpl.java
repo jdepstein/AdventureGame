@@ -87,7 +87,8 @@ class PlayerImpl implements Player {
       this.cave = cave;
     }
 
-   else if (cave.getMonster() != null && cave.getMonster().isShot() && !cave.getMonster().isDead()) {
+    else if (cave.getMonster() != null && cave.getMonster().isShot()
+            && !cave.getMonster().isDead()) {
       Random rand = new Random();
       int x = rand.nextInt(2);
       if (x == 0) {
@@ -95,8 +96,8 @@ class PlayerImpl implements Player {
         this.cave = cave;
       }
     }
-   else {
-     this.cave = cave;
+    else {
+      this.cave = cave;
     }
   }
 
@@ -113,7 +114,10 @@ class PlayerImpl implements Player {
               IllegalStateException("Can't search when you're dead");
     }
     int count;
+
     HashMap<CaveObject, Integer> items = this.cave.removeItems();
+
+
     int diamond = items.get(CaveObject.DIAMOND);
     int ruby = items.get(CaveObject.RUBY);
     int sapphire = items.get(CaveObject.SAPPHIRE);

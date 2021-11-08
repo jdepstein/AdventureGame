@@ -1,14 +1,16 @@
 package dungeon;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import dungeon.enums.CaveObject;
-import dungeon.enums.Direction;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+
+import dungeon.enums.CaveObject;
+import dungeon.enums.Direction;
+import dungeon.enums.Smell;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -78,6 +80,37 @@ public class PlayerDescriptionTest {
     assertTrue(playerDirections.contains("EAST"));
     assertTrue(playerDirections.contains("WEST"));
 
+    assertEquals("Cave",description.caveType());
   }
 
+  /**
+   * Test all the getters.
+   */
+  @Test
+  public void caveType() {
+    Cave cave = new CaveImpl(new Location(0,1));
+    cave.addConnection(Direction.NORTH, new Location(1,1));
+    cave.addConnection(Direction.SOUTH, new Location(2,1));
+    cave.updateSmell(Smell.PUNGENT);
+    Player player = new PlayerImpl("Jack",cave);
+    Description des = new Description(player, cave);
+    assertEquals("Tunnel",des.caveType());
+    assertEquals("There's a Fowl Smell close by",des.getCaveSmell());
+
+    cave = new CaveImpl(new Location(0,1));
+    cave.addConnection(Direction.NORTH, new Location(1,1));
+    cave.updateSmell(Smell.LIGHT);
+    player = new PlayerImpl("Jack",cave);
+    des = new Description(player, cave);
+    assertEquals("Cave",des.caveType());
+    assertEquals("There's a Slightly foul smell in the distance",des.getCaveSmell());
+
+    cave = new CaveImpl(new Location(0,1));
+    cave.addConnection(Direction.NORTH, new Location(1,1));
+    cave.addConnection(Direction.SOUTH, new Location(2,1));
+    cave.addConnection(Direction.EAST, new Location(3,2));
+    player = new PlayerImpl("Jack",cave);
+    des = new Description(player, cave);
+    assertEquals(String.format("The %s seems normal", des.caveType()),des.getCaveSmell());
+  }
 }
