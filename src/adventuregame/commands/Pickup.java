@@ -13,11 +13,10 @@ public class Pickup implements AdventureCommand {
 
   @Override
   public boolean runCmd(Dungeon d) {
-    boolean hold = d.search();
-    if (!hold) {
+    if (!d.search()) {
       throw new IllegalArgumentException(
               "You picked up but there was nothing to pick up");
     }
-    return hold;
+    return true;
   }
 }

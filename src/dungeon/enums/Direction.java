@@ -5,11 +5,10 @@ package dungeon.enums;
  * to travel North, South , East or West.
  */
 public enum Direction {
-  NORTH(),
-  SOUTH(),
-  EAST(),
-  WEST();
-
+  NORTH,
+  SOUTH,
+  EAST,
+  WEST;
 
   /**
    * Gets the inverse of the direction.

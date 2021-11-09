@@ -626,6 +626,51 @@ public class DungeonTest {
   }
 
   /**
+   * Bad Shoot Value.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void shootBadValue() {
+    Dungeon dung = dungeon(6, 6, 25, false, 10, "jack", false, 1);
+    dung.shoot(0, Direction.SOUTH);
+  }
+
+  /**
+   * Bad Shoot Value.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void shootBadValue2() {
+    Dungeon dung = dungeon(6, 6, 25, false, 10, "jack", false, 1);
+    dung.shoot(-1, Direction.SOUTH);
+  }
+
+  /**
+   * Bad Shoot Value.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void shootBadValue3() {
+    Dungeon dung = dungeon(6, 6, 25, false, 10, "jack", false, 1);
+    dung.shoot(6, Direction.SOUTH);
+  }
+
+  /**
+   * Bad Shoot Value.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void shootBadValue4() {
+    Dungeon dung = dungeon(6, 6, 25, false, 10, "jack", false, 1);
+    dung.shoot(3, Direction.NORTH);
+  }
+
+  /**
+   * Bad Shoot Value.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void shootBadValue5() {
+    Dungeon dung = dungeon(6, 6, 25, false, 10, "jack", false, 1);
+    dung.shoot(3, null);
+  }
+
+  /**
    * Out of arrows.
    */
   @Test(expected = IllegalStateException.class)
@@ -806,6 +851,15 @@ public class DungeonTest {
       }
       assertEquals(.5, (double) count / 500, .1);
     }
+  }
+
+  /**
+   * Shooting through a wrap test.
+   */
+  @Test
+  public void shootingWrap() {
+
+
   }
 }
 

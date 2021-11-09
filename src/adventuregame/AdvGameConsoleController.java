@@ -14,7 +14,14 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 /**
- *
+ * The adventure came Console controller is an implementation of the adventure game controller.
+ * It looks for some ways read data by taking a Readable object as well as some way to append data
+ * to allow our user to see by taking in an appendable. The user of this once built will need a
+ * dungeon model to play the actual game. Once in they will get updates about the users location
+ * and the surrounding dungeon after a cmd successfully  is done. The three cmd in the dungeon are
+ * Move Shoot and Pickup respectively. Move requiring a direction to travel shoot requiring a
+ * distance you wish to shoot and a direction and the pickup allowing the user to pick up the items
+ * in the current cave.
  */
 public class AdvGameConsoleController implements AdvGameController {
 
@@ -27,6 +34,7 @@ public class AdvGameConsoleController implements AdvGameController {
    *
    * @param in  the source to read from
    * @param out the target to print to
+   * @throws IllegalArgumentException if null is passed for either value
    */
   public AdvGameConsoleController(Readable in, Appendable out) {
     if (in == null || out == null) {
@@ -43,6 +51,10 @@ public class AdvGameConsoleController implements AdvGameController {
 
   @Override
   public void playGame(Dungeon d) {
+    if (d == null) {
+      throw new IllegalArgumentException(
+              "Null passed for the dungeon");
+    }
     boolean quitting = false;
     while (!d.hasLost() && !quitting) {
       Description des = d.getPlayerDescription();
@@ -95,19 +107,14 @@ public class AdvGameConsoleController implements AdvGameController {
                 }
               }
             }
-
             if (in.equals("M") && val) {
               stringAppend("You Narrowly escaped a Otyugh and "
                         + "returned to your previous location");
             }
-
             if (in.equals("S") && val) {
               stringAppend("You Hear a loud roar in the distance");
             }
-
-
-
-          } catch (IllegalArgumentException e) {
+          } catch (IllegalArgumentException | IllegalStateException e) {
             stringAppend(e.getMessage());
           } catch (InputMismatchException e) {
             String got = scan.next();

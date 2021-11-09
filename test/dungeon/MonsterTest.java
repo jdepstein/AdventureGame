@@ -6,12 +6,12 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- * Test class for monsters.
+ * driver.Test class for monsters.
  */
 public class MonsterTest {
 
   /**
-   * Test the generation of the Otyugh and makes ure everything updates accordingly when one is
+   * driver.Test the generation of the Otyugh and makes ure everything updates accordingly when one is
    * shot.
    */
   @Test

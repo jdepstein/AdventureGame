@@ -7,7 +7,14 @@ import dungeon.enums.Direction;
  * explore the Dungeon. Each Dungeon will be made a grid of Caves and making sure that there is
  * connectivity between all the caves. There will be a random starting point and ending point that
  * will be at least 5 moves between caves apart. The player will start at the starting point and
- * move throughout the Dungeon collecting treasure and hoping to find the end.
+ * move throughout the Dungeon collecting treasure and hoping to find the end. However, the player
+ * must be careful in case they run into a monster along the way. To combat these players will also
+ * carry a bow with arrows they find scattered across the dungeon. Luckily all players start with
+ * 3 arrows. Players will be able to shoot a certain distance and direction in the dungeon
+ * hoping to injure a monster. If the player does make their way to the end they do need to be
+ * careful because there is always a monster at the end. If a player enters a cave with an
+ * uninjured monster they immediately die. Even if it has been injured players only have a 50%
+ * chance of survival.
  */
 public interface Dungeon {
 
@@ -52,8 +59,9 @@ public interface Dungeon {
    * direction it will return false to let them know they are still in the same location.
    * @param direction The direction that is being traveled in.
    * @return The boolean telling if it was a successful move or not
+   * @throws IllegalStateException If the player is dead they cannon move
    */
-  boolean movePlayer(Direction direction);
+  boolean movePlayer(Direction direction) throws IllegalStateException;
 
   /**
    * Tells us weather or not the player had to escape a monster on their previous move.
@@ -64,8 +72,9 @@ public interface Dungeon {
   /**
    * Player searches for treasure at their current location returns true if they found some.
    * @return Boolean if they found treasure or not
+   * @throws IllegalStateException If the player is dead they cannon search
    */
-  boolean search();
+  boolean search() throws IllegalStateException;
 
   /**
    * Gets the starting spot in the dungeon.
@@ -89,12 +98,16 @@ public interface Dungeon {
 
   /**
    * Shoots an arrow a distance of x in the given direction and returns a boolean weather or not it
-   * hit a monster.
+   * hit a monster. The distance must be exact if a monster is a distance of 3, and you enter 4
+   * that will not hit. Also arrow travels freely a tunnel and does not count as one of the
+   * lengths of distance. However, if the tunnel changes the direction of the arrow that will be
+   * the new direction the arrow will continue traveling. If an arrow enters a cave from the East
+   * and there is no West exit the arrow stops there unless it's a tunnel.
    * @param x the distance the arrow is traveling
    * @param dir the direction of the arrow
    * @return the boolean telling weather or not it was successful.
    * @throws IllegalArgumentException if the player tries to shoot an arrow into a direction that
-   *                          they can't in their initial cave.
+   *                          they can't in their initial cave only.
    */
   boolean shoot(int x, Direction dir) throws IllegalArgumentException;
 

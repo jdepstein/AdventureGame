@@ -22,7 +22,7 @@ import java.util.HashMap;
  */
 public class CaveImpl implements Cave {
   private final HashMap<Direction,Location> connections;
-  private final HashMap<CaveObject,Integer> contents;
+  private HashMap<CaveObject,Integer> contents;
   private final Location loc;
   private Smell smell;
   private Monster occupant;
@@ -102,12 +102,14 @@ public class CaveImpl implements Cave {
 
   @Override
   public HashMap<CaveObject,Integer> removeItems() {
-    HashMap<CaveObject,Integer> hold = this.getItems();
-    this.contents.put(CaveObject.DIAMOND, 0);
-    this.contents.put(CaveObject.RUBY, 0);
-    this.contents.put(CaveObject.SAPPHIRE, 0);
-    this.contents.put(CaveObject.CROOKEDARROW, 0);
-    return hold;
+    HashMap<CaveObject,Integer> hold = new HashMap<>();
+    hold.put(CaveObject.DIAMOND, 0);
+    hold.put(CaveObject.RUBY, 0);
+    hold.put(CaveObject.SAPPHIRE, 0);
+    hold.put(CaveObject.CROOKEDARROW, 0);
+    HashMap<CaveObject,Integer> temp = this.getItems();
+    this.contents = hold;
+    return temp;
   }
 
 

@@ -16,7 +16,16 @@ import java.util.stream.Collectors;
  * As a note width and height must be greater than 5 and interconnectivity is 0 or greater 0 being
  * 1 path between every cave. Our starting point and end point will be decided randomly by choosing
  * two cave they will have to be 5 moves apart. Once a valid start is dedicated a player is placed
- * at the starting point and the dungeon exploration can begin.
+ * at the starting point and the dungeon exploration can begin. However, the player
+ * must be careful in case they run into a Otyugh along the way. To combat these players will also
+ * carry a bow with arrows they find scattered across the dungeon. Luckily all players start with
+ * 3 arrows. Players will be able to shoot a certain distance and direction in the dungeon
+ * hoping to injure Otyugh. If the player does make their way to the end they do need to be
+ * careful because there is always a monster at the end. If a player enters a cave with an
+ * uninjured Otyugh they immediately die. Even if it has been injured players only have a 50%.
+ * The good news is even if the player is blind in a sense to knowing exact locations of the
+ * Otyugh. They are very smelly creatures and cause the caves near them to have a stench that can
+ * warn a player one is nearby.
  */
 public class DungeonImpl implements Dungeon {
   private Cave[][] caves;
@@ -28,6 +37,7 @@ public class DungeonImpl implements Dungeon {
   private final int interConnectivity;
   private boolean escaped;
 
+  private static final int MIN_WH = 6;
 
   /**
    * Creates a new Dungeon with the given width, Height and interConnectivity and a boolean to see
@@ -47,14 +57,16 @@ public class DungeonImpl implements Dungeon {
    * @param random If you want a random start and finish placement
    * @param monsterCount The count of Monster in the dungeon.
    * @throws IllegalArgumentException Width and Height did not fall within the requirements
-   * @throws IllegalArgumentException The interconnectivity was a negative value
+   * @throws IllegalArgumentException The interconnectivity was a negative value or too large
    * @throws IllegalArgumentException The players name was null.
+   * @throws IllegalArgumentException Invalid item Percentages .
+   * @throws IllegalArgumentException Invalid Monster counts.
    */
   public DungeonImpl(int width, int height, int interConnectivity, boolean wrapping,
                      int itemPercent, String playerName, boolean random, int monsterCount)
           throws IllegalArgumentException {
 
-    if (width < 6 || height < 6) {
+    if (width < MIN_WH || height < MIN_WH) {
       throw new IllegalArgumentException(
               " Width and Height both must be greater than 5");
     }
@@ -268,11 +280,22 @@ public class DungeonImpl implements Dungeon {
 
   @Override
   public boolean shoot(int x, Direction dir) {
+    if (x > 5 || x < 1) {
+      throw new IllegalArgumentException(
+              "Invalid distance to shoot");
+    }
+
+    if (dir == null) {
+      throw new IllegalArgumentException(
+              "null passed for direction");
+    }
+
     Cave cur = this.caves[this.player.getLocation().getY()][this.player.getLocation().getX()];
     if (cur.getDirections().get(dir) == null) {
       throw new IllegalArgumentException(
               "tried to shoot an arrow directly into a wall");
     }
+
     this.player.shootArrow();
     int origin = x;
     while (x > 0) {

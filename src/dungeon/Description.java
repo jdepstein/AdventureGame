@@ -14,7 +14,9 @@ import java.util.List;
  * player and where that player is at currently. A player will always have a name and a List of
  * treasure on them if you want to know that info this allows you to do so. Also, it knows the
  * players current cave and lets us know if there is any treasure and what it is. As well as the
- * possible routes the player can go in the current cave North,South East or West.
+ * possible routes the player can go in the current cave North,South East or West. As well as
+ * weather or not this current cave is a tunnel or not. It also provides the smell of the current
+ * cave as a string to describe it
  */
 public class Description {
   private final Cave cave;
