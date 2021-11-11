@@ -430,20 +430,22 @@ public class DungeonTest {
    */
   @Test
   public void dying() {
-    Dungeon dung = dungeon(6, 6, 25, false, 33,
-            "jack", false, 1);
-    assertNotNull(dung.getCave(new Location(3, 3)).getMonster());
-    assertFalse(dung.getCave(new Location(3, 3)).getMonster().isShot());
-    assertFalse(dung.getCave(new Location(3, 3)).getMonster().isDead());
-    dung.movePlayer(Direction.SOUTH);
-    dung.movePlayer(Direction.SOUTH);
-    dung.movePlayer(Direction.SOUTH);
-    dung.movePlayer(Direction.EAST);
-    dung.movePlayer(Direction.EAST);
-    dung.movePlayer(Direction.EAST);
-    assertTrue(dung.hasLost());
-    assertFalse(dung.hasSolved());
-    assertEquals(dung.getPlayerLocation(), dung.getEnd());
+    for (int x = 0; x < 500; x++) {
+      Dungeon dung = dungeon(6, 6, 25, false, 33,
+              "jack", false, 1);
+      assertNotNull(dung.getCave(new Location(3, 3)).getMonster());
+      assertFalse(dung.getCave(new Location(3, 3)).getMonster().isShot());
+      assertFalse(dung.getCave(new Location(3, 3)).getMonster().isDead());
+      dung.movePlayer(Direction.SOUTH);
+      dung.movePlayer(Direction.SOUTH);
+      dung.movePlayer(Direction.SOUTH);
+      dung.movePlayer(Direction.EAST);
+      dung.movePlayer(Direction.EAST);
+      dung.movePlayer(Direction.EAST);
+      assertTrue(dung.hasLost());
+      assertFalse(dung.hasSolved());
+      assertEquals(dung.getPlayerLocation(), dung.getEnd());
+    }
   }
 
   /**
@@ -833,7 +835,7 @@ public class DungeonTest {
    */
   @Test
   public void escapeTest() {
-    for (int y = 0; y < 500; y++) {
+    for (int y = 0; y < 100; y++) {
       int count = 0;
       Dungeon dung;
       for (int x = 0; x < 500; x++) {
@@ -841,6 +843,7 @@ public class DungeonTest {
                 "jack", false, 5);
         assertNotNull(dung.getCave(new Location(1, 0)).getMonster());
         assertTrue(dung.shoot(1, Direction.EAST));
+        assertFalse(dung.escaped());
         assertFalse(dung.getCave(new Location(1, 0)).getMonster().isDead());
         dung.movePlayer(Direction.EAST);
         if (!dung.hasLost()) {
@@ -858,10 +861,153 @@ public class DungeonTest {
    */
   @Test
   public void shootingWrap() {
+    Dungeon dung = dungeon(6, 6, 37, true, 33,
+            "jack", false, 6);
+    dung.search();
+    assertNotNull(dung.getCave(new Location(5, 0)).getMonster());
+    assertTrue(dung.shoot(1, Direction.WEST));
+    assertTrue(dung.shoot(1, Direction.WEST));
+    assertTrue(dung.getCave(new Location(5, 0)).getMonster().isDead());
 
+    assertNotNull(dung.getCave(new Location(4, 0)).getMonster());
+    assertTrue(dung.shoot(2, Direction.WEST));
+    assertTrue(dung.shoot(2, Direction.WEST));
+    assertTrue(dung.getCave(new Location(4, 0)).getMonster().isDead());
 
+    assertNotNull(dung.getCave(new Location(3, 0)).getMonster());
+    assertTrue(dung.shoot(3, Direction.WEST));
+    assertTrue(dung.shoot(3, Direction.WEST));
+    assertTrue(dung.getCave(new Location(3, 0)).getMonster().isDead());
+
+    assertNotNull(dung.getCave(new Location(2, 0)).getMonster());
+    assertTrue(dung.shoot(4, Direction.WEST));
+    assertTrue(dung.shoot(4, Direction.WEST));
+    assertTrue(dung.getCave(new Location(2, 0)).getMonster().isDead());
+
+    assertNotNull(dung.getCave(new Location(1, 0)).getMonster());
+    assertTrue(dung.shoot(5, Direction.WEST));
+    assertTrue(dung.shoot(5, Direction.WEST));
+    assertTrue(dung.getCave(new Location(1, 0)).getMonster().isDead());
   }
+
+  /**
+   * Shooting test 1 injures 2 kills.
+   */
+  @Test
+  public void shootingTwoKill() {
+    for (int x = 0; x < 200; x++) {
+      Dungeon dung = dungeon(6, 6, 37, true, 33,
+              "jack", false, 2);
+      dung.search();
+      assertNotNull(dung.getCave(new Location(1, 0)).getMonster());
+      assertTrue(dung.shoot(1, Direction.EAST));
+      assertFalse(dung.getCave(new Location(1, 0)).getMonster().isDead());
+      assertTrue(dung.getCave(new Location(1, 0)).getMonster().isShot());
+    }
+
+    for (int x = 0; x < 200; x++) {
+      Dungeon dung = dungeon(6, 6, 37, true, 33,
+              "jack", false, 2);
+      dung.search();
+      assertNotNull(dung.getCave(new Location(1, 0)).getMonster());
+      assertTrue(dung.shoot(1, Direction.EAST));
+      assertTrue(dung.shoot(1, Direction.EAST));
+      assertTrue(dung.getCave(new Location(1, 0)).getMonster().isDead());
+    }
+  }
+
+  /**
+   * Monster Caves can contain items/Treasure.
+   */
+  @Test
+  public void monsterCanHaveItems() {
+    int count = 0;
+    for (int z = 0; z < 200; z++) {
+      Dungeon dung = dungeon(6, 6, 10, false, 33,
+              "jack", true, 6);
+
+      for (int y = 0; y < dung.getHeight(); y++) {
+        for (int x = 0; x < dung.getWidth(); x++) {
+          Cave cave = dung.getCave(new Location(x, y));
+          if (cave.getMonster() != null) {
+            for (Integer v : cave.getItems().values()) {
+              if (v > 0 ) {
+                count++;
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+    assertTrue(count > 0);
+    assertTrue(count < 1200);
+  }
+
+  /**
+   * Caves can contain items/Treasure
+   * Why the number 2367 the reason for the 2367 is simple we run our test 200 times
+   * we have full connectivity so, and it wraps, so we have 36 possible locations for treasure,
+   * So we have 7200 caves we check for treasure, but we know that only 33 % will contain
+   * treasure so out of those 7200 check we expect 2367 of them to contain treasure
+   * thus statistically we do not expect the count of caves that have both treasure and arrows
+   * to equal that since that would mean every time every cave that had treasure and arrows,
+   * but we do expect the count to be greater than 0 because if that was not the case that means
+   *  arrows to never appear in caves with treasure.
+   */
+  @Test
+  public void cavesCanHaveBoth() {
+    int count = 0;
+    for (int z = 0; z < 200; z++) {
+      Dungeon dung = dungeon(6, 6, 37, true, 33,
+              "jack", true, 6);
+
+      for (int y = 0; y < dung.getHeight(); y++) {
+        for (int x = 0; x < dung.getWidth(); x++) {
+          Cave cave = dung.getCave(new Location(x, y));
+          boolean treasure = false;
+          for (CaveObject v : cave.getItems().keySet()) {
+            if (cave.getItems().get(v) > 0 && v.getType().equals("treasure") ) {
+              treasure = true;
+              break;
+            }
+          }
+          if (cave.getItems().get(CaveObject.CROOKEDARROW) > 0 && treasure) {
+            count++;
+          }
+        }
+      }
+    }
+    assertTrue(count > 0);
+    assertTrue(count < 2367);
+  }
+
+  /**
+   * Making it through the dungeon and kill all the monsters and making it to the end safely.
+   */
+  @Test
+  public void makingEndWin() {
+    for (int z = 0; z < 200; z++) {
+      Dungeon dung = dungeon(6, 6, 37, true, 33,
+              "jack", true, 1);
+
+      assertTrue(dung.movePlayer(Direction.SOUTH));
+      assertTrue(dung.movePlayer(Direction.SOUTH));
+      assertTrue(dung.movePlayer(Direction.SOUTH));
+      assertTrue(dung.movePlayer(Direction.EAST));
+      assertTrue(dung.movePlayer(Direction.EAST));
+      assertTrue(dung.shoot(1, Direction.EAST));
+      assertTrue(dung.shoot(1, Direction.EAST));
+      assertTrue(dung.movePlayer(Direction.EAST));
+      assertTrue(dung.hasSolved());
+      assertFalse(dung.hasLost());
+
+    }
+  }
+
+
 }
+
 
 
 

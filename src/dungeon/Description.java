@@ -5,6 +5,7 @@ import dungeon.enums.Direction;
 import dungeon.enums.Smell;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -85,6 +86,7 @@ public class Description {
     for (Direction cur: dir.keySet()) {
       myDirections.add(cur.toString());
     }
+    Collections.sort(myDirections);
     return myDirections;
   }
 

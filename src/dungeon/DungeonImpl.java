@@ -217,6 +217,7 @@ public class DungeonImpl implements Dungeon {
     player.updateLocation(cave);
     if (previous.equals(player.getLocation())) {
       this.escaped = true;
+      return false;
     }
 
     return true;

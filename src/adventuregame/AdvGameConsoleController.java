@@ -55,65 +55,62 @@ public class AdvGameConsoleController implements AdvGameController {
       throw new IllegalArgumentException(
               "Null passed for the dungeon");
     }
+    this.fullDescription(d);
     boolean quitting = false;
     while (!d.hasLost() && !quitting) {
-      Description des = d.getPlayerDescription();
-      stringAppend(String.format("%s is in a %s and, %s", des.getName(),
-              des.caveType(), des.getCaveSmell()));
-      stringAppend("The cave Holds: ");
-
-      for (String cur : des.getCaveItems()) {
-        if (!cur.contains(": 0")) {
-          stringAppend(cur);
-        }
-      }
-      stringAppend("Connections Lead: ");
-      for (String dir : des.getCaveDirections()) {
-        stringAppend(dir);
-      }
-
-      stringAppend(d.toString());
-
-
       boolean execute = false;
       while (!execute) {
+        stringAppend("Move, Pickup, or Shoot (M-P-S)?");
+
         if (d.hasSolved()) {
           stringAppend("You Have reached the end of the Dungeon type Q or q to leave");
           stringAppend("You Can still Explore but you run the risk of dying or"
                   + " not finding your way back");
         }
 
-        stringAppend("Move, Pickup, or Shoot (M-P-S)?");
         String in = scan.next();
+        Function<Scanner, AdventureCommand> cmd1 = this.knownCommands.getOrDefault(in, null);
+
         if (in.equalsIgnoreCase("q") || in.equalsIgnoreCase("Q")) {
           quitting = true;
           break;
         }
-        Function<Scanner, AdventureCommand> cmd1 = this.knownCommands.getOrDefault(in, null);
         if (cmd1 == null) {
-          stringAppend("Unknown command");
+          stringAppend(String.format("Unknown command %s", in));
         } else {
           try {
             AdventureCommand c = cmd1.apply(scan);
             boolean val = c.runCmd(d);
-            execute = true;
-
             if (in.equals("P")) {
-              Description play = d.getPlayerDescription();
-              stringAppend("You Now have: ");
-              for (String cur : play.getPlayerItems()) {
-                if (!cur.contains(": 0")) {
-                  stringAppend(cur);
-                }
+              if (!val) {
+                stringAppend("You picked up but there was nothing to pick up");
+              } else {
+                execute = true;
+                this.showItems(d);
               }
             }
-            if (in.equals("M") && val) {
-              stringAppend("You Narrowly escaped a Otyugh and "
+
+            if (in.equals("M")) {
+              if (d.escaped() && !val) {
+                stringAppend("You Narrowly escaped a Otyugh and "
                         + "returned to your previous location");
+              } else if (!val) {
+                stringAppend("You tried to move into a wall "
+                        + "you are still at your previous location");
+              } else {
+                execute = true;
+                this.fullDescription(d);
+              }
             }
-            if (in.equals("S") && val) {
-              stringAppend("You Hear a loud roar in the distance");
+
+            if (in.equals("S")) {
+              if (val) {
+                stringAppend("You shoot and arrow and hear a loud roar in the distance");
+              } else {
+                stringAppend("You Shoot an arrow into darkness distance");
+              }
             }
+
           } catch (IllegalArgumentException | IllegalStateException e) {
             stringAppend(e.getMessage());
           } catch (InputMismatchException e) {
@@ -133,7 +130,7 @@ public class AdvGameConsoleController implements AdvGameController {
     }
 
     else {
-      stringAppend("You have made it through the dugeon through your travels you collected: ");
+      stringAppend("You have made it through the dungeon through your travels you collected: ");
       Description des = d.getPlayerDescription();
       for (String cur : des.getPlayerItems()) {
         if (!cur.contains(": 0")) {
@@ -154,4 +151,39 @@ public class AdvGameConsoleController implements AdvGameController {
       throw new IllegalStateException("Append failed", ioe);
     }
   }
+
+  /**
+   * Appends the current Items a player is holding.
+   */
+  private void showItems(Dungeon d) {
+    stringAppend("You Now have: ");
+    for (String cur : d.getPlayerDescription().getPlayerItems()) {
+      if (!cur.contains(": 0")) {
+        stringAppend(cur);
+      }
+    }
+  }
+
+  /**
+   * Appends the a description of the current location of the player.
+   */
+  private void fullDescription(Dungeon d) {
+    Description des = d.getPlayerDescription();
+    stringAppend(String.format("You are in a %s and, %s",
+            des.caveType(), des.getCaveSmell()));
+    stringAppend("The cave Holds: ");
+
+    for (String cur : des.getCaveItems()) {
+      if (!cur.contains(": 0")) {
+        stringAppend(cur);
+      }
+
+    }
+    stringAppend("Connections Lead: ");
+    for (String dir : des.getCaveDirections()) {
+      stringAppend(dir);
+    }
+    stringAppend(d.toString());
+  }
+
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 
 /**
- * driver.Test for the Player Description Class.
+ * Test for the Player Description Class.
  */
 public class PlayerDescriptionTest {
   private Description description;
@@ -52,7 +52,7 @@ public class PlayerDescriptionTest {
   }
 
   /**
-   * driver.Test all the getters.
+   * Test all the getters.
    */
   @Test
   public void gettersTest() {
@@ -83,7 +83,7 @@ public class PlayerDescriptionTest {
   }
 
   /**
-   * driver.Test all the getters.
+   * Test all the getters.
    */
   @Test
   public void caveType() {

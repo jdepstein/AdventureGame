@@ -33,7 +33,7 @@ public class Shoot implements AdventureCommand {
         this.dir = Direction.WEST;
         break;
       default:
-        throw new IllegalArgumentException("Invalid move option");
+        throw new IllegalArgumentException("Invalid shoot option");
     }
   }
 

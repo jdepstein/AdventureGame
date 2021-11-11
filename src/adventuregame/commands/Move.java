@@ -34,17 +34,13 @@ public class Move implements AdventureCommand {
         this.dir = Direction.WEST;
         break;
       default:
-        throw new IllegalArgumentException("Invalid move option");
+        throw new IllegalArgumentException("Invalid move option " + dir);
     }
   }
 
   @Override
   public boolean runCmd(Dungeon d) {
-    if (!d.movePlayer(dir)) {
-      throw new IllegalArgumentException(
-              "Move given provides no progression");
-    }
-    return d.escaped();
+    return d.movePlayer(dir);
   }
 }
 
