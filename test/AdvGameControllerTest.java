@@ -660,5 +660,102 @@ public class AdvGameControllerTest {
     assertEquals(new Location(3,3 ), d.getPlayerLocation());
   }
 
+  /**
+   *Testing the different situations of smell being 1 away 2 away from 1 being 2 aways from 2 and
+   * being more than 2 away from.
+   */
+  @Test
+  public void smellNotificationsTest() {
+    Dungeon d = new DungeonImpl(6, 6, 25,
+            false, 0, "Jack", false, 7);
+    StringReader input = new StringReader("S 1 S S 1 S M S M S M S M N M E M E q");
+    Appendable gameLog = new StringBuilder();
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    c.playGame(d);
+    assertTrue(d.getCave(new Location(0,1)).getMonster().isDead());
+    assertTrue(gameLog.toString().contains(
+              "You are in a Tunnel and, There's a Fowl Smell close by\n"
+            + "The cave Holds: \n"
+            + "CrookedArrow: 12\n"
+            + "Connections Lead: \n"
+            + "EAST\n"
+            + "SOUTH\n"
+            + "(--|--|SP|vv|=>)  (<=|--| O|vv|=>)  (<=|--| O|vv|=>) "
+            + " (<=|--| O|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|--)  \n"
+            + "(--|^^| O|vv|=>)  (<=|^^| O|vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
+            + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"));
+
+    assertTrue(gameLog.toString().contains(
+              "You are in a Cave and, There's a Slightly foul smell in the distance\n"
+            + "The cave Holds: \n"
+            + "Connections Lead: \n"
+            + "EAST\n"
+            + "NORTH\n"
+            + "SOUTH\n"
+            + "(--|--| S|vv|=>)  (<=|--| O|vv|=>)  (<=|--| O|vv|=>) "
+            + " (<=|--| O|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^| O|vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^| P|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
+            + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  "));
+
+    assertTrue(gameLog.toString().contains(
+            "You are in a Cave and, The Cave seems normal\n"
+            + "The cave Holds: \n"
+            + "Connections Lead: \n"
+            + "EAST\n"
+            + "NORTH\n"
+            + "SOUTH\n"
+            + "(--|--| S|vv|=>)  (<=|--| O|vv|=>)  (<=|--| O|vv|=>) "
+            + " (<=|--| O|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^| O|vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^| P|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
+            + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"));
+
+
+    assertTrue(gameLog.toString().contains(
+              "You are in a Cave and, There's a Fowl Smell close by\n"
+            + "The cave Holds: \n"
+            + "Connections Lead: \n"
+            + "EAST\n"
+            + "NORTH\n"
+            + "SOUTH\n"
+            + "WEST\n"
+            + "(--|--| S|vv|=>)  (<=|--| O|vv|=>)  (<=|--| O|vv|=>) "
+            + " (<=|--| O|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^| O|vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^| P|vv|=>) "
+            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
+            + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"
+            + "Move, Pickup, or Shoot (M-P-S)?\n"
+            + "Quit the dungeon So no items were collected"));
+  }
 
 }

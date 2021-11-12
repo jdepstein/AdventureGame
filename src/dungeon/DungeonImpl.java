@@ -377,8 +377,14 @@ public class DungeonImpl implements Dungeon {
         }
         else if (this.end.equals(new Location(x, y))) {
           if (this.getCave(this.end).getMonster() != null) {
-            String[] split = this.caves[y][x].toString().split("  ");
-            dungeon.append(String.format("%sOE%s", split[0], split[1]));
+            if (!this.getCave(this.end).getMonster().isDead()) {
+              String[] split = this.caves[y][x].toString().split("  ");
+              dungeon.append(String.format("%sOE%s", split[0], split[1]));
+            }
+            else {
+              String[] split = this.caves[y][x].toString().split("  ");
+              dungeon.append(String.format("%s E%s", split[0], split[1]));
+            }
           }
           else {
             String[] split = this.caves[y][x].toString().split("  ");
@@ -387,8 +393,13 @@ public class DungeonImpl implements Dungeon {
         }
 
         else if (this.getCave(new Location(x, y)).getMonster() != null) {
-          String[] split = this.caves[y][x].toString().split("  ");
-          dungeon.append(String.format("%s O%s", split[0], split[1]));
+          if (!this.caves[y][x].getMonster().isDead()) {
+            String[] split = this.caves[y][x].toString().split("  ");
+            dungeon.append(String.format("%s O%s", split[0], split[1]));
+          }
+          else {
+            dungeon.append(this.caves[y][x].toString());
+          }
         }
 
         else {
