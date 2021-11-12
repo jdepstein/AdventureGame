@@ -123,17 +123,6 @@ public class AdvGameConsoleController implements AdvGameController {
     }
   }
 
-  /**
-   * Appends the current Items a player is holding.
-   */
-  private void showItems(Dungeon d) {
-    stringAppend("You Now have: ");
-    for (String cur : d.getPlayerDescription().getPlayerItems()) {
-      if (!cur.contains(": 0")) {
-        stringAppend(cur);
-      }
-    }
-  }
 
   /**
    * Appends the a description of the current location of the player.

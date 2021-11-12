@@ -183,7 +183,7 @@ public class CaveTest {
   }
 
   /**
-   * Making sure an arrow will add to tunnels.
+   * Making sure an arrow will add to tunnel.
    */
   @Test
   public void addArrowTunnel() {

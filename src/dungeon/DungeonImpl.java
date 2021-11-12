@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * 1 path between every cave. Our starting point and end point will be decided randomly by choosing
  * two cave they will have to be 5 moves apart. Once a valid start is dedicated a player is placed
  * at the starting point and the dungeon exploration can begin. However, the player
- * must be careful in case they run into a Otyugh along the way. To combat these players will also
+ * must be careful in case they run into an Otyugh along the way. To combat these players will also
  * carry a bow with arrows they find scattered across the dungeon. Luckily all players start with
  * 3 arrows. Players will be able to shoot a certain distance and direction in the dungeon
  * hoping to injure Otyugh. If the player does make their way to the end they do need to be
@@ -585,7 +585,7 @@ public class DungeonImpl implements Dungeon {
       while (monsterCount > 0) {
         Collections.shuffle(nonTunnel);
         if (nonTunnel.size() == 0 ) {
-          throw new IllegalArgumentException("NO More caves open");
+          throw new IllegalArgumentException("No More caves open");
         }
 
         Cave addingTo = nonTunnel.remove(0);

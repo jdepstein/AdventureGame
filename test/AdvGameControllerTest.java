@@ -119,7 +119,7 @@ public class AdvGameControllerTest {
   }
 
   /**
-   * Trying to move a direction you cannot go
+   * Trying to move a direction you cannot go.
    */
   @Test
   public void invalidMove() {
@@ -137,7 +137,6 @@ public class AdvGameControllerTest {
     assertTrue(gameLog.toString().contains("Move, Pickup, or Shoot (M-P-S)?"));
     assertTrue(gameLog.toString().contains("Enter a Direction:"));
     assertTrue(gameLog.toString().contains("Invalid Direction G"));
-    System.out.println(gameLog);
     assertTrue(gameLog.toString().contains("Quit the dungeon So no items were collected"));
     assertEquals(new Location(0, 0), d.getPlayerLocation());
   }
@@ -296,6 +295,9 @@ public class AdvGameControllerTest {
   }
 
 
+  /**
+   * Shooting at a mosnter to kill it.
+   */
   @Test
   public void shootHitTwice() {
     Dungeon d = new DungeonImpl(6, 6, 25,
@@ -327,6 +329,8 @@ public class AdvGameControllerTest {
             + "You shoot and arrow and hear a loud roar in the distance\n"
             + "Move, Pickup, or Shoot (M-P-S)?\n"
             + "Quit the dungeon So no items were collected"));
+    assertTrue(d.getCave(new Location(1,0)).getMonster().isDead());
+
   }
 
   /**
@@ -340,7 +344,6 @@ public class AdvGameControllerTest {
     Appendable gameLog = new StringBuilder();
     AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
     c.playGame(d);
-    System.out.println(gameLog);
     assertTrue(gameLog.toString().contains("(--|--|SP|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|=>)"
             + "  (<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
             + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
@@ -399,7 +402,7 @@ public class AdvGameControllerTest {
 
   /**
    * Shooting into the same cave that was previously a hit and noting that now you are not getting
-   * hit
+   * hit.
    */
   @Test
   public void shootAfterYouKill() {
@@ -473,12 +476,15 @@ public class AdvGameControllerTest {
             + "Quit the dungeon So no items were collected\n"));
   }
 
+  /**
+   * Doing all the invalid options when shooting an arrow.
+   */
   @Test
   public void invalidShooting() {
     Dungeon d = new DungeonImpl(6, 6, 25,
             false, 100, "Jack", false, 6);
-    StringReader input = new StringReader("P S 1 W S 1 N S W S 2.2 S 7 E S " +
-            "hello S .4 S 4 5 S 4 B S 4 hello S 4 V q");
+    StringReader input = new StringReader("P S 1 W S 1 N S W S 2.2 S 7 E S "
+            + "hello S .4 S 4 5 S 4 B S 4 hello S 4 V q");
     Appendable gameLog = new StringBuilder();
     AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
     c.playGame(d);
@@ -495,10 +501,10 @@ public class AdvGameControllerTest {
 
     d = new DungeonImpl(6, 6, 25,
             false, 100, "Jack", false, 6);
-   input = new StringReader("S 1 E S 1 E S 1 E S 1 E q");
-   gameLog = new StringBuilder();
-   c = new AdvGameConsoleController(input, gameLog);
-   c.playGame(d);
+    input = new StringReader("S 1 E S 1 E S 1 E S 1 E q");
+    gameLog = new StringBuilder();
+    c = new AdvGameConsoleController(input, gameLog);
+    c.playGame(d);
     assertTrue(gameLog.toString().contains("You have no arrows to shoot"));
   }
 
@@ -513,7 +519,6 @@ public class AdvGameControllerTest {
     Appendable gameLog = new StringBuilder();
     AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
     c.playGame(d);
-    System.out.println(gameLog);
     assertTrue(gameLog.toString().contains("(--|--|SP|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|=>)"
             + "  (<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
             + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
@@ -527,18 +532,18 @@ public class AdvGameControllerTest {
             + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>)"
             + "  (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"));
 
-    assertTrue(gameLog.toString().contains("(--|--|S |vv|=>)  (<=|--| P|vv|=>)  (<=|--|  |vv|=>)"
-            + "  (<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>)"
-            + "  (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"
+    assertTrue(gameLog.toString().contains("(--|--| S|vv|=>)  (<=|--| P|vv|=>)  (<=|--|  |vv|=>) "
+            + " (<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
+            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
+            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
+            + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"
             + "Eaten by a Monster Comp Comp"));
     assertTrue(d.hasLost());
 
@@ -563,7 +568,8 @@ public class AdvGameControllerTest {
               + "You shoot and arrow and hear a loud roar in the distance\n"
               + "Move, Pickup, or Shoot (M-P-S)?\n"));
       if (d.getPlayerLocation().equals(new Location(0, 0))) {
-        assertTrue(gameLog.toString().contains("You Narrowly escaped a Otyugh and returned to your previous location"));
+        assertTrue(gameLog.toString().contains("You Narrowly escaped a Otyugh and "
+                + "returned to your previous location"));
         assertFalse(d.hasLost());
         count++;
       } else {
@@ -586,7 +592,6 @@ public class AdvGameControllerTest {
     Appendable gameLog = new StringBuilder();
     AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
     c.playGame(d);
-    System.out.println(gameLog);
     assertTrue(gameLog.toString().contains("(--|--| S|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|=>)  "
             + "(<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
             + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  "
@@ -610,12 +615,18 @@ public class AdvGameControllerTest {
     assertFalse(d.hasLost());
   }
 
+  /**
+   * Testing a dungeon run with shooting picking up and finishing it. Also with invalid cmd
+   * as well as arguments mixed in as well and the error messages that you would get for
+   * move that are not aloud.
+   */
   @Test
   public void everythingTogether() {
     Dungeon d = new DungeonImpl(6, 6, 25,
             false, 100, "Jack", false, 2);
-    StringReader input = new StringReader("W S 1 N P M G S 6 E M S M W P hello P M S P S H S 2 N shoot S "
-            + "2 N P M S M P P M E P p S 2 X M E P S B S 2.1 S 1 E P PDP S 1 E P M E P quit q");
+    StringReader input = new StringReader("W S 1 N P M G S 6 E M S M W P hello P M S P S H S 2 "
+            + "N shoot S 2 N P M S M P P M E P p S 2 X M E P S B S 2.1 S 1 E P PDP S 1"
+            + " E P M E P quit q");
     Appendable gameLog = new StringBuilder();
     AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
     c.playGame(d);
@@ -629,6 +640,7 @@ public class AdvGameControllerTest {
     assertTrue(gameLog.toString().contains("Invalid Direction G"));
     assertTrue(gameLog.toString().contains("Invalid Direction X"));
     assertTrue(gameLog.toString().contains("Invalid Direction P"));
+    assertTrue(gameLog.toString().contains("Invalid distance to shoot 6"));
     assertTrue(gameLog.toString().contains("Expected an Integer but got H"));
     assertTrue(gameLog.toString().contains("Expected an Integer but got 2.1"));
     assertTrue(gameLog.toString().contains("Tried to shoot an arrow directly into a wall"));

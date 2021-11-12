@@ -744,7 +744,6 @@ public class DungeonTest {
     dung.movePlayer(Direction.SOUTH);
     assertNotNull(dung.getCave(new Location(1, 0)).getMonster());
     assertTrue(dung.shoot(2, Direction.NORTH));
-    System.out.println(dung.getCave(new Location(1, 0)).getMonster().isShot());
     assertTrue(dung.getCave(new Location(1, 0)).getMonster().isShot());
     assertFalse(dung.getCave(new Location(1, 0)).getMonster().isDead());
     assertTrue(dung.shoot(2, Direction.NORTH));
@@ -951,7 +950,7 @@ public class DungeonTest {
    * So we have 7200 caves we check for treasure, but we know that only 33 % will contain
    * treasure so out of those 7200 check we expect 2367 of them to contain treasure
    * thus statistically we do not expect the count of caves that have both treasure and arrows
-   * to equal that since that would mean every time every cave that had treasure and arrows,
+   * to equal that since that would mean every time every cave that has treasure and arrows,
    * but we do expect the count to be greater than 0 because if that was not the case that means
    *  arrows to never appear in caves with treasure.
    */
