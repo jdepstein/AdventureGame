@@ -1,8 +1,9 @@
 package adventuregame.commands;
 
-import adventuregame.AdventureCommand;
 import dungeon.Dungeon;
 import dungeon.enums.Direction;
+
+import java.util.Scanner;
 
 /**
  * If a user wishes to move through the dungeon using the controller they will need to
@@ -11,36 +12,34 @@ import dungeon.enums.Direction;
  * running it a wall. If a player enters in non-existent direction an illegal argument
  * error will be thrown.
  */
-public class Move implements AdventureCommand {
+public class Move extends AbstractCmd {
   private final Direction dir;
 
   /**
-   * The direction of the move.
-   * @param dir the moves Direction as a string
-   * @throws  IllegalArgumentException If you pass a value that isn't N,S,E or W.
+   * Constructs a move cmd with the given append and scanner. Set the direction.
+   * @param append The appendable for the cmd
+   * @param scan The scanner that the cmd will pull arguments from
+   * @throws IllegalArgumentException if null is passed
    */
-  public Move(String dir) {
-    switch (dir) {
-      case "N":
-        this.dir = Direction.NORTH;
-        break;
-      case "S":
-        this.dir = Direction.SOUTH;
-        break;
-      case "E":
-        this.dir = Direction.EAST;
-        break;
-      case "W":
-        this.dir = Direction.WEST;
-        break;
-      default:
-        throw new IllegalArgumentException("Invalid move option " + dir);
-    }
+  public Move(Appendable append, Scanner scan) {
+    super(append, scan);
+    dir = super.selectDirection();
   }
 
   @Override
   public boolean runCmd(Dungeon d) {
-    return d.movePlayer(dir);
+    boolean val = d.movePlayer(dir);
+    boolean execute = false;
+    if (d.escaped() && !val) {
+      stringAppend("You Narrowly escaped a Otyugh and "
+              + "returned to your previous location");
+    } else if (!val) {
+      stringAppend("You tried to move into a wall "
+              + "you are still at your previous location");
+    } else {
+      execute = true;
+    }
+    return execute;
   }
 }
 

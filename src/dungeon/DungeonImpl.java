@@ -283,18 +283,18 @@ public class DungeonImpl implements Dungeon {
   public boolean shoot(int x, Direction dir) {
     if (x > 5 || x < 1) {
       throw new IllegalArgumentException(
-              "Invalid distance to shoot");
+              "Invalid distance to shoot " + x );
     }
 
     if (dir == null) {
       throw new IllegalArgumentException(
-              "null passed for direction");
+              "Null passed for direction");
     }
 
     Cave cur = this.caves[this.player.getLocation().getY()][this.player.getLocation().getX()];
     if (cur.getDirections().get(dir) == null) {
       throw new IllegalArgumentException(
-              "tried to shoot an arrow directly into a wall");
+              "Tried to shoot an arrow directly into a wall");
     }
 
     this.player.shootArrow();
@@ -322,7 +322,7 @@ public class DungeonImpl implements Dungeon {
         }
       }
     }
-    if (cur.getDirections().size() == 2) {
+    while (cur.getDirections().size() == 2) {
       for (Direction hold : cur.getDirections().keySet()) {
         if (hold != dir.getInverse()) {
           dir = hold;

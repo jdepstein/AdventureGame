@@ -8,7 +8,6 @@ import dungeon.Dungeon;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Function;
@@ -40,13 +39,13 @@ public class AdvGameConsoleController implements AdvGameController {
     if (in == null || out == null) {
       throw new IllegalArgumentException("Readable and Appendable can't be null");
     }
-    this.knownCommands = new HashMap<>();
-    knownCommands.put("M", s -> new Move(s.next()));
-    knownCommands.put("S", s -> new Shoot(s.nextInt(), s.next()));
-    knownCommands.put("P", s -> new Pickup());
-
     this.out = out;
     scan = new Scanner(in);
+
+    this.knownCommands = new HashMap<>();
+    knownCommands.put("M", s -> new Move(out, scan));
+    knownCommands.put("S", s -> new Shoot(out, scan));
+    knownCommands.put("P", s -> new Pickup(out, scan));
   }
 
   @Override
@@ -77,45 +76,17 @@ public class AdvGameConsoleController implements AdvGameController {
         }
         if (cmd1 == null) {
           stringAppend(String.format("Unknown command %s", in));
-        } else {
+        }
+        else {
           try {
             AdventureCommand c = cmd1.apply(scan);
-            boolean val = c.runCmd(d);
-            if (in.equals("P")) {
-              if (!val) {
-                stringAppend("You picked up but there was nothing to pick up");
-              } else {
-                execute = true;
-                this.showItems(d);
-              }
-            }
-
-            if (in.equals("M")) {
-              if (d.escaped() && !val) {
-                stringAppend("You Narrowly escaped a Otyugh and "
-                        + "returned to your previous location");
-              } else if (!val) {
-                stringAppend("You tried to move into a wall "
-                        + "you are still at your previous location");
-              } else {
-                execute = true;
-                this.fullDescription(d);
-              }
-            }
-
-            if (in.equals("S")) {
-              if (val) {
-                stringAppend("You shoot and arrow and hear a loud roar in the distance");
-              } else {
-                stringAppend("You Shoot an arrow into darkness distance");
-              }
+            execute = c.runCmd(d);
+            if (execute && in.equals("M")) {
+              this.fullDescription(d);
             }
 
           } catch (IllegalArgumentException | IllegalStateException e) {
             stringAppend(e.getMessage());
-          } catch (InputMismatchException e) {
-            String got = scan.next();
-            stringAppend("Expected an Integer But got: " + got);
           }
         }
       }
