@@ -25,10 +25,11 @@ public class Description {
 
   /**
    * Builds a player description Object with a given cave and a player object.
+   *
    * @param player The player object that we are looking at
-   * @param cave The cave object we are looking at
+   * @param cave   The cave object we are looking at
    * @throws IllegalArgumentException If either the player or the cave that is passed is null
-   *                         an error will be thrown.
+   *                                  an error will be thrown.
    */
   public Description(Player player, Cave cave) throws IllegalArgumentException {
     if (player == null || cave == null) {
@@ -41,6 +42,7 @@ public class Description {
 
   /**
    * Gets the name of the Player.
+   *
    * @return the players name.
    */
   public String getName() {
@@ -49,11 +51,12 @@ public class Description {
 
   /**
    * Gets the List of treasure the player is currently holding.
+   *
    * @return The List of our Treasure counts as formatted Strings
    */
   public List<String> getPlayerItems() {
     List<String> myItems = new ArrayList<>();
-    HashMap<CaveObject,Integer> hashTreasure = this.player.getItems();
+    HashMap<CaveObject, Integer> hashTreasure = this.player.getItems();
     myItems.add(String.format("Diamonds: %d", hashTreasure.get(CaveObject.DIAMOND)));
     myItems.add(String.format("Rubies: %d", hashTreasure.get(CaveObject.RUBY)));
     myItems.add(String.format("Sapphires: %d", hashTreasure.get(CaveObject.SAPPHIRE)));
@@ -64,11 +67,12 @@ public class Description {
 
   /**
    * Gets the Treasure that is within the cave.
+   *
    * @return The List of the caves Treasure counts as formatted Strings
    */
   public List<String> getCaveItems() {
     List<String> items = new ArrayList<>();
-    HashMap<CaveObject,Integer> hashTreasure = this.cave.getItems();
+    HashMap<CaveObject, Integer> hashTreasure = this.cave.getItems();
     items.add(String.format("Diamonds: %d", hashTreasure.get(CaveObject.DIAMOND)));
     items.add(String.format("Rubies: %d", hashTreasure.get(CaveObject.RUBY)));
     items.add(String.format("Sapphires: %d", hashTreasure.get(CaveObject.SAPPHIRE)));
@@ -78,12 +82,13 @@ public class Description {
 
   /**
    * Gets the Directions you can travel in the cave.
+   *
    * @return The Caves current Directions.
    */
   public List<String> getCaveDirections() {
-    HashMap<Direction,Location> dir = this.cave.getDirections();
+    HashMap<Direction, Location> dir = this.cave.getDirections();
     List<String> myDirections = new ArrayList<>();
-    for (Direction cur: dir.keySet()) {
+    for (Direction cur : dir.keySet()) {
       myDirections.add(cur.toString());
     }
     Collections.sort(myDirections);
@@ -92,31 +97,43 @@ public class Description {
 
   /**
    * Tells us weather or not the cave is a tunnel or regular.
+   *
    * @return the type of the cave.
    */
   public String caveType() {
     if (this.cave.getDirections().size() == 2) {
       return "Tunnel";
-    }
-    else {
+    } else {
       return "Cave";
     }
   }
 
   /**
    * The smell of the cave as a string.
+   *
    * @return The string smell representation.
    */
   public String getCaveSmell() {
     if (this.cave.getSmell().equals(Smell.PUNGENT)) {
       return "There's a Fowl Smell close by";
-    }
-    else if (this.cave.getSmell().equals(Smell.LIGHT)) {
+    } else if (this.cave.getSmell().equals(Smell.LIGHT)) {
       return "There's a Slightly foul smell in the distance";
-    }
-    else {
+    } else {
       return String.format("The %s seems normal", this.caveType());
     }
+  }
+
+  /**
+   * Returns a non-null string if the cave has a dead monster.
+   * @return A string about a dead monster if there is one or null on all other cases.
+   */
+  public String hasMonster() {
+    if (cave.getMonster() != null) {
+      if (cave.getMonster().isDead()) {
+        return "You found the decaying corpse of a Otyugh that has been hit by two arrows";
+      }
+    }
+    return null;
   }
 
 }

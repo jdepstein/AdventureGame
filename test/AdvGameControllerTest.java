@@ -604,6 +604,8 @@ public class AdvGameControllerTest {
             + "(<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
             + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  "
             + "(<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--) "));
+    assertTrue(gameLog.toString().contains("You found the decaying corpse of a"
+            + " Otyugh that has been hit by two arrows"));
 
     assertTrue(gameLog.toString().contains("Move, Pickup, or Shoot (M-P-S)?\n"
             + "You Have reached the end of the Dungeon type Q or q to leave\n"

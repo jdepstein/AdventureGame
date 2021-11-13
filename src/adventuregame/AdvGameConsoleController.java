@@ -131,8 +131,10 @@ public class AdvGameConsoleController implements AdvGameController {
     Description des = d.getPlayerDescription();
     stringAppend(String.format("You are in a %s and, %s",
             des.caveType(), des.getCaveSmell()));
+    if (des.hasMonster() != null) {
+      stringAppend(des.hasMonster());
+    }
     stringAppend("The cave Holds: ");
-
     for (String cur : des.getCaveItems()) {
       if (!cur.contains(": 0")) {
         stringAppend(cur);
