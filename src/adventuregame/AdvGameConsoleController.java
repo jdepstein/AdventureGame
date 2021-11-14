@@ -27,6 +27,7 @@ public class AdvGameConsoleController implements AdvGameController {
   private final Appendable out;
   private final Scanner scan;
   private final Map<String, Function<Scanner, AdventureCommand>> knownCommands;
+  private final boolean cheatMode;
 
   /**
    * Constructor for the controller.
@@ -35,12 +36,13 @@ public class AdvGameConsoleController implements AdvGameController {
    * @param out the target to print to
    * @throws IllegalArgumentException if null is passed for either value
    */
-  public AdvGameConsoleController(Readable in, Appendable out) {
+  public AdvGameConsoleController(Readable in, Appendable out, boolean cheatMode) {
     if (in == null || out == null) {
       throw new IllegalArgumentException("Readable and Appendable can't be null");
     }
     this.out = out;
     scan = new Scanner(in);
+    this.cheatMode = cheatMode;
 
     this.knownCommands = new HashMap<>();
     knownCommands.put("M", s -> new Move(out, scan));
@@ -145,7 +147,9 @@ public class AdvGameConsoleController implements AdvGameController {
     for (String dir : des.getCaveDirections()) {
       stringAppend(dir);
     }
-    stringAppend(d.toString());
+    if (this.cheatMode) {
+      stringAppend(d.toString());
+    }
   }
 
 }

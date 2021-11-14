@@ -27,7 +27,7 @@ public class AdvGameControllerTest {
             false, 100, "Jack", true, 1);
     StringReader input = new StringReader("");
     Appendable gameLog = new FailingAppendable();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog,false);
     c.playGame(d);
   }
 
@@ -39,7 +39,7 @@ public class AdvGameControllerTest {
   public void badGame() {
     StringReader input = new StringReader("");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog,false);
     c.playGame(null);
   }
 
@@ -51,7 +51,7 @@ public class AdvGameControllerTest {
     Dungeon d = new DungeonImpl(6, 6, 25,
             false, 100, "Jack", true, 1);
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(null, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(null, gameLog, false);
     c.playGame(d);
   }
 
@@ -63,7 +63,7 @@ public class AdvGameControllerTest {
     Dungeon d =  new DungeonImpl(6, 6, 25,
             false, 100, "Jack", true, 1);
     StringReader input = new StringReader("");
-    AdvGameConsoleController c = new AdvGameConsoleController(input, null);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, null, false);
     c.playGame(d);
   }
 
@@ -76,7 +76,7 @@ public class AdvGameControllerTest {
             false, 100, "Jack", false, 1);
     StringReader input = new StringReader("F hello G 4.4 google PDP Q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
     assertTrue(gameLog.toString().contains("Unknown command F"));
     assertTrue(gameLog.toString().contains("Unknown command hello"));
@@ -100,20 +100,9 @@ public class AdvGameControllerTest {
             false, 100, "Jack", false, 1);
     StringReader input = new StringReader("M S q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
-    assertTrue(gameLog.toString().contains("(--|--| S|vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|=>) "
-            + " (<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^| P|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  "
-            + "(<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
-            + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"));
+    assertEquals(new Location(0, 1), d.getPlayerLocation());
     assertTrue(gameLog.toString().contains("Quit the dungeon So no items were collected"));
     assertEquals(new Location(0, 1), d.getPlayerLocation());
   }
@@ -127,7 +116,7 @@ public class AdvGameControllerTest {
             false, 100, "Jack", false, 1);
     StringReader input = new StringReader("M G q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
     assertTrue(gameLog.toString().contains("Connections Lead: \n"
                     + "EAST\n"
@@ -153,7 +142,7 @@ public class AdvGameControllerTest {
     StringReader input = new StringReader("M T M N M W M S M hello M S M S V M S M M B M S "
             + "M E M N M N Jello M N M D M N M N M E 2.3 M W M E M E M S M S Q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
     assertTrue(gameLog.toString().contains("The cave Holds: \n"
             + "CrookedArrow: "));
@@ -180,46 +169,6 @@ public class AdvGameControllerTest {
             + "a Slightly foul smell in the distance"));
     assertTrue(gameLog.toString().contains("You are in a Cave and, There's a Fowl Smell close by"));
     assertTrue(gameLog.toString().contains("Quit the dungeon So no items were collected"));
-
-    assertTrue(gameLog.toString().contains("(--|--|SP|vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|=>) "
-            + " (<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  "
-            + "(<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
-            + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"));
-
-    assertTrue(gameLog.toString().contains("(--|--| S|vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|=>) "
-            + " (<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^| P|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  "
-            + "(<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
-            + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"));
-
-    assertTrue(gameLog.toString().contains("(--|--| S|vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|=>) "
-            + " (<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^| P|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  "
-            + "(<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
-            + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"));
-
     assertEquals(new Location(3, 2), d.getPlayerLocation());
     assertFalse(d.hasSolved());
   }
@@ -233,7 +182,7 @@ public class AdvGameControllerTest {
             false, 100, "Jack", false, 1);
     StringReader input = new StringReader("P M S P q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
     assertTrue(gameLog.toString().contains("Connections Lead: \n"
             + "EAST\n"
@@ -262,7 +211,7 @@ public class AdvGameControllerTest {
             false, 100, "Jack", false, 1);
     StringReader input = new StringReader("P P q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
 
     assertTrue(gameLog.toString().contains("You found some items you now have: \n"
@@ -283,7 +232,7 @@ public class AdvGameControllerTest {
             false, 0, "Jack", false, 1);
     StringReader input = new StringReader("P M S P q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
 
     assertFalse(gameLog.toString().contains("You found some items you now have:"));
@@ -304,21 +253,8 @@ public class AdvGameControllerTest {
             false, 100, "Jack", false, 2);
     StringReader input = new StringReader("P S 1 E S 1 E q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
-    assertTrue(gameLog.toString().contains("(--|--|SP|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|=>) "
-           + " (<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
-           + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-           + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-           + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-           + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-           + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-           +  " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-           + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-           + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-           + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
-           + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)"));
-
     assertTrue(gameLog.toString().contains("Move, Pickup, or Shoot (M-P-S)?\n"
             + "Enter a Distance 1-5: \n"
             + "Enter a Direction:\n"
@@ -342,21 +278,9 @@ public class AdvGameControllerTest {
             false, 100, "Jack", false, 2);
     StringReader input = new StringReader("S 1 W S 1 N q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
-    assertTrue(gameLog.toString().contains("(--|--|SP|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|=>)"
-            + "  (<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>)"
-            + "  (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"
-            + "Move, Pickup, or Shoot (M-P-S)?\n"
+    assertTrue(gameLog.toString().contains("Move, Pickup, or Shoot (M-P-S)?\n"
             + "Enter a Distance 1-5: \n"
             + "Enter a Direction:\n"
             + "Tried to shoot an arrow directly into a wall\n"
@@ -377,21 +301,9 @@ public class AdvGameControllerTest {
             false, 100, "Jack", false, 2);
     StringReader input = new StringReader("S 1 S q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
-    assertTrue(gameLog.toString().contains("(--|--|SP|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|=>)"
-            + "  (<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>)"
-            + "  (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"
-            + "Move, Pickup, or Shoot (M-P-S)?\n"
+    assertTrue(gameLog.toString().contains("Move, Pickup, or Shoot (M-P-S)?\n"
             + "Enter a Distance 1-5: \n"
             + "Enter a Direction:\n"
             + "You Shoot an arrow into darkness and hear nothing\n"
@@ -410,21 +322,8 @@ public class AdvGameControllerTest {
             false, 100, "Jack", false, 2);
     StringReader input = new StringReader("P S 1 E S 1 E S 1 E q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
-    assertTrue(gameLog.toString().contains("(--|--|SP|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|=>) "
-            + " (<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            +  " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
-            + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)"));
-
     assertTrue(gameLog.toString().contains("Move, Pickup, or Shoot (M-P-S)?\n"
             + "Enter a Distance 1-5: \n"
             + "Enter a Direction:\n"
@@ -450,21 +349,9 @@ public class AdvGameControllerTest {
             false, 100, "Jack", false, 2);
     StringReader input = new StringReader("S 2 E S 3 E q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
-    assertTrue(gameLog.toString().contains("(--|--|SP|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|=>)"
-            + "  (<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>)"
-            + "  (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"
-            + "Move, Pickup, or Shoot (M-P-S)?\n"
+    assertTrue(gameLog.toString().contains("Move, Pickup, or Shoot (M-P-S)?\n"
             + "Enter a Distance 1-5: \n"
             + "Enter a Direction:\n"
             + "You Shoot an arrow into darkness and hear nothing\n"
@@ -486,7 +373,7 @@ public class AdvGameControllerTest {
     StringReader input = new StringReader("P S 1 W S 1 N S W S 2.2 S 7 E S "
             + "hello S .4 S 4 5 S 4 B S 4 hello S 4 V q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
     assertTrue(gameLog.toString().contains("Invalid Direction 5"));
     assertTrue(gameLog.toString().contains("Invalid Direction B"));
@@ -503,7 +390,7 @@ public class AdvGameControllerTest {
             false, 100, "Jack", false, 6);
     input = new StringReader("S 1 E S 1 E S 1 E S 1 E q");
     gameLog = new StringBuilder();
-    c = new AdvGameConsoleController(input, gameLog);
+    c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
     assertTrue(gameLog.toString().contains("You have no arrows to shoot"));
   }
@@ -517,34 +404,10 @@ public class AdvGameControllerTest {
             false, 100, "Jack", false, 2);
     StringReader input = new StringReader("M E");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
-    assertTrue(gameLog.toString().contains("(--|--|SP|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|=>)"
-            + "  (<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)"
-            + "  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>)"
-            + "  (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"));
-
-    assertTrue(gameLog.toString().contains("(--|--| S|vv|=>)  (<=|--| P|vv|=>)  (<=|--|  |vv|=>) "
-            + " (<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
-            + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"
-            + "Eaten by a Monster Comp Comp"));
+    assertEquals(new Location(1, 0),d.getPlayerLocation());
+    assertTrue(gameLog.toString().contains("Eaten by a Monster Comp Comp"));
     assertTrue(d.hasLost());
 
   }
@@ -560,7 +423,7 @@ public class AdvGameControllerTest {
               false, 100, "Jack", false, 2);
       StringReader input = new StringReader("S 1 E M E q");
       Appendable gameLog = new StringBuilder();
-      AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+      AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
       c.playGame(d);
       assertTrue(gameLog.toString().contains("Move, Pickup, or Shoot (M-P-S)?\n"
               + "Enter a Distance 1-5: \n"
@@ -590,20 +453,8 @@ public class AdvGameControllerTest {
             false, 100, "Jack", false, 2);
     StringReader input = new StringReader("M S M S M S M E M E S 1 E S 1 E M E q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
-    assertTrue(gameLog.toString().contains("(--|--| S|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|=>)  "
-            + "(<=|--|  |vv|=>)  (<=|--|  |vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  "
-            + "(<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  "
-            + "(<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  "
-            + "(<=|^^|EP|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  "
-            + "(<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  "
-            + "(<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--) "));
     assertTrue(gameLog.toString().contains("You found the decaying corpse of a"
             + " Otyugh that has been hit by two arrows"));
 
@@ -630,7 +481,7 @@ public class AdvGameControllerTest {
             + "N shoot S 2 N P M S M P P M E P p S 2 X M E P S B S 2.1 S 1 E P PDP S 1"
             + " E P M E P quit q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
 
     assertTrue(gameLog.toString().contains("Unknown command W"));
@@ -672,28 +523,17 @@ public class AdvGameControllerTest {
             false, 0, "Jack", false, 7);
     StringReader input = new StringReader("S 1 S S 1 S M S M S M S M N M E M E q");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
     assertTrue(d.getCave(new Location(0,1)).getMonster().isDead());
+    System.out.println(gameLog);
     assertTrue(gameLog.toString().contains(
               "You are in a Tunnel and, There's a Fowl Smell close by\n"
             + "The cave Holds: \n"
             + "CrookedArrow: 12\n"
             + "Connections Lead: \n"
             + "EAST\n"
-            + "SOUTH\n"
-            + "(--|--|SP|vv|=>)  (<=|--| O|vv|=>)  (<=|--| O|vv|=>) "
-            + " (<=|--| O|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^| O|vv|=>)  (<=|^^| O|vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
-            + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"));
+            + "SOUTH\n"));
 
     assertTrue(gameLog.toString().contains(
               "You are in a Cave and, There's a Slightly foul smell in the distance\n"
@@ -701,19 +541,7 @@ public class AdvGameControllerTest {
             + "Connections Lead: \n"
             + "EAST\n"
             + "NORTH\n"
-            + "SOUTH\n"
-            + "(--|--| S|vv|=>)  (<=|--| O|vv|=>)  (<=|--| O|vv|=>) "
-            + " (<=|--| O|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^| O|vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^| P|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
-            + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  "));
+            + "SOUTH\n"));
 
     assertTrue(gameLog.toString().contains(
             "You are in a Cave and, The Cave seems normal\n"
@@ -721,19 +549,7 @@ public class AdvGameControllerTest {
             + "Connections Lead: \n"
             + "EAST\n"
             + "NORTH\n"
-            + "SOUTH\n"
-            + "(--|--| S|vv|=>)  (<=|--| O|vv|=>)  (<=|--| O|vv|=>) "
-            + " (<=|--| O|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^| O|vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^| P|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
-            + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"));
+            + "SOUTH\n"));
 
 
     assertTrue(gameLog.toString().contains(
@@ -744,18 +560,6 @@ public class AdvGameControllerTest {
             + "NORTH\n"
             + "SOUTH\n"
             + "WEST\n"
-            + "(--|--| S|vv|=>)  (<=|--| O|vv|=>)  (<=|--| O|vv|=>) "
-            + " (<=|--| O|vv|=>)  (<=|--| O|vv|=>)  (<=|--|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^| O|vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^| P|vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|OE|vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>) "
-            + " (<=|^^|  |vv|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |vv|--)  \n"
-            + "(--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|=>) "
-            + " (<=|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)  \n"
             + "Move, Pickup, or Shoot (M-P-S)?\n"
             + "Quit the dungeon So no items were collected"));
   }
