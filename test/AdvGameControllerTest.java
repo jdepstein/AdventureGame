@@ -27,7 +27,7 @@ public class AdvGameControllerTest {
             false, 100, "Jack", true, 1);
     StringReader input = new StringReader("");
     Appendable gameLog = new FailingAppendable();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog,false);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
   }
 
@@ -39,7 +39,7 @@ public class AdvGameControllerTest {
   public void badGame() {
     StringReader input = new StringReader("");
     Appendable gameLog = new StringBuilder();
-    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog,false);
+    AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(null);
   }
 
@@ -95,7 +95,7 @@ public class AdvGameControllerTest {
    * some invalid and bad cmds mixed in a well to show the program will still work.
    */
   @Test
-  public void OneMove() {
+  public void oneMove() {
     Dungeon d =  new DungeonImpl(6, 6, 25,
             false, 100, "Jack", false, 1);
     StringReader input = new StringReader("M S q");
@@ -177,7 +177,7 @@ public class AdvGameControllerTest {
    * Picking up items in two caves then quitting.
    */
   @Test
-  public void TwoPickup() {
+  public void twoPickup() {
     Dungeon d =  new DungeonImpl(6, 6, 25,
             false, 100, "Jack", false, 1);
     StringReader input = new StringReader("P M S P q");
@@ -265,7 +265,7 @@ public class AdvGameControllerTest {
             + "You shoot and arrow and hear a loud roar in the distance\n"
             + "Move, Pickup, or Shoot (M-P-S)?\n"
             + "Quit the dungeon So no items were collected"));
-    assertTrue(d.getCave(new Location(1,0)).getMonster().isDead());
+    assertTrue(d.getCave(new Location(1, 0)).getMonster().isDead());
 
   }
 
@@ -406,7 +406,7 @@ public class AdvGameControllerTest {
     Appendable gameLog = new StringBuilder();
     AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
-    assertEquals(new Location(1, 0),d.getPlayerLocation());
+    assertEquals(new Location(1, 0), d.getPlayerLocation());
     assertTrue(gameLog.toString().contains("Eaten by a Monster Comp Comp"));
     assertTrue(d.hasLost());
 
@@ -508,9 +508,9 @@ public class AdvGameControllerTest {
 
     assertTrue(d.hasSolved());
     assertFalse(d.hasLost());
-    assertTrue(d.getCave(new Location(1,0)).getMonster().isDead());
-    assertTrue(d.getCave(new Location(3,3)).getMonster().isDead());
-    assertEquals(new Location(3,3 ), d.getPlayerLocation());
+    assertTrue(d.getCave(new Location(1, 0)).getMonster().isDead());
+    assertTrue(d.getCave(new Location(3, 3)).getMonster().isDead());
+    assertEquals(new Location(3, 3), d.getPlayerLocation());
   }
 
   /**
@@ -525,8 +525,7 @@ public class AdvGameControllerTest {
     Appendable gameLog = new StringBuilder();
     AdvGameConsoleController c = new AdvGameConsoleController(input, gameLog, false);
     c.playGame(d);
-    assertTrue(d.getCave(new Location(0,1)).getMonster().isDead());
-    System.out.println(gameLog);
+    assertTrue(d.getCave(new Location(0, 1)).getMonster().isDead());
     assertTrue(gameLog.toString().contains(
               "You are in a Tunnel and, There's a Fowl Smell close by\n"
             + "The cave Holds: \n"

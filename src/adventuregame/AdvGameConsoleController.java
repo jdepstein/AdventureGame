@@ -78,8 +78,7 @@ public class AdvGameConsoleController implements AdvGameController {
         }
         if (cmd1 == null) {
           stringAppend(String.format("Unknown command %s", in));
-        }
-        else {
+        } else {
           try {
             AdventureCommand c = cmd1.apply(scan);
             execute = c.runCmd(d);
@@ -96,13 +95,9 @@ public class AdvGameConsoleController implements AdvGameController {
 
     if (quitting && !d.hasSolved()) {
       stringAppend("Quit the dungeon So no items were collected");
-    }
-
-    else if (d.hasLost()) {
+    } else if (d.hasLost()) {
       stringAppend("Eaten by a Monster Comp Comp");
-    }
-
-    else {
+    } else {
       stringAppend("You have made it through the dungeon through your travels you collected: ");
       Description des = d.getPlayerDescription();
       for (String cur : des.getPlayerItems()) {

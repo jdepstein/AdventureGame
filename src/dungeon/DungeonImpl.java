@@ -296,7 +296,7 @@ public class DungeonImpl implements Dungeon {
       throw new IllegalArgumentException(
               "Tried to shoot an arrow directly into a wall");
     }
-
+    boolean ranOut = false;
     this.player.shootArrow();
     int origin = x;
     while (x > 0) {
@@ -313,7 +313,9 @@ public class DungeonImpl implements Dungeon {
       } else {
 
         if (cur.getDirections().get(dir) == null) {
+          ranOut = true;
           x = 0;
+
         }
         else {
           x--;
@@ -333,7 +335,7 @@ public class DungeonImpl implements Dungeon {
       }
     }
 
-    if (cur.getMonster() != null) {
+    if (cur.getMonster() != null && !ranOut) {
       if (!cur.getMonster().isDead()) {
         cur.getMonster().shot();
         if (cur.getMonster().isDead()) {

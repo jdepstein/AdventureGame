@@ -21,8 +21,8 @@ import java.util.HashMap;
  * smells weather or not a monster is in proximity to the cave.
  */
 public class CaveImpl implements Cave {
-  private final HashMap<Direction,Location> connections;
-  private HashMap<CaveObject,Integer> contents;
+  private final HashMap<Direction, Location> connections;
+  private HashMap<CaveObject, Integer> contents;
   private final Location loc;
   private Smell smell;
   private Monster occupant;
@@ -67,13 +67,13 @@ public class CaveImpl implements Cave {
               "Can't connect to yourself");
     }
 
-    for (Direction key: this.connections.keySet()) {
+    for (Direction key : this.connections.keySet()) {
       if (this.connections.get(key).equals(loc)) {
         throw new IllegalArgumentException(
                 "Can't Can't to the same location from two directions");
       }
     }
-    this.connections.put(dir,loc);
+    this.connections.put(dir,  loc);
   }
 
   @Override
@@ -101,13 +101,13 @@ public class CaveImpl implements Cave {
   }
 
   @Override
-  public HashMap<CaveObject,Integer> removeItems() {
-    HashMap<CaveObject,Integer> hold = new HashMap<>();
+  public HashMap<CaveObject, Integer> removeItems() {
+    HashMap<CaveObject, Integer> hold = new HashMap<>();
     hold.put(CaveObject.DIAMOND, 0);
     hold.put(CaveObject.RUBY, 0);
     hold.put(CaveObject.SAPPHIRE, 0);
     hold.put(CaveObject.CROOKEDARROW, 0);
-    HashMap<CaveObject,Integer> temp = this.getItems();
+    HashMap<CaveObject, Integer> temp = this.getItems();
     this.contents = hold;
     return temp;
   }
@@ -119,7 +119,7 @@ public class CaveImpl implements Cave {
   }
 
   @Override
-  public HashMap<CaveObject,Integer> getItems() {
+  public HashMap<CaveObject, Integer> getItems() {
     return new HashMap<>(this.contents);
   }
 
@@ -178,28 +178,23 @@ public class CaveImpl implements Cave {
     caveString.append("(");
     if (this.connections.get(Direction.WEST) != null) {
       caveString.append("<=|");
-    }
-    else {
+    } else {
       caveString.append("--|");
     }
     if (this.connections.get(Direction.NORTH) != null) {
       caveString.append("^^");
-    }
-    else {
+    } else {
       caveString.append("--");
     }
     caveString.append("|  |");
-
     if (this.connections.get(Direction.SOUTH) != null) {
       caveString.append("vv|");
-    }
-    else {
+    } else {
       caveString.append("--|");
     }
     if (this.connections.get(Direction.EAST) != null) {
       caveString.append("=>");
-    }
-    else {
+    } else {
       caveString.append("--");
     }
     caveString.append(")");

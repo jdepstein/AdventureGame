@@ -25,7 +25,7 @@ public class CaveTest {
    */
   @Before
   public void setUp() {
-    this.myCave = new CaveImpl(new Location(0,0));
+    this.myCave = new CaveImpl(new Location(0, 0));
   }
 
   private Cave cave(Location loc) {
@@ -46,7 +46,7 @@ public class CaveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void badConnection1() {
-    myCave.addConnection(null, new Location(2,2));
+    myCave.addConnection(null, new Location(2, 2));
   }
 
   /**
@@ -62,7 +62,7 @@ public class CaveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void badConnection3() {
-    myCave.addConnection(Direction.NORTH, new Location(0,0));
+    myCave.addConnection(Direction.NORTH, new Location(0, 0));
   }
 
   /**
@@ -70,8 +70,8 @@ public class CaveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void overrideConnection() {
-    myCave.addConnection(Direction.NORTH, new Location(1,1));
-    myCave.addConnection(Direction.NORTH, new Location(1,2));
+    myCave.addConnection(Direction.NORTH, new Location(1, 1));
+    myCave.addConnection(Direction.NORTH, new Location(1, 2));
   }
 
   /**
@@ -79,8 +79,8 @@ public class CaveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void overrideConnection2() {
-    myCave.addConnection(Direction.NORTH, new Location(1,1));
-    myCave.addConnection(Direction.EAST, new Location(1,1));
+    myCave.addConnection(Direction.NORTH, new Location(1, 1));
+    myCave.addConnection(Direction.EAST, new Location(1, 1));
   }
 
   /**
@@ -90,11 +90,11 @@ public class CaveTest {
   @Test
   public void removeItemsTest() {
     HashMap<CaveObject, Integer> removeNothing = myCave.removeItems();
-    myCave.addConnection(Direction.NORTH,new Location(0,1));
+    myCave.addConnection(Direction.NORTH, new Location(0 ,  1));
     assertEquals(0, removeNothing.get(CaveObject.DIAMOND).intValue());
-    assertEquals( 0, removeNothing.get(CaveObject.RUBY).intValue());
-    assertEquals( 0, removeNothing.get(CaveObject.SAPPHIRE).intValue());
-    assertEquals( 0, removeNothing.get(CaveObject.CROOKEDARROW).intValue());
+    assertEquals(0, removeNothing.get(CaveObject.RUBY).intValue());
+    assertEquals(0, removeNothing.get(CaveObject.SAPPHIRE).intValue());
+    assertEquals(0, removeNothing.get(CaveObject.CROOKEDARROW).intValue());
 
     myCave.addTreasure(CaveObject.DIAMOND);
     myCave.addTreasure(CaveObject.SAPPHIRE);
@@ -103,15 +103,15 @@ public class CaveTest {
     myCave.addArrow();
     HashMap<CaveObject, Integer> remove = myCave.removeItems();
     assertEquals(2, remove.get(CaveObject.DIAMOND).intValue());
-    assertEquals( 1, remove.get(CaveObject.RUBY).intValue());
-    assertEquals( 1, remove.get(CaveObject.SAPPHIRE).intValue());
-    assertEquals( 1, remove.get(CaveObject.CROOKEDARROW).intValue());
+    assertEquals(1, remove.get(CaveObject.RUBY).intValue());
+    assertEquals(1, remove.get(CaveObject.SAPPHIRE).intValue());
+    assertEquals(1, remove.get(CaveObject.CROOKEDARROW).intValue());
 
     HashMap<CaveObject, Integer> tres = myCave.getItems();
     assertEquals(0, tres.get(CaveObject.DIAMOND).intValue());
-    assertEquals( 0, tres.get(CaveObject.RUBY).intValue());
-    assertEquals( 0, tres.get(CaveObject.SAPPHIRE).intValue());
-    assertEquals( 0, tres.get(CaveObject.CROOKEDARROW).intValue());
+    assertEquals(0, tres.get(CaveObject.RUBY).intValue());
+    assertEquals(0, tres.get(CaveObject.SAPPHIRE).intValue());
+    assertEquals(0, tres.get(CaveObject.CROOKEDARROW).intValue());
 
   }
 
@@ -121,22 +121,22 @@ public class CaveTest {
    */
   @Test
   public void newMethods() {
-    assertEquals(0,myCave.getItems().get(CaveObject.CROOKEDARROW).intValue());
+    assertEquals(0, myCave.getItems().get(CaveObject.CROOKEDARROW).intValue());
     myCave.addArrow();
-    assertEquals(1,myCave.getItems().get(CaveObject.CROOKEDARROW).intValue());
+    assertEquals(1, myCave.getItems().get(CaveObject.CROOKEDARROW).intValue());
     myCave.addArrow();
     myCave.addArrow();
-    assertEquals(3,myCave.getItems().get(CaveObject.CROOKEDARROW).intValue());
+    assertEquals(3, myCave.getItems().get(CaveObject.CROOKEDARROW).intValue());
     myCave.removeItems();
-    assertEquals(0,myCave.getItems().get(CaveObject.CROOKEDARROW).intValue());
+    assertEquals(0, myCave.getItems().get(CaveObject.CROOKEDARROW).intValue());
 
-    assertEquals(Smell.NONE ,myCave.getSmell());
+    assertEquals(Smell.NONE ,  myCave.getSmell());
     myCave.updateSmell(Smell.LIGHT);
-    assertEquals(Smell.LIGHT ,myCave.getSmell());
+    assertEquals(Smell.LIGHT ,  myCave.getSmell());
     myCave.updateSmell(Smell.PUNGENT);
-    assertEquals(Smell.PUNGENT ,myCave.getSmell());
+    assertEquals(Smell.PUNGENT ,   myCave.getSmell());
     myCave.updateSmell(Smell.NONE);
-    assertEquals(Smell.NONE ,myCave.getSmell());
+    assertEquals(Smell.NONE ,  myCave.getSmell());
 
     assertNull(myCave.getMonster());
     myCave.addMonster(new Otyugh());
@@ -175,9 +175,9 @@ public class CaveTest {
     this.myCave.addMonster(new Otyugh());
     assertFalse(this.myCave.addMonster(new Otyugh()));
 
-    Cave cave1 = cave(new Location(0,0));
-    cave1.addConnection(Direction.NORTH, new Location(1,0));
-    cave1.addConnection(Direction.SOUTH, new Location(2,0));
+    Cave cave1 = cave(new Location(0, 0));
+    cave1.addConnection(Direction.NORTH, new Location(1, 0));
+    cave1.addConnection(Direction.SOUTH, new Location(2, 0));
     assertFalse(cave1.addMonster(new Otyugh()));
 
   }
@@ -187,8 +187,8 @@ public class CaveTest {
    */
   @Test
   public void addArrowTunnel() {
-    myCave.addConnection(Direction.NORTH, new Location(1,1));
-    myCave.addConnection(Direction.SOUTH, new Location(0,1));
+    myCave.addConnection(Direction.NORTH, new Location(1, 1));
+    myCave.addConnection(Direction.SOUTH, new Location(0, 1));
     assertEquals(2, myCave.getDirections().values().size());
     myCave.addArrow();
     myCave.addArrow();
