@@ -1,0 +1,204 @@
+You are in a Cave and, The Cave seems normal
+The cave Holds:
+Rubies: 1
+Connections Lead:
+WEST
+(--|--|  |vv|=>)  (<=|--|  |--|=>)  (<=|--|  |--|=>)  (<=|--|  |--|--)  (--|--|  |vv|--)  (--|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|--|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)
+(--|--|OE|vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |--|--)  (--|^^|  |vv|=>)  (<=|--|  |--|=>)  (<=|^^|  |vv|--)
+(--|--|  |vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |vv|--)  (--|^^| O|--|--)
+(--|^^|  |--|=>)  (<=|^^|  |--|--)  (--|^^|  |--|--)  (--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|--|SP|--|--)
+Move, Pickup, or Shoot (M-P-S)?
+P
+You found some items you now have:
+Rubies: 1
+CrookedArrow: 3
+Move, Pickup, or Shoot (M-P-S)?
+M W
+Enter a Direction:
+You are in a Cave and, The Cave seems normal
+The cave Holds:
+CrookedArrow: 1
+Connections Lead:
+EAST
+NORTH
+WEST
+(--|--|  |vv|=>)  (<=|--|  |--|=>)  (<=|--|  |--|=>)  (<=|--|  |--|--)  (--|--|  |vv|--)  (--|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|--|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)
+(--|--|OE|vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |--|--)  (--|^^|  |vv|=>)  (<=|--|  |--|=>)  (<=|^^|  |vv|--)
+(--|--|  |vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |vv|--)  (--|^^| O|--|--)
+(--|^^|  |--|=>)  (<=|^^|  |--|--)  (--|^^|  |--|--)  (--|^^|  |--|=>)  (<=|^^| P|--|=>)  (<=|--| S|--|--)
+Move, Pickup, or Shoot (M-P-S)?
+P
+You found some items you now have:
+Rubies: 1
+CrookedArrow: 4
+Move, Pickup, or Shoot (M-P-S)?
+M W
+Enter a Direction:
+You are in a Tunnel and, The Tunnel seems normal
+The cave Holds:
+Connections Lead:
+EAST
+NORTH
+(--|--|  |vv|=>)  (<=|--|  |--|=>)  (<=|--|  |--|=>)  (<=|--|  |--|--)  (--|--|  |vv|--)  (--|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|--|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)
+(--|--|OE|vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |--|--)  (--|^^|  |vv|=>)  (<=|--|  |--|=>)  (<=|^^|  |vv|--)
+(--|--|  |vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |vv|--)  (--|^^| O|--|--)
+(--|^^|  |--|=>)  (<=|^^|  |--|--)  (--|^^|  |--|--)  (--|^^| P|--|=>)  (<=|^^|  |--|=>)  (<=|--| S|--|--)
+Move, Pickup, or Shoot (M-P-S)?
+P
+You picked up but there was nothing to pick up
+Move, Pickup, or Shoot (M-P-S)?
+M N
+Enter a Direction:
+You are in a Cave and, The Cave seems normal
+The cave Holds:
+Connections Lead:
+NORTH
+SOUTH
+WEST
+(--|--|  |vv|=>)  (<=|--|  |--|=>)  (<=|--|  |--|=>)  (<=|--|  |--|--)  (--|--|  |vv|--)  (--|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|--|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)
+(--|--|OE|vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |--|--)  (--|^^|  |vv|=>)  (<=|--|  |--|=>)  (<=|^^|  |vv|--)
+(--|--|  |vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^| P|vv|--)  (--|--|  |vv|--)  (--|^^| O|--|--)
+(--|^^|  |--|=>)  (<=|^^|  |--|--)  (--|^^|  |--|--)  (--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|--| S|--|--)
+Move, Pickup, or Shoot (M-P-S)?
+M N
+Enter a Direction:
+You are in a Cave and, The Cave seems normal
+The cave Holds:
+Connections Lead:
+EAST
+NORTH
+SOUTH
+(--|--|  |vv|=>)  (<=|--|  |--|=>)  (<=|--|  |--|=>)  (<=|--|  |--|--)  (--|--|  |vv|--)  (--|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|--|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)
+(--|--|OE|vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |--|--)  (--|^^| P|vv|=>)  (<=|--|  |--|=>)  (<=|^^|  |vv|--)
+(--|--|  |vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |vv|--)  (--|^^| O|--|--)
+(--|^^|  |--|=>)  (<=|^^|  |--|--)  (--|^^|  |--|--)  (--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|--| S|--|--)
+Move, Pickup, or Shoot (M-P-S)?
+M N
+Enter a Direction:
+You are in a Cave and, The Cave seems normal
+The cave Holds:
+Diamonds: 1
+Connections Lead:
+NORTH
+SOUTH
+WEST
+(--|--|  |vv|=>)  (<=|--|  |--|=>)  (<=|--|  |--|=>)  (<=|--|  |--|--)  (--|--|  |vv|--)  (--|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|--|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)
+(--|--|OE|vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^| P|vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |--|--)  (--|^^|  |vv|=>)  (<=|--|  |--|=>)  (<=|^^|  |vv|--)
+(--|--|  |vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |vv|--)  (--|^^| O|--|--)
+(--|^^|  |--|=>)  (<=|^^|  |--|--)  (--|^^|  |--|--)  (--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|--| S|--|--)
+Move, Pickup, or Shoot (M-P-S)?
+P
+You found some items you now have:
+Diamonds: 1
+Rubies: 1
+CrookedArrow: 4
+Move, Pickup, or Shoot (M-P-S)?
+M W
+Enter a Direction:
+You are in a Tunnel and, The Tunnel seems normal
+The cave Holds:
+Connections Lead:
+EAST
+SOUTH
+(--|--|  |vv|=>)  (<=|--|  |--|=>)  (<=|--|  |--|=>)  (<=|--|  |--|--)  (--|--|  |vv|--)  (--|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|--|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)
+(--|--|OE|vv|--)  (--|^^|  |vv|--)  (--|--| P|vv|=>)  (<=|^^|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |--|--)  (--|^^|  |vv|=>)  (<=|--|  |--|=>)  (<=|^^|  |vv|--)
+(--|--|  |vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |vv|--)  (--|^^| O|--|--)
+(--|^^|  |--|=>)  (<=|^^|  |--|--)  (--|^^|  |--|--)  (--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|--| S|--|--)
+Move, Pickup, or Shoot (M-P-S)?
+M S
+Enter a Direction:
+You are in a Tunnel and, The Tunnel seems normal
+The cave Holds:
+Connections Lead:
+NORTH
+WEST
+(--|--|  |vv|=>)  (<=|--|  |--|=>)  (<=|--|  |--|=>)  (<=|--|  |--|--)  (--|--|  |vv|--)  (--|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|--|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)
+(--|--|OE|vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|^^|  |vv|=>)  (<=|^^| P|--|--)  (--|^^|  |vv|=>)  (<=|--|  |--|=>)  (<=|^^|  |vv|--)
+(--|--|  |vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |vv|--)  (--|^^| O|--|--)
+(--|^^|  |--|=>)  (<=|^^|  |--|--)  (--|^^|  |--|--)  (--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|--| S|--|--)
+Move, Pickup, or Shoot (M-P-S)?
+M W
+Enter a Direction:
+You are in a Cave and, There's a Slightly foul smell in the distance
+The cave Holds:
+CrookedArrow: 1
+Connections Lead:
+EAST
+NORTH
+SOUTH
+WEST
+(--|--|  |vv|=>)  (<=|--|  |--|=>)  (<=|--|  |--|=>)  (<=|--|  |--|--)  (--|--|  |vv|--)  (--|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|--|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)
+(--|--|OE|vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|^^| P|vv|=>)  (<=|^^|  |--|--)  (--|^^|  |vv|=>)  (<=|--|  |--|=>)  (<=|^^|  |vv|--)
+(--|--|  |vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |vv|--)  (--|^^| O|--|--)
+(--|^^|  |--|=>)  (<=|^^|  |--|--)  (--|^^|  |--|--)  (--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|--| S|--|--)
+Move, Pickup, or Shoot (M-P-S)?
+P
+You found some items you now have:
+Diamonds: 1
+Rubies: 1
+CrookedArrow: 5
+Move, Pickup, or Shoot (M-P-S)?
+S 1 W
+Enter a Distance 1-5:
+Enter a Direction:
+You shoot and arrow and hear a loud roar in the distance
+Move, Pickup, or Shoot (M-P-S)?
+S 1 W
+Enter a Distance 1-5:
+Enter a Direction:
+You shoot and arrow and hear a loud roar in the distance
+Move, Pickup, or Shoot (M-P-S)?
+M W
+Enter a Direction:
+You are in a Tunnel and, The Tunnel seems normal
+The cave Holds:
+Connections Lead:
+EAST
+NORTH
+(--|--|  |vv|=>)  (<=|--|  |--|=>)  (<=|--|  |--|=>)  (<=|--|  |--|--)  (--|--|  |vv|--)  (--|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|--|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)
+(--|--| E|vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|--)
+(--|^^| P|--|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |--|--)  (--|^^|  |vv|=>)  (<=|--|  |--|=>)  (<=|^^|  |vv|--)
+(--|--|  |vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |vv|--)  (--|^^| O|--|--)
+(--|^^|  |--|=>)  (<=|^^|  |--|--)  (--|^^|  |--|--)  (--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|--| S|--|--)
+Move, Pickup, or Shoot (M-P-S)?
+M N
+Enter a Direction:
+You are in a Cave and, The Cave seems normal
+You found the decaying corpse of a Otyugh that has been hit by two arrows
+The cave Holds:
+Diamonds: 1
+Connections Lead:
+SOUTH
+(--|--|  |vv|=>)  (<=|--|  |--|=>)  (<=|--|  |--|=>)  (<=|--|  |--|--)  (--|--|  |vv|--)  (--|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|--|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|=>)  (<=|^^|  |--|=>)  (<=|^^|  |--|--)
+(--|--|EP|vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |--|=>)  (<=|--|  |vv|--)
+(--|^^|  |--|=>)  (<=|^^|  |vv|=>)  (<=|^^|  |--|--)  (--|^^|  |vv|=>)  (<=|--|  |--|=>)  (<=|^^|  |vv|--)
+(--|--|  |vv|--)  (--|^^|  |vv|--)  (--|--|  |vv|=>)  (<=|^^|  |vv|--)  (--|--|  |vv|--)  (--|^^| O|--|--)
+(--|^^|  |--|=>)  (<=|^^|  |--|--)  (--|^^|  |--|--)  (--|^^|  |--|=>)  (<=|^^|  |--|=>)  (<=|--| S|--|--)
+Move, Pickup, or Shoot (M-P-S)?
+You Have reached the end of the Dungeon type Q or q to leave
+You Can still Explore but you run the risk of dying or not finding your way back
+q
+You have made it through the dungeon through your travels you collected:
+Diamonds: 1
+Rubies: 1
+CrookedArrow: 3
