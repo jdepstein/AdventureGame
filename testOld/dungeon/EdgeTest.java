@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * driver.Test for the edge class.
+ * Test for the edge class.
  */
 public class EdgeTest {
 
@@ -218,7 +218,7 @@ public class EdgeTest {
   }
 
   /**
-   * driver.Test that hasA and hasBoth works correctly.
+   * Test that hasA and hasBoth works correctly.
    */
   @Test
   public void hasBothAndHasA() {

@@ -12,7 +12,7 @@ import org.junit.Test;
 import java.util.HashMap;
 
 /**
- * driver.Test for the playerImpl Class.
+ * Test for the playerImpl Class.
  */
 public class PlayerTestOld {
   private Player myPlayer;
@@ -55,7 +55,7 @@ public class PlayerTestOld {
   }
 
   /**
-   * driver.Test the getters.
+   * Test the getters.
    */
   @Test
   public void getterTest() {
@@ -76,7 +76,7 @@ public class PlayerTestOld {
   }
 
   /**
-   * driver.Test picking up treasure and making sure you can't do it twice successfully.
+   * Test picking up treasure and making sure you can't do it twice successfully.
    */
   @Test
   public void pickupTreasure() {
@@ -144,7 +144,7 @@ public class PlayerTestOld {
 
 
   /**
-   * driver.Test shooting the arrow.
+   * Test shooting the arrow.
    */
   @Test
   public void shootArrow() {
@@ -164,7 +164,7 @@ public class PlayerTestOld {
   }
 
   /**
-   * driver.Test shooting the arrow.
+   * Test shooting the arrow.
    */
   @Test(expected = IllegalStateException.class)
   public void shootArrow2() {
@@ -225,7 +225,7 @@ public class PlayerTestOld {
   }
 
   /**
-   * driver.Test to make sure a player a has nothing happen to them when entering a cave with a dead
+   * Test to make sure a player a has nothing happen to them when entering a cave with a dead
    * monster.
    */
   @Test

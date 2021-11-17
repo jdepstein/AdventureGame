@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * driver.Test for the Location Class.
+ * Test for the Location Class.
  */
 public class LocationTest {
   private Location location;
@@ -78,7 +78,7 @@ public class LocationTest {
   }
 
   /**
-   * driver.Test the Equal method.
+   * Test the Equal method.
    */
   @Test
   public void equalsTest() {
@@ -101,7 +101,7 @@ public class LocationTest {
   }
 
   /**
-   * driver.Test the HashCode method.
+   * Test the HashCode method.
    */
   @Test
   public void hashTest() {
@@ -114,7 +114,7 @@ public class LocationTest {
   }
 
   /**
-   * driver.Test the ToString method.
+   * Test the ToString method.
    */
   @Test
   public void toStringTest() {

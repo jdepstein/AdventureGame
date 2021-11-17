@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 
 /**
- * driver.Test for the CaveImpl Class.
+ * Test for the CaveImpl Class.
  */
 public class CaveTestOld {
   private Cave myCave;
@@ -239,7 +239,7 @@ public class CaveTestOld {
   }
 
   /**
-   * driver.Test removing and seeing if you get right amounts and check to see if the cave updates
+   * Test removing and seeing if you get right amounts and check to see if the cave updates
    * correctly removing all the treasure.
    */
   @Test
@@ -322,7 +322,7 @@ public class CaveTestOld {
   }
 
   /**
-   * driver.Test all the new methods that were added in.
+   * Test all the new methods that were added in.
    */
   @Test
   public void newMethods() {
@@ -349,7 +349,7 @@ public class CaveTestOld {
   }
 
   /**
-   * driver.Test the null smell.
+   * Test the null smell.
    */
   @Test(expected = IllegalArgumentException.class)
     public void nullSmell() {
@@ -357,7 +357,7 @@ public class CaveTestOld {
   }
 
   /**
-   * driver.Test the null monster.
+   * Test the null monster.
    */
   @Test(expected = IllegalArgumentException.class)
   public void notTreasure() {
@@ -365,7 +365,7 @@ public class CaveTestOld {
   }
 
   /**
-   * driver.Test the null monster.
+   * Test the null monster.
    */
   @Test(expected = IllegalArgumentException.class)
   public void nullMonster() {

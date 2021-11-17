@@ -558,6 +558,7 @@ public class DungeonTest {
     assertFalse(dung.hasSolved());
   }
 
+
   /**
    * shoot a Monster using wrap.
    */
@@ -625,6 +626,26 @@ public class DungeonTest {
     dung.movePlayer(Direction.NORTH);
     assertFalse(dung.hasLost());
     assertTrue(dung.hasSolved());
+  }
+
+  /**
+   * OverShooting a Monster.
+   */
+  @Test
+  public void shoot7() {
+    Dungeon dung = dungeon(6, 6, 25, false, 33,
+            "jack", false, 2);
+    assertNotNull(dung.getCave(new Location(1, 0)).getMonster());
+    assertNull(dung.getCave(new Location(1, 0)).getDirections().get(Direction.NORTH));
+    dung.movePlayer(Direction.SOUTH);
+    dung.movePlayer(Direction.EAST);
+    assertEquals(new Location(1, 1),dung.getPlayerLocation());
+    assertNotNull(dung.getCave(new Location(1, 1)).getDirections().get(Direction.NORTH));
+    assertFalse(dung.shoot(2, Direction.NORTH));
+    assertFalse(dung.shoot(2, Direction.NORTH));
+    dung.movePlayer(Direction.NORTH);
+    assertTrue(dung.hasLost());
+    assertFalse(dung.hasSolved());
   }
 
   /**

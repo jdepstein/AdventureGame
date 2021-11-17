@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * driver.Test for the DungeonImpl Class.
+ * Test for the DungeonImpl Class.
  */
 public class DungeonTestOld {
   private Dungeon dungeonWrap;
@@ -345,72 +345,72 @@ public class DungeonTestOld {
    */
   @Test
   public void treasureHuntWrap() {
-      while (dungeonWrap.getPlayerLocation().getX() != 0) {
-        Location loc = new Location(dungeonWrap.getPlayerLocation().getX() - 1,
-                dungeonWrap.getPlayerLocation().getY());
-        if (loc.equals(dungeonWrap.getEnd())) {
-          dungeonWrap.shoot(1, Direction.WEST);
-          dungeonWrap.shoot(1, Direction.WEST);
-        }
-        dungeonWrap.movePlayer(Direction.WEST);
+    while (dungeonWrap.getPlayerLocation().getX() != 0) {
+      Location loc = new Location(dungeonWrap.getPlayerLocation().getX() - 1,
+              dungeonWrap.getPlayerLocation().getY());
+      if (loc.equals(dungeonWrap.getEnd())) {
+        dungeonWrap.shoot(1, Direction.WEST);
+        dungeonWrap.shoot(1, Direction.WEST);
       }
+      dungeonWrap.movePlayer(Direction.WEST);
+    }
 
-      while (dungeonWrap.getPlayerLocation().getY() != 0) {
-        Location loc = new Location(dungeonWrap.getPlayerLocation().getX(),
-                dungeonWrap.getPlayerLocation().getY() - 1);
-        if (loc.equals(dungeonWrap.getEnd())) {
-          dungeonWrap.shoot(1, Direction.NORTH);
-          dungeonWrap.shoot(1, Direction.NORTH);
-        }
-        dungeonWrap.movePlayer(Direction.NORTH);
+    while (dungeonWrap.getPlayerLocation().getY() != 0) {
+      Location loc = new Location(dungeonWrap.getPlayerLocation().getX(),
+              dungeonWrap.getPlayerLocation().getY() - 1);
+      if (loc.equals(dungeonWrap.getEnd())) {
+        dungeonWrap.shoot(1, Direction.NORTH);
+        dungeonWrap.shoot(1, Direction.NORTH);
       }
+      dungeonWrap.movePlayer(Direction.NORTH);
+    }
 
-      assertEquals(new Location(0, 0), dungeonWrap.getPlayerLocation());
+    assertEquals(new Location(0, 0), dungeonWrap.getPlayerLocation());
+    assertTrue(dungeonWrap.search());
+
+    String diamonds = dungeonWrap.getPlayerDescription().getPlayerItems().get(0);
+    String rubies = dungeonWrap.getPlayerDescription().getPlayerItems().get(1);
+    String sapphires = dungeonWrap.getPlayerDescription().getPlayerItems().get(2);
+    String diamondsPrev = diamonds;
+    String rubiesPrev = rubies;
+    String sapphiresPrev = sapphires;
+
+    Location loc = new Location(dungeonWrap.getPlayerLocation().getX() + 1,
+            dungeonWrap.getPlayerLocation().getY());
+    if (loc.getX() == dungeonWrap.getWidth()) {
+      loc = new Location(0,
+              dungeonWrap.getPlayerLocation().getY());
+    }
+    if (loc.equals(dungeonWrap.getEnd())) {
+      dungeonWrap.shoot(1, Direction.EAST);
+      dungeonWrap.shoot(1, Direction.EAST);
+    }
+    dungeonWrap.movePlayer(Direction.EAST);
+    while (dungeonWrap.getPlayerLocation().getX() != dungeonWrap.getWidth() - 1) {
       assertTrue(dungeonWrap.search());
 
-      String diamonds = dungeonWrap.getPlayerDescription().getPlayerItems().get(0);
-      String rubies = dungeonWrap.getPlayerDescription().getPlayerItems().get(1);
-      String sapphires = dungeonWrap.getPlayerDescription().getPlayerItems().get(2);
-      String diamondsPrev = diamonds;
-      String rubiesPrev = rubies;
-      String sapphiresPrev = sapphires;
+      diamonds = dungeonWrap.getPlayerDescription().getPlayerItems().get(0);
+      rubies = dungeonWrap.getPlayerDescription().getPlayerItems().get(1);
+      sapphires = dungeonWrap.getPlayerDescription().getPlayerItems().get(2);
+      assertFalse(diamonds.equals(diamondsPrev) && rubies.equals(rubiesPrev)
+              && sapphires.equals(sapphiresPrev));
 
-      Location loc = new Location(dungeonWrap.getPlayerLocation().getX() + 1,
+      diamondsPrev = diamonds;
+      rubiesPrev = rubies;
+      sapphiresPrev = sapphires;
+      assertFalse(dungeonWrap.search());
+      dungeonWrap.movePlayer(Direction.EAST);
+      loc = new Location(dungeonWrap.getPlayerLocation().getX() + 1,
               dungeonWrap.getPlayerLocation().getY());
-      if (loc.getX() == dungeonWrap.getWidth()) {
-        loc = new Location(0,
-                dungeonWrap.getPlayerLocation().getY());
-      }
       if (loc.equals(dungeonWrap.getEnd())) {
         dungeonWrap.shoot(1, Direction.EAST);
         dungeonWrap.shoot(1, Direction.EAST);
       }
-      dungeonWrap.movePlayer(Direction.EAST);
-      while (dungeonWrap.getPlayerLocation().getX() != dungeonWrap.getWidth() - 1) {
-        assertTrue(dungeonWrap.search());
-
-        diamonds = dungeonWrap.getPlayerDescription().getPlayerItems().get(0);
-        rubies = dungeonWrap.getPlayerDescription().getPlayerItems().get(1);
-        sapphires = dungeonWrap.getPlayerDescription().getPlayerItems().get(2);
-        assertFalse(diamonds.equals(diamondsPrev) && rubies.equals(rubiesPrev)
-                && sapphires.equals(sapphiresPrev));
-
-        diamondsPrev = diamonds;
-        rubiesPrev = rubies;
-        sapphiresPrev = sapphires;
-        assertFalse(dungeonWrap.search());
-        dungeonWrap.movePlayer(Direction.EAST);
-        loc = new Location(dungeonWrap.getPlayerLocation().getX() + 1,
-                dungeonWrap.getPlayerLocation().getY());
-        if (loc.equals(dungeonWrap.getEnd())) {
-          dungeonWrap.shoot(1, Direction.EAST);
-          dungeonWrap.shoot(1, Direction.EAST);
-        }
-      }
-      assertTrue(dungeonWrap.search());
-      assertFalse(dungeonWrap.search());
-
     }
+    assertTrue(dungeonWrap.search());
+    assertFalse(dungeonWrap.search());
+
+  }
 
   /**
    * Testing the description of the cave Wrapping.
@@ -881,7 +881,7 @@ public class DungeonTestOld {
   }
 
   /**
-   * driver.Test that arrows are added accordingly.
+   * Test that arrows are added accordingly.
    */
   @Test
   public void arrowTest1() {
@@ -899,7 +899,7 @@ public class DungeonTestOld {
 
 
   /**
-   * driver.Test that arrows are added accordingly.
+   * Test that arrows are added accordingly.
    */
   @Test
   public void arrowTest2() {
@@ -916,7 +916,7 @@ public class DungeonTestOld {
   }
 
   /**
-   * driver.Test that arrows are added accordingly.
+   * Test that arrows are added accordingly.
    */
   @Test
   public void arrowTest3() {
@@ -935,7 +935,7 @@ public class DungeonTestOld {
 
 
   /**
-   * driver.Test that arrows are added accordingly.
+   * Test that arrows are added accordingly.
    */
   @Test
   public void arrowTest4() {
@@ -953,7 +953,7 @@ public class DungeonTestOld {
   }
 
   /**
-   * driver.Test monster at the end.
+   * Test monster at the end.
    */
   @Test
   public void monsterEnd() {
@@ -967,7 +967,7 @@ public class DungeonTestOld {
   }
 
   /**
-   * driver.Test monster at the end.
+   * Test monster at the end.
    */
   @Test
   public void monsterTest() {
@@ -988,7 +988,7 @@ public class DungeonTestOld {
   }
 
   /**
-   * driver.Test monster at the end.
+   * Test monster at the end.
    */
   @Test
   public void smellTest() {
@@ -1061,7 +1061,7 @@ public class DungeonTestOld {
   }
 
   /**
-   * driver.Test to make sure a player dies correctly.
+   * Test to make sure a player dies correctly.
    */
   @Test
   public void dying() {

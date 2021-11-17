@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * driver.Test for the RandomPlacement Class.
+ * Test for the RandomPlacement Class.
  */
 public class RandomPlacementTest  {
   private RandomPlacement rand;
