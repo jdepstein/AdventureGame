@@ -6,7 +6,17 @@ package dungeon.enums;
  * light and pungent.
  */
 public enum Smell {
-  PUNGENT,
-  LIGHT,
-  NONE
+  PUNGENT("Smell2"),
+  LIGHT("Smell1"),
+  NONE("Smell0");
+
+  private String smellLevel;
+
+  Smell(String smellLevel) {
+    this.smellLevel = smellLevel;
+  }
+
+  public String getSmellLevel() {
+    return this.smellLevel;
+  }
 }
