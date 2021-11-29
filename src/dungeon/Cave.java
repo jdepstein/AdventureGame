@@ -4,7 +4,7 @@ import dungeon.enums.CaveObject;
 import dungeon.enums.Direction;
 import dungeon.enums.Smell;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A Cave is what makes up a Dungeon. Each cave can have 1-4 connections with the options of going
@@ -32,7 +32,7 @@ public interface Cave {
    * Gets a HashMap of the directions and the location they connect to.
    * @return The HashMap of Direction,Location of the caves connections and where they go to.
    */
-  HashMap<Direction, Location> getDirections();
+  Map<Direction, Location> getDirections();
 
   /**
    * Adds treasure to the given cave as long as it is a not a tunnel if it is it won't do anything
@@ -48,7 +48,7 @@ public interface Cave {
    * HasMap of each type and its count.
    * @return the HashMap of Treasure that was in the cave and their counts
    */
-  HashMap<CaveObject, Integer> removeItems();
+  Map<CaveObject, Integer> removeItems();
 
   /**
    * Gets the Location of the cave.
@@ -60,7 +60,7 @@ public interface Cave {
    * Gets the HashMap of treasure that is within the cave.
    * @return The Caves Treasure HashMap
    */
-  HashMap<CaveObject, Integer> getItems();
+  Map<CaveObject, Integer> getItems();
 
   /**
    * Gets a String representation of all the connections of the Cave.

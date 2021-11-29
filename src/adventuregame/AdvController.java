@@ -1,8 +1,8 @@
 package adventuregame;
 
-import adventuregame.AdvGameController;
 import dungeon.Cave;
 import dungeon.Dungeon;
+import dungeon.DungeonImpl;
 import dungeon.Location;
 import dungeon.enums.Direction;
 import view.Features;
@@ -16,7 +16,7 @@ import view.IView;
  * model that was taken in. The controller also keeps track of the last hit key.
  */
 public class AdvController implements Features, AdvGameController {
-  private final  Dungeon model;
+  private Dungeon model;
   private IView view;
   private char lastHit;
 
@@ -36,7 +36,7 @@ public class AdvController implements Features, AdvGameController {
 
   /**
    * Sets up the view for the controller but also sets up the connection between the view and
-   * the controller by setting the features for the view with this since its an implentaion of
+   * the controller by setting the features for the view with this since it's an implementation of
    * features.
    * @param v The view.
    * @throws IllegalArgumentException If the view is null.
@@ -225,7 +225,7 @@ public class AdvController implements Features, AdvGameController {
           }
         }
       }
-      return "Successfully Moved" + direction;
+      return "Successfully Moved " + direction;
     }
     else {
       return "Invalid Move";
@@ -234,13 +234,32 @@ public class AdvController implements Features, AdvGameController {
   }
 
   @Override
+  public String restart() {
+    this.model.reset();
+    return "Dungeon Rest";
+  }
+
+  @Override
+  public String createNewGame(int w, int h, boolean wrap, int i, int p, int m) {
+    try {
+      this.model = new DungeonImpl(w,h, i, wrap, p,
+              this.model.getPlayerDescription().getName(),true, m);
+
+    }
+    catch (IllegalArgumentException e) {
+      return e.getMessage();
+    }
+    this.view.resetModel(this.model.makeReadOnly());
+    return "New Dungeon Created";
+  }
+
+
+  @Override
   public void playGame(Dungeon d) {
     view.makeVisible();
     view.refresh();
-    while (!d.hasSolved() && !d.hasLost()) {
+    while (true) {
       view.refresh();
     }
-    view.refresh();
-
   }
 }

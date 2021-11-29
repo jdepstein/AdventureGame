@@ -31,12 +31,16 @@ public class DungeonImpl implements Dungeon {
   private Cave[][] caves;
   private final int xDim;
   private final int yDim;
-  private final Player player;
+  private Player player;
   private Location end;
   private Location start;
   private final int interConnectivity;
   private boolean escaped;
   private List<Location> visits;
+  private final boolean wrapping;
+  private final int monsterCount;
+  private final int treasurePercent;
+  private Cave[][] initialState;
 
   private static final int MIN_WH = 6;
 
@@ -126,6 +130,9 @@ public class DungeonImpl implements Dungeon {
     this.yDim = height;
     this.interConnectivity = interConnectivity;
     this.visits = new ArrayList<>();
+    this.wrapping = wrapping;
+    this.monsterCount = monsterCount;
+    this.treasurePercent = itemPercent;
 
     List<Edge> kruskalStart = this.getUniqueEdges(wrapping);
     this.kruskal(kruskalStart);
@@ -165,7 +172,9 @@ public class DungeonImpl implements Dungeon {
     this.addArrows(itemPercent);
     this.addMonster(notTunnels, monsterCount, random);
     this.visits.add(this.start);
+    this.initialState = this.deepCopy();
   }
+
 
   @Override
   public int getWidth() {
@@ -175,6 +184,26 @@ public class DungeonImpl implements Dungeon {
   @Override
   public int getHeight() {
     return this.yDim;
+  }
+
+  @Override
+  public int getInterconnectivity() {
+    return this.interConnectivity;
+  }
+
+  @Override
+  public int getItemPercent() {
+    return this.treasurePercent;
+  }
+
+  @Override
+  public int getMonsterCount() {
+    return this.monsterCount;
+  }
+
+  @Override
+  public boolean getWrapping() {
+    return this.wrapping;
   }
 
   @Override
@@ -191,11 +220,6 @@ public class DungeonImpl implements Dungeon {
   @Override
   public ReadOnlyModel makeReadOnly() {
     return new ReadOnlyModel(this, this.player);
-  }
-
-  @Override
-  public int getConnectivity() {
-    return this.interConnectivity;
   }
 
   @Override
@@ -366,6 +390,16 @@ public class DungeonImpl implements Dungeon {
   @Override
   public List<Location> getVisits() {
     return this.visits;
+  }
+
+  @Override
+  public void reset() {
+    this.caves = this.initialState;
+    this.initialState = this.deepCopy();
+    this.player = new PlayerImpl(this.player.getName(),
+            this.caves[this.start.getY()][this.start.getX()]);
+    this.visits = new ArrayList<>();
+    this.visits.add(start);
   }
 
 
@@ -741,6 +775,16 @@ public class DungeonImpl implements Dungeon {
     this.start = start;
     this.end = end;
     return true;
+  }
+
+  private Cave[][] deepCopy() {
+    Cave[][] hold = new Cave[this.yDim][this.xDim];
+    for (int y = 0; y < this.yDim; y++) {
+      for (int x = 0; x < this.xDim; x++) {
+        hold[y][x] = this.getCave(new Location(x, y));
+      }
+    }
+    return hold;
   }
 
 }

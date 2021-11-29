@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -72,7 +73,7 @@ public class Description {
    */
   public List<String> getCaveItems() {
     List<String> items = new ArrayList<>();
-    HashMap<CaveObject, Integer> hashTreasure = this.cave.getItems();
+    Map<CaveObject, Integer> hashTreasure = this.cave.getItems();
     items.add(String.format("Diamonds: %d", hashTreasure.get(CaveObject.DIAMOND)));
     items.add(String.format("Rubies: %d", hashTreasure.get(CaveObject.RUBY)));
     items.add(String.format("Sapphires: %d", hashTreasure.get(CaveObject.SAPPHIRE)));
@@ -86,7 +87,7 @@ public class Description {
    * @return The Caves current Directions.
    */
   public List<String> getCaveDirections() {
-    HashMap<Direction, Location> dir = this.cave.getDirections();
+    Map<Direction, Location> dir = this.cave.getDirections();
     List<String> myDirections = new ArrayList<>();
     for (Direction cur : dir.keySet()) {
       myDirections.add(cur.toString());

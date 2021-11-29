@@ -13,8 +13,7 @@ import dungeon.enums.Smell;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-
+import java.util.Map;
 
 /**
  * Test for the CaveImpl Class.
@@ -48,7 +47,7 @@ public class CaveTestOld {
   @Test
   public void gettersTest() {
 
-    HashMap<Direction, Location> dir = myCave.getDirections();
+    Map<Direction, Location> dir = myCave.getDirections();
     assertNull("A Cave is initialized with no connections in any direction",
             dir.get(Direction.NORTH));
 
@@ -66,7 +65,7 @@ public class CaveTestOld {
     assertEquals(0, myCave.getLocation().getX());
     assertEquals(0, myCave.getLocation().getY());
 
-    HashMap<CaveObject, Integer> tres = myCave.getItems();
+    Map<CaveObject, Integer> tres = myCave.getItems();
     assertEquals("A Cave is initialized with 0 for all treasure types", 0,
             tres.get(CaveObject.DIAMOND).intValue());
     assertEquals("A Cave is initialized with 0 for all treasure types", 0,
@@ -127,7 +126,7 @@ public class CaveTestOld {
     myCave.addConnection(Direction.SOUTH, new Location(0,1));
     myCave.addConnection(Direction.WEST, new Location(1, 2));
 
-    HashMap<Direction, Location> dir = myCave.getDirections();
+    Map<Direction, Location> dir = myCave.getDirections();
     assertEquals(new Location(1,1), dir.get(Direction.NORTH));
     assertEquals(new Location(1,0), dir.get(Direction.EAST));
     assertEquals(new Location(0,1), dir.get(Direction.SOUTH));
@@ -149,11 +148,11 @@ public class CaveTestOld {
   @Test
   public void addTreasureTest() {
     myCave.addConnection(Direction.NORTH,new Location(0,1));
-    HashMap<CaveObject, Integer> tresBefore = myCave.getItems();
+    Map<CaveObject, Integer> tresBefore = myCave.getItems();
     assertTrue(myCave.addTreasure(CaveObject.DIAMOND));
     assertTrue(myCave.addTreasure(CaveObject.SAPPHIRE));
     assertTrue(myCave.addTreasure(CaveObject.DIAMOND));
-    HashMap<CaveObject, Integer> tresAfter = myCave.getItems();
+    Map<CaveObject, Integer> tresAfter = myCave.getItems();
     assertNotEquals(tresBefore.get(CaveObject.DIAMOND), tresAfter.get(CaveObject.DIAMOND));
     assertNotEquals(tresBefore.get(CaveObject.SAPPHIRE), tresAfter.get(CaveObject.SAPPHIRE));
     assertEquals(tresBefore.get(CaveObject.RUBY), tresAfter.get(CaveObject.RUBY));
@@ -168,11 +167,11 @@ public class CaveTestOld {
   public void addTreasureTest2() {
     myCave.addConnection(Direction.NORTH,new Location(0,1));
     myCave.addConnection(Direction.SOUTH,new Location(2,1));
-    HashMap<CaveObject, Integer> tresBefore = myCave.getItems();
+    Map<CaveObject, Integer> tresBefore = myCave.getItems();
     assertFalse(myCave.addTreasure(CaveObject.DIAMOND));
     assertFalse(myCave.addTreasure(CaveObject.SAPPHIRE));
     assertFalse(myCave.addTreasure(CaveObject.DIAMOND));
-    HashMap<CaveObject, Integer> tresAfter = myCave.getItems();
+    Map<CaveObject, Integer> tresAfter = myCave.getItems();
     assertEquals(tresBefore.get(CaveObject.DIAMOND), tresAfter.get(CaveObject.DIAMOND));
     assertEquals(tresBefore.get(CaveObject.SAPPHIRE), tresAfter.get(CaveObject.SAPPHIRE));
     assertEquals(tresBefore.get(CaveObject.RUBY), tresAfter.get(CaveObject.RUBY));
@@ -188,11 +187,11 @@ public class CaveTestOld {
     myCave.addConnection(Direction.NORTH,new Location(0,1));
     myCave.addConnection(Direction.SOUTH,new Location(3,1));
     myCave.addConnection(Direction.EAST,new Location(4,1));
-    HashMap<CaveObject, Integer> tresBefore = myCave.getItems();
+    Map<CaveObject, Integer> tresBefore = myCave.getItems();
     assertTrue(myCave.addTreasure(CaveObject.DIAMOND));
     assertTrue(myCave.addTreasure(CaveObject.SAPPHIRE));
     assertTrue(myCave.addTreasure(CaveObject.DIAMOND));
-    HashMap<CaveObject, Integer> tresAfter = myCave.getItems();
+    Map<CaveObject, Integer> tresAfter = myCave.getItems();
     assertNotEquals(tresBefore.get(CaveObject.DIAMOND), tresAfter.get(CaveObject.DIAMOND));
     assertNotEquals(tresBefore.get(CaveObject.SAPPHIRE), tresAfter.get(CaveObject.SAPPHIRE));
     assertEquals(tresBefore.get(CaveObject.RUBY), tresAfter.get(CaveObject.RUBY));
@@ -209,11 +208,11 @@ public class CaveTestOld {
     myCave.addConnection(Direction.SOUTH,new Location(5,1));
     myCave.addConnection(Direction.EAST,new Location(3,1));
     myCave.addConnection(Direction.WEST,new Location(2,1));
-    HashMap<CaveObject, Integer> tresBefore = myCave.getItems();
+    Map<CaveObject, Integer> tresBefore = myCave.getItems();
     assertTrue(myCave.addTreasure(CaveObject.DIAMOND));
     assertTrue(myCave.addTreasure(CaveObject.SAPPHIRE));
     assertTrue(myCave.addTreasure(CaveObject.DIAMOND));
-    HashMap<CaveObject, Integer> tresAfter = myCave.getItems();
+    Map<CaveObject, Integer> tresAfter = myCave.getItems();
     assertNotEquals(tresBefore.get(CaveObject.DIAMOND), tresAfter.get(CaveObject.DIAMOND));
     assertNotEquals(tresBefore.get(CaveObject.SAPPHIRE), tresAfter.get(CaveObject.SAPPHIRE));
     assertEquals(tresBefore.get(CaveObject.RUBY), tresAfter.get(CaveObject.RUBY));
@@ -244,7 +243,7 @@ public class CaveTestOld {
    */
   @Test
   public void removeItemsTest() {
-    HashMap<CaveObject, Integer> removeNothing = myCave.removeItems();
+    Map<CaveObject, Integer> removeNothing = myCave.removeItems();
     myCave.addConnection(Direction.NORTH,new Location(0,1));
     assertEquals(0, removeNothing.get(CaveObject.DIAMOND).intValue());
     assertEquals( 0, removeNothing.get(CaveObject.RUBY).intValue());
@@ -256,13 +255,13 @@ public class CaveTestOld {
     myCave.addTreasure(CaveObject.DIAMOND);
     myCave.addTreasure(CaveObject.RUBY);
     myCave.addArrow();
-    HashMap<CaveObject, Integer> remove = myCave.removeItems();
+    Map<CaveObject, Integer> remove = myCave.removeItems();
     assertEquals(2, remove.get(CaveObject.DIAMOND).intValue());
     assertEquals( 1, remove.get(CaveObject.RUBY).intValue());
     assertEquals( 1, remove.get(CaveObject.SAPPHIRE).intValue());
     assertEquals( 1, remove.get(CaveObject.CROOKEDARROW).intValue());
 
-    HashMap<CaveObject, Integer> tres = myCave.getItems();
+    Map<CaveObject, Integer> tres = myCave.getItems();
     assertEquals(0, tres.get(CaveObject.DIAMOND).intValue());
     assertEquals( 0, tres.get(CaveObject.RUBY).intValue());
     assertEquals( 0, tres.get(CaveObject.SAPPHIRE).intValue());
@@ -280,7 +279,7 @@ public class CaveTestOld {
     myCave.addTreasure(CaveObject.DIAMOND);
     myCave.addTreasure(CaveObject.RUBY);
 
-    HashMap<CaveObject, Integer> tres = myCave.removeItems();
+    Map<CaveObject, Integer> tres = myCave.removeItems();
     assertEquals(0, tres.get(CaveObject.DIAMOND).intValue());
     assertEquals( 0, tres.get(CaveObject.RUBY).intValue());
     assertEquals( 0, tres.get(CaveObject.SAPPHIRE).intValue());

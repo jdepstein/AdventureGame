@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Test for the playerImpl Class.
@@ -61,7 +62,7 @@ public class PlayerTestOld {
   public void getterTest() {
     assertEquals("John", myPlayer.getName());
     assertEquals(new Location(0,1), myPlayer.getLocation());
-    HashMap<Direction, Location> moves = myPlayer.getMoves();
+    Map<Direction, Location> moves = myPlayer.getMoves();
     assertEquals(new Location(1,1), moves.get(Direction.NORTH));
     assertEquals(new Location(2,1), moves.get(Direction.SOUTH));
     assertEquals(new Location(3,2), moves.get(Direction.EAST));
@@ -128,7 +129,7 @@ public class PlayerTestOld {
     assertEquals( 0, tres2.get(CaveObject.SAPPHIRE).intValue());
     assertEquals( 3, tres2.get(CaveObject.CROOKEDARROW).intValue());
 
-    HashMap<Direction, Location> moves = myPlayer.getMoves();
+    Map<Direction, Location> moves = myPlayer.getMoves();
     assertEquals(new Location(0,5), moves.get(Direction.NORTH));
 
   }

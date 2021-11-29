@@ -4,16 +4,24 @@ import dungeon.ReadOnlyModel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
 
@@ -24,9 +32,21 @@ import javax.swing.ScrollPaneConstants;
  * through the map if it is too large for the window and a menu to view info about the dungeon
  * itself. As well as the ability to restart the game.
  */
-public class DungeonSwingView extends JFrame implements IView {
+public class DungeonSwingView extends JFrame implements IView, ActionListener {
   private final JLabel updates;
-  private final JLabel[][] labels;
+  private JLabel[][] labels;
+  private final  List<JTextField> popUpItems;
+  private final List<JButton> buttons;
+  private final List<JMenuItem> menuItems;
+  private final JPopupMenu popUp;
+  private ReadOnlyModel model;
+  private GamePanel dungeonPanel;
+  private DescriptionPanel descriptionPanel;
+  private JScrollPane scroll;
+  private List<JButton> endGame;
+  private boolean gameEnd;
+  private JPopupMenu endPanel;
+
 
   /**
    * Builds the Dungeon view with a Readonly model of the dungeon. It sets the scrollbar and the
@@ -39,36 +59,57 @@ public class DungeonSwingView extends JFrame implements IView {
     if (board == null) {
       throw new IllegalArgumentException("Null Passed");
     }
+    this.model = board;
     this.setSize(500, 500);
     this.setMinimumSize(new Dimension(500, 500));
     this.setMinimumSize(new Dimension(500, 500));
-
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
 
-    GamePanel dungeonPanel = new GamePanel(board, this.generateImageMap());
-    DescriptionPanel description = new DescriptionPanel(board, this.generateImageMap());
-    this.labels = dungeonPanel.getLabels();
+    this.updates = new JLabel();
+    this.updates.setText("Nothing has been done yet");
+    this.add(this.updates, BorderLayout.NORTH);
 
-    this.add(description, BorderLayout.SOUTH);
-    updates = new JLabel();
-    updates.setText("Nothing has been done yet");
-    this.add(updates, BorderLayout.NORTH);
+    this.setUp();
+    GameMenu bar = new GameMenu(this.model);
+    this.setJMenuBar(bar.getBar());
+    this.popUpItems = bar.getTextFields();
+    this.popUp = bar.getPopUp();
+    this.menuItems = bar.getMenu();
+    this.buttons = bar.getButtons();
+    menuItems.get(0).addActionListener(this);
+    menuItems.get(2).addActionListener(this);
+    buttons.get(1).addActionListener(this);
+    for (JTextField text: this.popUpItems) {
+      text.addActionListener(this);
+    }
 
-    JScrollPane scroll = new JScrollPane();
-    scroll.setViewportView(dungeonPanel);
-    scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-    scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-    this.add(scroll);
-    JMenuBar bar = new GameMenu().getBar();
-    this.setJMenuBar(bar);
     this.pack();
-    this.setVisible(true);
+  }
+
+  @Override
+  public void resetModel(ReadOnlyModel board) {
+    if (board == null) {
+      throw new IllegalArgumentException("Null Passed");
+    }
+    this.model = board;
+    this.remove(scroll);
+    this.remove(dungeonPanel);
+    this.remove(descriptionPanel);
+    this.endPanel.setVisible(false);
+    this.gameEnd = false;
+    this.setUp();
   }
 
   @Override
   public void refresh() {
     this.repaint();
+    if (this.model.hasLost() || this.model.hasSolved()) {
+      if (!this.gameEnd) {
+        this.endPanel.setVisible(true);
+        this.gameEnd = true;
+      }
+    }
   }
 
   @Override
@@ -144,11 +185,10 @@ public class DungeonSwingView extends JFrame implements IView {
     MouseListener m = new MouseListener() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        System.out.println(e.getComponent());
         for (int y = 0; y < caves.length; y++) {
           for (int x = 0; x < caves[0].length  ; x++) {
             if (e.getComponent().getName().equals(String.format("(%d, %d)", x, y))) {
-              f.clickMove(x,y);
+              t.setText(f.clickMove(x,y));
               y = caves.length;
               break;
             }
@@ -183,8 +223,75 @@ public class DungeonSwingView extends JFrame implements IView {
         cur.addMouseListener(m);
       }
     }
+    ActionListener action = e -> {
+      if (e.getActionCommand().equals("Restart")) {
+        t.setText(f.restart());
+        this.endPanel.setVisible(false);
+        this.gameEnd = false;
+      }
+      if (e.getActionCommand().equals("Create")) {
+        try {
+          this.checkValidGameValues();
+          t.setText(f.createNewGame(Integer.parseInt(this.popUpItems.get(0).getText()),
+                  Integer.parseInt(this.popUpItems.get(1).getText()),
+                  Boolean.parseBoolean(this.popUpItems.get(2).getText()),
+                  Integer.parseInt(this.popUpItems.get(3).getText()),
+                  Integer.parseInt(this.popUpItems.get(4).getText()),
+                  Integer.parseInt(this.popUpItems.get(5).getText())));
+
+        } catch (IllegalArgumentException ex) {
+          t.setText(ex.getMessage());
+        }
+        this.popUp.setVisible(false);
+      }
+    };
+    this.endGame.get(1).addActionListener(action);
+    this.buttons.get(0).addActionListener(action);
+    this.menuItems.get(1).addActionListener(action);
+
   }
 
+  private void checkValidGameValues() {
+    int counter = 0;
+    try {
+      for (JTextField text: this.popUpItems) {
+        if (counter == 2) {
+          if (!text.getText().equals("false") && !text.getText().equals("true")) {
+            throw new NumberFormatException();
+          }
+        }
+        else {
+          Integer.valueOf(text.getText());
+        }
+        counter++;
+      }
+    }  catch (NumberFormatException e) {
+      if (counter == 2) {
+        this.updates.setText(String.format(
+                "Type mismatch passed for %s expected Boolean but got %s",
+                this.popUpItems.get(counter).getName(), this.popUpItems.get(counter).getText()));
+      }
+      else {
+        this.updates.setText(String.format(
+                "Type mismatch passed for %s expected int value but got %s",
+                this.popUpItems.get(counter).getName(), this.popUpItems.get(counter).getText()));
+      }
+    }
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    if (e.getActionCommand().equals("New Game")) {
+      this.popUp.setVisible(true);
+    }
+    if (e.getActionCommand().equals("Quit")) {
+      System.exit(0);
+    }
+
+    if (e.getActionCommand().equals("Exit")) {
+      popUp.setVisible(false);
+    }
+  }
 
   private Map<String, String> generateImageMap() {
     Map<String, String> imageMap = new HashMap<>();
@@ -215,5 +322,40 @@ public class DungeonSwingView extends JFrame implements IView {
     imageMap.put("arrow","res/dungeon-images-bw/arrow-black.png");
     return imageMap;
   }
+
+  private void setUp() {
+    this.dungeonPanel = new GamePanel(this.model, this.generateImageMap());
+    this.descriptionPanel = new DescriptionPanel(this.model, this.generateImageMap());
+    this.labels = dungeonPanel.getLabels();
+
+    this.add(this.descriptionPanel, BorderLayout.SOUTH);
+
+    this.scroll = new JScrollPane();
+    this.scroll.setViewportView(this.dungeonPanel);
+    this.scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    this.scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    this.add(this.scroll,BorderLayout.CENTER);
+
+    this.endGame = new ArrayList<>();
+    JButton quit = new JButton();
+    quit.setText("Quit");
+    quit.addActionListener(this);
+    this.endGame.add(quit);
+    JButton restart = new JButton();
+    restart.setText("Restart");
+    this.endGame.add(restart);
+    JButton newGame = new JButton();
+    newGame.setText("New Game");
+    newGame.addActionListener(this);
+    this.gameEnd = false;
+    this.endPanel = new JPopupMenu();
+    this.endPanel.setLayout(new FlowLayout());
+    this.endPanel.add(quit);
+    this.endPanel.add(restart);
+    this.endPanel.add(newGame);
+    this.endPanel.setLocation(300,300);
+  }
+
+
 }
 

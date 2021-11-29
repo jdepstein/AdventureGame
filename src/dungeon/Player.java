@@ -4,6 +4,7 @@ import dungeon.enums.CaveObject;
 import dungeon.enums.Direction;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A player is the explorer of the Dungeons a player they will start somewhere in the Dungeon and
@@ -40,7 +41,7 @@ interface Player {
    * they end up at.
    * @return A HashMap of Direction Enum and Locations
    */
-  HashMap<Direction, Location> getMoves();
+  Map<Direction, Location> getMoves();
 
 
   /**

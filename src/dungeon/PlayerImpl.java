@@ -4,6 +4,7 @@ import dungeon.enums.CaveObject;
 import dungeon.enums.Direction;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -102,7 +103,7 @@ class PlayerImpl implements Player {
   }
 
   @Override
-  public HashMap<Direction, Location> getMoves() {
+  public Map<Direction, Location> getMoves() {
     return this.cave.getDirections();
   }
 
@@ -115,7 +116,7 @@ class PlayerImpl implements Player {
     }
     int count;
 
-    HashMap<CaveObject, Integer> items = this.cave.removeItems();
+    Map<CaveObject, Integer> items = this.cave.removeItems();
 
 
     int diamond = items.get(CaveObject.DIAMOND);

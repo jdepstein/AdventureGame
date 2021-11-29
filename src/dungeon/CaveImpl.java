@@ -5,6 +5,7 @@ import dungeon.enums.Direction;
 import dungeon.enums.Smell;
 
 import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -77,7 +78,7 @@ public class CaveImpl implements Cave {
   }
 
   @Override
-  public HashMap<Direction, Location> getDirections() {
+  public Map<Direction, Location> getDirections() {
     return new HashMap<>(this.connections);
   }
 
@@ -101,13 +102,13 @@ public class CaveImpl implements Cave {
   }
 
   @Override
-  public HashMap<CaveObject, Integer> removeItems() {
+  public Map<CaveObject, Integer> removeItems() {
     HashMap<CaveObject, Integer> hold = new HashMap<>();
     hold.put(CaveObject.DIAMOND, 0);
     hold.put(CaveObject.RUBY, 0);
     hold.put(CaveObject.SAPPHIRE, 0);
     hold.put(CaveObject.CROOKEDARROW, 0);
-    HashMap<CaveObject, Integer> temp = this.getItems();
+    HashMap<CaveObject, Integer> temp = (HashMap<CaveObject, Integer>) this.getItems();
     this.contents = hold;
     return temp;
   }
@@ -119,7 +120,7 @@ public class CaveImpl implements Cave {
   }
 
   @Override
-  public HashMap<CaveObject, Integer> getItems() {
+  public Map<CaveObject, Integer> getItems() {
     return new HashMap<>(this.contents);
   }
 

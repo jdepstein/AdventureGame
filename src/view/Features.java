@@ -86,4 +86,22 @@ public interface Features {
    * @return The String message tied to the action carried out
    */
   String clickMove(int x, int y);
+
+  /**
+   * Restarts the game from its dungeon state.
+   * @return the string telling that the dungeon was reset
+   */
+  String restart();
+
+  /**
+   * Sets up the game with a new dungeon with the given values for the requirements of the dungeon.
+   * @param w the Width
+   * @param h  the height
+   * @param wrap wrapping or not
+   * @param i the interconnectivity
+   * @param p the item percent
+   * @param m the number of monsters
+   * @return the string telling us if it was built correctly or not.
+   */
+  String createNewGame(int w, int h, boolean wrap, int i, int p, int m);
 }

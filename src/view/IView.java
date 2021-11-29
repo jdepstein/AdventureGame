@@ -1,11 +1,20 @@
 package view;
 
+import dungeon.ReadOnlyModel;
+
 /**
  * The View interface is very simple and is just for general methods of making the actual window
  * visible refreshing the window. As well as setting the features for up so the action listeners
  * work properly.
  */
 public interface IView {
+
+
+  /**
+   * Rests the model and view to its new readOnly model that was passed in.
+   * @param board the new mode we are looking at.
+   */
+  void resetModel(ReadOnlyModel board);
 
   /**
    * Make the view visible. This is usually called

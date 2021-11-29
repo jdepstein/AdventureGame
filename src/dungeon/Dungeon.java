@@ -34,6 +34,30 @@ public interface Dungeon {
   int getHeight();
 
   /**
+   * Gets the interconnectivity value of the dungeon.
+   * @return the interconnectivity
+   */
+  int getInterconnectivity();
+
+  /**
+   * Gets the integer value 0-100 of the item percentage.
+   * @return the item percentage
+   */
+  int getItemPercent();
+
+  /**
+   * Gets the number of Monster within the dungeon at the start of the game.
+   * @return the number of monster at the start of the game.
+   */
+  int getMonsterCount();
+
+  /**
+   * Gets the boolean weather or not the dungeon is wrapping.
+   * @return the boolean if the dungeon is wrapping
+   */
+  boolean getWrapping();
+
+  /**
    * Gets the current Location of the player within the Dungeon.
    * @return The players location
    */
@@ -52,11 +76,6 @@ public interface Dungeon {
    */
   ReadOnlyModel makeReadOnly();
 
-  /**
-   * Gets the interconnectivity values of the given dungeon.
-   * @return The interconnectivity of the dungeon.
-   */
-  int getConnectivity();
 
   /**
    * Checks to see if the players' location matches the end location.
@@ -134,4 +153,11 @@ public interface Dungeon {
    * @return The List of Visited Location in the dungeon.
    */
   List<Location> getVisits();
+
+
+  /**
+   * Resets the dungeon to its starting state and resets all the caves and monsters to their
+   * original state.
+   */
+  void reset();
 }

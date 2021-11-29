@@ -11,7 +11,7 @@ import dungeon.enums.Smell;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -89,7 +89,7 @@ public class CaveTest {
    */
   @Test
   public void removeItemsTest() {
-    HashMap<CaveObject, Integer> removeNothing = myCave.removeItems();
+    Map<CaveObject, Integer> removeNothing = myCave.removeItems();
     myCave.addConnection(Direction.NORTH, new Location(0 ,  1));
     assertEquals(0, removeNothing.get(CaveObject.DIAMOND).intValue());
     assertEquals(0, removeNothing.get(CaveObject.RUBY).intValue());
@@ -101,13 +101,13 @@ public class CaveTest {
     myCave.addTreasure(CaveObject.DIAMOND);
     myCave.addTreasure(CaveObject.RUBY);
     myCave.addArrow();
-    HashMap<CaveObject, Integer> remove = myCave.removeItems();
+    Map<CaveObject, Integer> remove = myCave.removeItems();
     assertEquals(2, remove.get(CaveObject.DIAMOND).intValue());
     assertEquals(1, remove.get(CaveObject.RUBY).intValue());
     assertEquals(1, remove.get(CaveObject.SAPPHIRE).intValue());
     assertEquals(1, remove.get(CaveObject.CROOKEDARROW).intValue());
 
-    HashMap<CaveObject, Integer> tres = myCave.getItems();
+    Map<CaveObject, Integer> tres = myCave.getItems();
     assertEquals(0, tres.get(CaveObject.DIAMOND).intValue());
     assertEquals(0, tres.get(CaveObject.RUBY).intValue());
     assertEquals(0, tres.get(CaveObject.SAPPHIRE).intValue());

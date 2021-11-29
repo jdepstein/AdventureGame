@@ -138,4 +138,53 @@ public class ReadOnlyModel {
     return d.getCave(new Location(x, y)).getCon();
   }
 
+
+  /**
+   * Gets the interconnectivity value of the dungeon.
+   * @return the interconnectivity
+   */
+  public int getInterconnectivity() {
+    return d.getInterconnectivity();
+  }
+
+  /**
+   * Gets the integer value 0-100 of the item percentage.
+   * @return the item percentage
+   */
+  public int getItemPercent() {
+    return d.getItemPercent();
+  }
+
+  /**
+   * Gets the number of Monster within the dungeon at the start of the game.
+   * @return the number of monster at the start of the game.
+   */
+  public int getMonsterCount() {
+    return d.getMonsterCount();
+  }
+
+  /**
+   * Gets the boolean weather or not the dungeon is wrapping.
+   * @return the boolean if the dungeon is wrapping
+   */
+  public boolean getWrapping() {
+    return d.getWrapping();
+  }
+
+  /**
+   * Tells the user if the player is dead or not.
+   * @return the boolean value telling if the player is dead.
+   */
+  public boolean hasLost() {
+    return d.hasLost();
+  }
+
+  /**
+   * Checks to see if the players' location matches the end location.
+   * @return a boolean weather or not the player has made it to the end.
+   */
+  public boolean hasSolved() {
+    return d.hasSolved();
+  }
+
 }
