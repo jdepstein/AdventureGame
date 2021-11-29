@@ -2,6 +2,9 @@ package dungeon;
 
 import dungeon.enums.Direction;
 
+import java.util.List;
+
+
 /**
  * A Dungeon is a collection of interconnecting caves filled with treasure. Also, a player to
  * explore the Dungeon. Each Dungeon will be made a grid of Caves and making sure that there is
@@ -41,6 +44,13 @@ public interface Dungeon {
    * @return the PlayerDescription object of the player.
    */
   Description getPlayerDescription();
+
+
+  /**
+   * Makes a readOnly Version of the current Dungeon Model.
+   * @return The Readonly version of the dungeon model
+   */
+  ReadOnlyModel makeReadOnly();
 
   /**
    * Gets the interconnectivity values of the given dungeon.
@@ -117,4 +127,11 @@ public interface Dungeon {
    * @return the boolean value telling if the player is dead.
    */
   boolean hasLost();
+
+
+  /**
+   * Gets the visited location already in the dungeon.
+   * @return The List of Visited Location in the dungeon.
+   */
+  List<Location> getVisits();
 }

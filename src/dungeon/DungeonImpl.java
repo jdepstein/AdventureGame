@@ -36,6 +36,7 @@ public class DungeonImpl implements Dungeon {
   private Location start;
   private final int interConnectivity;
   private boolean escaped;
+  private List<Location> visits;
 
   private static final int MIN_WH = 6;
 
@@ -124,6 +125,7 @@ public class DungeonImpl implements Dungeon {
     this.xDim = width;
     this.yDim = height;
     this.interConnectivity = interConnectivity;
+    this.visits = new ArrayList<>();
 
     List<Edge> kruskalStart = this.getUniqueEdges(wrapping);
     this.kruskal(kruskalStart);
@@ -162,9 +164,8 @@ public class DungeonImpl implements Dungeon {
     this.addTreasure(notTunnels.size(), itemPercent);
     this.addArrows(itemPercent);
     this.addMonster(notTunnels, monsterCount, random);
-
+    this.visits.add(this.start);
   }
-
 
   @Override
   public int getWidth() {
@@ -185,6 +186,11 @@ public class DungeonImpl implements Dungeon {
   public Description getPlayerDescription() {
     return new Description(this.player,
             caves[this.player.getLocation().getY()][this.player.getLocation().getX()]);
+  }
+
+  @Override
+  public ReadOnlyModel makeReadOnly() {
+    return new ReadOnlyModel(this, this.player);
   }
 
   @Override
@@ -211,15 +217,20 @@ public class DungeonImpl implements Dungeon {
     if (move == null) {
       return false;
     }
+
     this.escaped = false;
     Cave cave = this.caves[move.getY()][move.getX()];
     Location previous = player.getLocation();
     player.updateLocation(cave);
+
     if (previous.equals(player.getLocation())) {
       this.escaped = true;
       return false;
     }
 
+    if (!this.visits.contains(this.getPlayerLocation())) {
+      this.visits.add(getPlayerLocation());
+    }
     return true;
   }
 
@@ -350,6 +361,11 @@ public class DungeonImpl implements Dungeon {
   @Override
   public boolean hasLost() {
     return !this.player.isAlive();
+  }
+
+  @Override
+  public List<Location> getVisits() {
+    return this.visits;
   }
 
 

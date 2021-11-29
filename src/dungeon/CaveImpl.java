@@ -123,6 +123,29 @@ public class CaveImpl implements Cave {
     return new HashMap<>(this.contents);
   }
 
+
+  @Override
+  public String getCon() {
+    StringBuilder b  = new StringBuilder();
+    if (this.connections.get(Direction.NORTH) != null) {
+      b.append("N");
+    }
+
+    if (this.connections.get(Direction.SOUTH) != null) {
+      b.append("S");
+    }
+
+    if (this.connections.get(Direction.EAST) != null) {
+      b.append("E");
+    }
+
+    if (this.connections.get(Direction.WEST) != null) {
+      b.append("W");
+    }
+
+    return b.toString();
+  }
+
   @Override
   public boolean sameLocation(Cave other) {
     return this.getLocation().equals(other.getLocation());

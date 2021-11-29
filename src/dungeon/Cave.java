@@ -62,6 +62,12 @@ public interface Cave {
    */
   HashMap<CaveObject, Integer> getItems();
 
+  /**
+   * Gets a String representation of all the connections of the Cave.
+   * @return The string representation of the Caves Connections.
+   */
+  String getCon();
+
 
   /**
    * Checks to see if two caves share a location.
