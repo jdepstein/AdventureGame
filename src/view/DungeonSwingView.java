@@ -65,7 +65,7 @@ public class DungeonSwingView extends JFrame implements IView {
       this.setMinimumSize(new Dimension(this.model.getWidth() * 64, 700));
     }
     else {
-      this.setMinimumSize(new Dimension(this.model.getWidth() * 64/2, 700));
+      this.setMinimumSize(new Dimension(this.model.getWidth() * 64 / 2, 700));
     }
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
@@ -79,7 +79,7 @@ public class DungeonSwingView extends JFrame implements IView {
     this.setJMenuBar(bar.getBar());
     this.popUpItems = bar.getTextFields();
     this.popUp = bar.getPopUp();
-    this.popUp.setLocation(this.getWidth()/2, this.getHeight()/2);
+    this.popUp.setLocation(this.getWidth() / 2, this.getHeight() / 2);
     this.menuItems = bar.getMenu();
     this.buttons = bar.getButtons();
     ActionListener action = e -> {
@@ -300,8 +300,8 @@ public class DungeonSwingView extends JFrame implements IView {
     }
     catch (NumberFormatException e) {
       if (counter == 2) {
-           throw new IllegalArgumentException(
-                   String.format("Type mismatch passed for %s expected Boolean but got %s",
+        throw new IllegalArgumentException(
+                String.format("Type mismatch passed for %s expected Boolean but got %s",
                 this.popUpItems.get(counter).getName(), this.popUpItems.get(counter).getText()));
       }
       else {
@@ -384,7 +384,7 @@ public class DungeonSwingView extends JFrame implements IView {
 
     this.gameEnd = false;
     this.endPanel = new JPopupMenu();
-    this.endPanel.setLocation(this.getWidth()/2, this.getHeight()/2);
+    this.endPanel.setLocation(this.getWidth() / 2, this.getHeight() / 2);
     this.endPanel.setLayout(new FlowLayout());
     this.endLabel = new JLabel();
     this.endPanel.add(endLabel, BorderLayout.NORTH);

@@ -69,7 +69,7 @@ public class AdvController implements Features, AdvGameController {
 
   @Override
   public String shoot(int x, Direction dir) {
-    System.out.printf("shooting"+ dir.toString() + "%d \n", x);
+    System.out.printf("shooting" + dir.toString() + "%d \n", x);
     boolean shot;
     try {
       shot = model.shoot(x, dir);

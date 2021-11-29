@@ -2,17 +2,17 @@ package view;
 
 import dungeon.ReadOnlyDungeon;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
-import javax.swing.JFrame;
 
 /**
  * THis is the panel for the menu of the Frame this menu has the ability to create a popUp
@@ -112,8 +112,6 @@ public class GameMenu  {
   private void createLine(String name, String item) {
     JLabel label = new JLabel(name);
     JTextField field = new JTextField(item,5);
-    field.setEditable(true);
-    field.setEnabled(true);
     field.setName(name);
     this.popUp.add(label);
     this.popUp.add(field);
