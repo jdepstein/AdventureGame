@@ -7,7 +7,7 @@ import dungeon.enums.CaveObject;
  * the view. The method in this will only return info about the state of the dungeon model. It
  * does not allow updates to the actual dungeon itself.
  */
-public class ReadOnlyModel {
+public class ReadOnlyDungeon {
   private final Dungeon d;
   private final Player p;
 
@@ -17,7 +17,7 @@ public class ReadOnlyModel {
    * @param d the Dungeon.
    * @param p the player in the dungeon.
    */
-  public ReadOnlyModel(Dungeon d, Player p) {
+  public ReadOnlyDungeon(Dungeon d, Player p) {
     this.d = d;
     this.p = p;
   }

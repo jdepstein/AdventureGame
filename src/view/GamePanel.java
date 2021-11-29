@@ -1,7 +1,7 @@
 package view;
 
 import dungeon.Location;
-import dungeon.ReadOnlyModel;
+import dungeon.ReadOnlyDungeon;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -24,7 +24,7 @@ import javax.swing.JPanel;
  * appear as a black square on the map.
  */
 class GamePanel extends JPanel {
-  private final ReadOnlyModel board;
+  private final ReadOnlyDungeon board;
   private final Map<String, String> imageMap;
   private JLabel[][] caves;
 
@@ -36,7 +36,7 @@ class GamePanel extends JPanel {
    * @param imageMap The map of image paths for the caves.
    * @throws IllegalArgumentException Null was passed for the model or imageMap
    */
-  GamePanel(ReadOnlyModel model, Map<String, String> imageMap) {
+  GamePanel(ReadOnlyDungeon model, Map<String, String> imageMap) {
     if (model == null || imageMap == null) {
       throw new IllegalArgumentException("Null passed in for values");
     }

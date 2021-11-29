@@ -1,6 +1,6 @@
 package view;
 
-import dungeon.ReadOnlyModel;
+import dungeon.ReadOnlyDungeon;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class GameMenu  {
   /**
    * Testing around with this for now.
    */
-  public GameMenu(ReadOnlyModel model) {
+  public GameMenu(ReadOnlyDungeon model) {
     this.menuBar = new JMenuBar();
     this.menuItems = new ArrayList<>();
     this.buttons = new ArrayList<>();

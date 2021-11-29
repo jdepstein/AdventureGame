@@ -218,8 +218,8 @@ public class DungeonImpl implements Dungeon {
   }
 
   @Override
-  public ReadOnlyModel makeReadOnly() {
-    return new ReadOnlyModel(this, this.player);
+  public ReadOnlyDungeon makeReadOnly() {
+    return new ReadOnlyDungeon(this, this.player);
   }
 
   @Override

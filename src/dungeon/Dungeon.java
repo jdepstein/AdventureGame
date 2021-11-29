@@ -57,6 +57,7 @@ public interface Dungeon {
    */
   boolean getWrapping();
 
+
   /**
    * Gets the current Location of the player within the Dungeon.
    * @return The players location
@@ -74,7 +75,7 @@ public interface Dungeon {
    * Makes a readOnly Version of the current Dungeon Model.
    * @return The Readonly version of the dungeon model
    */
-  ReadOnlyModel makeReadOnly();
+  ReadOnlyDungeon makeReadOnly();
 
 
   /**

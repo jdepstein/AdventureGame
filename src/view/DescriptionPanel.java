@@ -1,6 +1,6 @@
 package view;
 
-import dungeon.ReadOnlyModel;
+import dungeon.ReadOnlyDungeon;
 
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -24,7 +24,7 @@ import javax.swing.JPanel;
  */
 class DescriptionPanel extends JPanel {
   List<List<JLabel>> labels;
-  private final  ReadOnlyModel model;
+  private final ReadOnlyDungeon model;
   private final Map<String, String> imageMap;
 
   /**
@@ -35,7 +35,7 @@ class DescriptionPanel extends JPanel {
    * @param imageMap The Map of all the image paths for loading
    * @throws IllegalArgumentException Null was passed for the model or imageMap
    */
-  DescriptionPanel(ReadOnlyModel model, Map<String, String> imageMap) {
+  DescriptionPanel(ReadOnlyDungeon model, Map<String, String> imageMap) {
     if (model == null || imageMap == null) {
       throw new IllegalArgumentException("Null passed in for values");
     }

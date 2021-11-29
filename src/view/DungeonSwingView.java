@@ -1,6 +1,6 @@
 package view;
 
-import dungeon.ReadOnlyModel;
+import dungeon.ReadOnlyDungeon;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -39,7 +39,7 @@ public class DungeonSwingView extends JFrame implements IView, ActionListener {
   private final List<JButton> buttons;
   private final List<JMenuItem> menuItems;
   private final JPopupMenu popUp;
-  private ReadOnlyModel model;
+  private ReadOnlyDungeon model;
   private GamePanel dungeonPanel;
   private DescriptionPanel descriptionPanel;
   private JScrollPane scroll;
@@ -54,7 +54,7 @@ public class DungeonSwingView extends JFrame implements IView, ActionListener {
    * @param board The Readonly Version of the Dungeon Model.
    * @throws IllegalArgumentException Null was passed for the model.
    */
-  public DungeonSwingView(ReadOnlyModel board) {
+  public DungeonSwingView(ReadOnlyDungeon board) {
     super("Dungeon Game");
     if (board == null) {
       throw new IllegalArgumentException("Null Passed");
@@ -88,7 +88,7 @@ public class DungeonSwingView extends JFrame implements IView, ActionListener {
   }
 
   @Override
-  public void resetModel(ReadOnlyModel board) {
+  public void resetModel(ReadOnlyDungeon board) {
     if (board == null) {
       throw new IllegalArgumentException("Null Passed");
     }
