@@ -79,5 +79,11 @@ public interface Features {
   void setLast(char key);
 
 
+  /**
+   * Takes care of a click and gives the location x and y on where that click happened.
+   * @param x the X related to the click
+   * @param y the Y related to the Click
+   * @return The String message tied to the action carried out
+   */
   String clickMove(int x, int y);
 }

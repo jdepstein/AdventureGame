@@ -2,17 +2,20 @@ package view;
 
 import dungeon.ReadOnlyModel;
 
-import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
-import javax.swing.*;
 
 /**
  * This is the main view of the Dungeon Game. It will display a Map of the dungeon and its visited
@@ -23,8 +26,7 @@ import javax.swing.*;
  */
 public class DungeonSwingView extends JFrame implements IView {
   private final JLabel updates;
-  private JScrollPane scroll;
-  private JLabel[][] labels;
+  private final JLabel[][] labels;
 
   /**
    * Builds the Dungeon view with a Readonly model of the dungeon. It sets the scrollbar and the
@@ -53,12 +55,12 @@ public class DungeonSwingView extends JFrame implements IView {
     updates.setText("Nothing has been done yet");
     this.add(updates, BorderLayout.NORTH);
 
-    this.scroll = new JScrollPane();
+    JScrollPane scroll = new JScrollPane();
     scroll.setViewportView(dungeonPanel);
     scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     this.add(scroll);
-    JMenuBar bar = new GameMenu(board).getBar();
+    JMenuBar bar = new GameMenu().getBar();
     this.setJMenuBar(bar);
     this.pack();
     this.setVisible(true);
@@ -78,8 +80,10 @@ public class DungeonSwingView extends JFrame implements IView {
   public void setFeatures(Features f) {
     JLabel t = this.updates;
     this.addKeyListener(new KeyListener() {
+
       @Override
       public void keyTyped(KeyEvent e) {
+        System.out.println("Key Typed");
       }
 
       @Override
@@ -133,6 +137,7 @@ public class DungeonSwingView extends JFrame implements IView {
 
       @Override
       public void keyReleased(KeyEvent e) {
+        System.out.println("Key Released");
       }
     });
     JLabel[][] caves = this.labels;
@@ -153,23 +158,24 @@ public class DungeonSwingView extends JFrame implements IView {
 
       @Override
       public void mousePressed(MouseEvent e) {
-
+        System.out.println("Mouse Pressed");
       }
 
       @Override
       public void mouseReleased(MouseEvent e) {
-
+        System.out.println("Mouse Released");
       }
 
       @Override
       public void mouseEntered(MouseEvent e) {
-
+        System.out.println("Mouse Enter");
       }
 
       @Override
       public void mouseExited(MouseEvent e) {
-
+        System.out.println("Mouse Exit");
       }
+
     };
 
     for (JLabel[] row: this.labels) {

@@ -216,9 +216,9 @@ public class AdvController implements Features, AdvGameController {
       for (Direction dir: cave.getDirections().keySet()) {
         if (cave.getDirections().get(dir).equals(new Location(x, y))) {
           try {
-          model.movePlayer(dir);
-          direction = dir.toString();
-          break;
+            model.movePlayer(dir);
+            direction = dir.toString();
+            break;
           }
           catch (IllegalStateException e) {
             return "Can't Move When your dead";
