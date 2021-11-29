@@ -122,7 +122,7 @@ public class AdvGameConsoleController implements AdvGameController {
 
 
   /**
-   * Appends the a description of the current location of the player.
+   * Appends a description of the current location of the player.
    */
   private void fullDescription(Dungeon d) {
     Description des = d.getPlayerDescription();

@@ -2,7 +2,7 @@ package view;
 
 import dungeon.ReadOnlyDungeon;
 
-import java.awt.GridLayout;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -12,21 +12,25 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
-
+import javax.swing.JFrame;
 
 /**
- * Testing around with this for now.
+ * THis is the panel for the menu of the Frame this menu has the ability to create a popUp
+ * menu for if the user wants to create a new Game. THe ability to exit the window overall
+ * The ability to restart the game from its initial state. This class just builds up the menu
+ * bar itself as well as the popUp window that can appear from the menu bar.
  */
 public class GameMenu  {
   private final JMenuBar menuBar;
   private final List<JTextField> textFields;
   private final List<JButton> buttons;
   private final List<JMenuItem> menuItems;
-  private final JPopupMenu popUp;
-
+  private final JFrame popUp;
 
   /**
-   * Testing around with this for now.
+   * Builds the Game menu Bar that we need for the info and sets all the info in the popUP
+   * to the initial state of the values in the model.
+   * @param model The model that is being used for info being accessed.
    */
   public GameMenu(ReadOnlyDungeon model) {
     this.menuBar = new JMenuBar();
@@ -37,8 +41,10 @@ public class GameMenu  {
     this.createMenuItem("New Game");
     this.createMenuItem("Restart");
     this.createMenuItem("Quit");
-    popUp = new JPopupMenu();
+    popUp = new JFrame();
     popUp.setLayout(new GridLayout(7,2));
+    popUp.setMinimumSize(new Dimension(200,200));
+    popUp.setResizable(false);
 
     this.createLine("Width", Integer.valueOf(model.getWidth()).toString());
     this.createLine("Height", Integer.valueOf(model.getHeight()).toString());
@@ -49,7 +55,6 @@ public class GameMenu  {
 
     this.createButton("Create");
     this.createButton("Exit");
-    popUp.pack();
 
     JMenu x = new JMenu("Menu");
     for (JMenuItem item : this.menuItems) {
@@ -87,7 +92,7 @@ public class GameMenu  {
    * Gets the Popup itself.
    * @return the popup
    */
-  public JPopupMenu getPopUp() {
+  public JFrame getPopUp() {
     return this.popUp;
   }
 
@@ -99,21 +104,36 @@ public class GameMenu  {
     return this.menuItems;
   }
 
+  /**
+   * Creates a line in the popupMenu.
+   * @param name the name of the item being added
+   * @param item the initial state of the text box
+   */
   private void createLine(String name, String item) {
     JLabel label = new JLabel(name);
     JTextField field = new JTextField(item,5);
+    field.setEditable(true);
+    field.setEnabled(true);
     field.setName(name);
     this.popUp.add(label);
     this.popUp.add(field);
     this.textFields.add(field);
   }
 
+  /**
+   * Creates a menu item with the given name.
+   * @param name the name of the menu item.
+   */
   private void createMenuItem(String name) {
     JMenuItem menuItem = new JMenuItem(name);
     menuItem.setActionCommand(name);
     this.menuItems.add(menuItem);
   }
 
+  /**
+   * Creates a button with the given name.
+   * @param name the name of the button.
+   */
   private void createButton(String name) {
     JButton button = new JButton(name);
     button.setActionCommand(name);

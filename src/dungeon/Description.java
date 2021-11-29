@@ -57,7 +57,7 @@ public class Description {
    */
   public List<String> getPlayerItems() {
     List<String> myItems = new ArrayList<>();
-    HashMap<CaveObject, Integer> hashTreasure = this.player.getItems();
+    Map<CaveObject, Integer> hashTreasure = this.player.getItems();
     myItems.add(String.format("Diamonds: %d", hashTreasure.get(CaveObject.DIAMOND)));
     myItems.add(String.format("Rubies: %d", hashTreasure.get(CaveObject.RUBY)));
     myItems.add(String.format("Sapphires: %d", hashTreasure.get(CaveObject.SAPPHIRE)));

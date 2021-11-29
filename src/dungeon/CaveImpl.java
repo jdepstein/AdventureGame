@@ -22,15 +22,15 @@ import java.util.Map;
  * smells weather or not a monster is in proximity to the cave.
  */
 public class CaveImpl implements Cave {
-  private final HashMap<Direction, Location> connections;
-  private HashMap<CaveObject, Integer> contents;
+  private final Map<Direction, Location> connections;
+  private Map<CaveObject, Integer> contents;
   private final Location loc;
   private Smell smell;
   private Monster occupant;
 
   /**
    * Creates a new Cave Object at the given location it initializes all item types to 0 count
-   * within the HashMap and only initializes the HashMap of connections does not add any keys.
+   * within the Map and only initializes the Map of connections does not add any keys.
    * @param loc The location of the given cave
    * @throws IllegalArgumentException if the given caves location is null
    */

@@ -10,7 +10,7 @@ public enum Smell {
   LIGHT("Smell1"),
   NONE("Smell0");
 
-  private String smellLevel;
+  private final String smellLevel;
 
   Smell(String smellLevel) {
     this.smellLevel = smellLevel;

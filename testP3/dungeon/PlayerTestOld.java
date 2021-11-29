@@ -9,7 +9,6 @@ import dungeon.enums.Direction;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -68,7 +67,7 @@ public class PlayerTestOld {
     assertEquals(new Location(3,2), moves.get(Direction.EAST));
     assertEquals(new Location(5,1), moves.get(Direction.WEST));
 
-    HashMap<CaveObject, Integer> tres = myPlayer.getItems();
+    Map<CaveObject, Integer> tres = myPlayer.getItems();
     assertEquals(0, tres.get(CaveObject.DIAMOND).intValue());
     assertEquals( 0, tres.get(CaveObject.RUBY).intValue());
     assertEquals( 0, tres.get(CaveObject.SAPPHIRE).intValue());
@@ -82,14 +81,14 @@ public class PlayerTestOld {
   @Test
   public void pickupTreasure() {
     assertTrue(myPlayer.search());
-    HashMap<CaveObject, Integer> tres = myPlayer.getItems();
+    Map<CaveObject, Integer> tres = myPlayer.getItems();
     assertEquals(1, tres.get(CaveObject.DIAMOND).intValue());
     assertEquals( 1, tres.get(CaveObject.RUBY).intValue());
     assertEquals( 0, tres.get(CaveObject.SAPPHIRE).intValue());
     assertEquals( 4, tres.get(CaveObject.CROOKEDARROW).intValue());
 
     assertFalse(myPlayer.search());
-    HashMap<CaveObject, Integer> tres2 = myPlayer.getItems();
+    Map<CaveObject, Integer> tres2 = myPlayer.getItems();
     assertEquals(1, tres2.get(CaveObject.DIAMOND).intValue());
     assertEquals( 1, tres2.get(CaveObject.RUBY).intValue());
     assertEquals( 0, tres2.get(CaveObject.SAPPHIRE).intValue());
@@ -123,7 +122,7 @@ public class PlayerTestOld {
     assertEquals(newCave.getLocation(), myPlayer.getLocation());
 
     assertFalse(myPlayer.search());
-    HashMap<CaveObject, Integer> tres2 = myPlayer.getItems();
+    Map<CaveObject, Integer> tres2 = myPlayer.getItems();
     assertEquals(0, tres2.get(CaveObject.DIAMOND).intValue());
     assertEquals( 0, tres2.get(CaveObject.RUBY).intValue());
     assertEquals( 0, tres2.get(CaveObject.SAPPHIRE).intValue());
@@ -149,7 +148,7 @@ public class PlayerTestOld {
    */
   @Test
   public void shootArrow() {
-    HashMap<CaveObject, Integer> tres = myPlayer.getItems();
+    Map<CaveObject, Integer> tres = myPlayer.getItems();
     assertEquals( 3, tres.get(CaveObject.CROOKEDARROW).intValue());
     myPlayer.shootArrow();
     tres = myPlayer.getItems();
@@ -169,7 +168,7 @@ public class PlayerTestOld {
    */
   @Test(expected = IllegalStateException.class)
   public void shootArrow2() {
-    HashMap<CaveObject, Integer> tres = myPlayer.getItems();
+    Map<CaveObject, Integer> tres = myPlayer.getItems();
     assertEquals( 3, tres.get(CaveObject.CROOKEDARROW).intValue());
     myPlayer.shootArrow();
     myPlayer.shootArrow();

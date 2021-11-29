@@ -20,13 +20,13 @@ import javax.swing.JPanel;
 /**
  * The Panel that holds the dungeon map it will hold a readonly version of the dungeon and update
  * the map as new locations are visited in the dungeon. When the Map is Built you can only
- * Caves and their connections but not the contents of the cave. If the Cave is not visted it will
+ * Caves and their connections but not the contents of the cave. If the Cave is not visited it will
  * appear as a black square on the map.
  */
 class GamePanel extends JPanel {
   private final ReadOnlyDungeon board;
   private final Map<String, String> imageMap;
-  private JLabel[][] caves;
+  private final JLabel[][] caves;
 
   /**
    * This take in our model that we will be pulling the info from as well as the image
@@ -74,6 +74,7 @@ class GamePanel extends JPanel {
           imageIcon = new ImageIcon(img);
           this.caves[y][x].setIcon(imageIcon);
           this.caves[y][x].setIconTextGap(0);
+          this.caves[y][x].setVerticalAlignment(1);
           this.caves[y][x].setHorizontalTextPosition(JLabel.CENTER);
           this.caves[y][x].setVerticalTextPosition(JLabel.CENTER);
 

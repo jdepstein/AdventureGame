@@ -1,11 +1,11 @@
 package view;
 
 import dungeon.ReadOnlyDungeon;
+import dungeon.enums.Direction;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -32,13 +32,13 @@ import javax.swing.ScrollPaneConstants;
  * through the map if it is too large for the window and a menu to view info about the dungeon
  * itself. As well as the ability to restart the game.
  */
-public class DungeonSwingView extends JFrame implements IView, ActionListener {
+public class DungeonSwingView extends JFrame implements IView {
   private final JLabel updates;
   private JLabel[][] labels;
   private final  List<JTextField> popUpItems;
   private final List<JButton> buttons;
   private final List<JMenuItem> menuItems;
-  private final JPopupMenu popUp;
+  private final JFrame popUp;
   private ReadOnlyDungeon model;
   private GamePanel dungeonPanel;
   private DescriptionPanel descriptionPanel;
@@ -46,6 +46,7 @@ public class DungeonSwingView extends JFrame implements IView, ActionListener {
   private List<JButton> endGame;
   private boolean gameEnd;
   private JPopupMenu endPanel;
+  private JLabel endLabel;
 
 
   /**
@@ -60,9 +61,12 @@ public class DungeonSwingView extends JFrame implements IView, ActionListener {
       throw new IllegalArgumentException("Null Passed");
     }
     this.model = board;
-    this.setSize(500, 500);
-    this.setMinimumSize(new Dimension(500, 500));
-    this.setMinimumSize(new Dimension(500, 500));
+    if (this.model.getWidth() * 64 < 1000) {
+      this.setMinimumSize(new Dimension(this.model.getWidth() * 64, 700));
+    }
+    else {
+      this.setMinimumSize(new Dimension(this.model.getWidth() * 64/2, 700));
+    }
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
 
@@ -75,16 +79,33 @@ public class DungeonSwingView extends JFrame implements IView, ActionListener {
     this.setJMenuBar(bar.getBar());
     this.popUpItems = bar.getTextFields();
     this.popUp = bar.getPopUp();
+    this.popUp.setLocation(this.getWidth()/2, this.getHeight()/2);
     this.menuItems = bar.getMenu();
     this.buttons = bar.getButtons();
-    menuItems.get(0).addActionListener(this);
-    menuItems.get(2).addActionListener(this);
-    buttons.get(1).addActionListener(this);
+    ActionListener action = e -> {
+      if (e.getActionCommand().equals("New Game")) {
+        this.popUp.setVisible(true);
+      }
+      if (e.getActionCommand().equals("Quit")) {
+        System.exit(0);
+      }
+
+      if (e.getActionCommand().equals("Exit")) {
+        popUp.setVisible(false);
+      }
+    };
+
+    this.endGame.get(0).addActionListener(action);
+    this.endGame.get(2).addActionListener(action);
+    menuItems.get(0).addActionListener(action);
+    menuItems.get(2).addActionListener(action);
+    buttons.get(1).addActionListener(action);
     for (JTextField text: this.popUpItems) {
-      text.addActionListener(this);
+      text.addActionListener(action);
     }
 
     this.pack();
+
   }
 
   @Override
@@ -106,6 +127,12 @@ public class DungeonSwingView extends JFrame implements IView, ActionListener {
     this.repaint();
     if (this.model.hasLost() || this.model.hasSolved()) {
       if (!this.gameEnd) {
+        if (this.model.hasLost()) {
+          this.endLabel.setText("You Have Lost the Game");
+        }
+        if (this.model.hasSolved()) {
+          this.endLabel.setText("You Have Won the Game");
+        }
         this.endPanel.setVisible(true);
         this.gameEnd = true;
       }
@@ -133,38 +160,42 @@ public class DungeonSwingView extends JFrame implements IView, ActionListener {
 
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
           if (dist.contains(Character.valueOf(f.lastHit()).toString())) {
-            t.setText(f.shootSouth(Integer.parseInt(Character.valueOf(f.lastHit()).toString())));
+            t.setText(f.shoot(Integer.parseInt(Character.valueOf(f.lastHit()).toString()),
+                    Direction.SOUTH));
           }
           else {
-            t.setText(f.moveSouth());
+            t.setText(f.move(Direction.SOUTH));
 
           }
         }
 
         else if (e.getKeyCode() == KeyEvent.VK_UP) {
           if (dist.contains(Character.valueOf(f.lastHit()).toString())) {
-            t.setText(f.shootNorth(Integer.parseInt(Character.valueOf(f.lastHit()).toString())));
+            t.setText(f.shoot(Integer.parseInt(Character.valueOf(f.lastHit()).toString()),
+                    Direction.NORTH));
           }
           else {
-            t.setText(f.moveNorth());
+            t.setText(f.move(Direction.NORTH));
           }
         }
 
         else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
           if (dist.contains(Character.valueOf(f.lastHit()).toString())) {
-            t.setText(f.shootWest(Integer.parseInt(Character.valueOf(f.lastHit()).toString())));
+            t.setText(f.shoot(Integer.parseInt(Character.valueOf(f.lastHit()).toString()),
+                    Direction.WEST));
           }
           else {
-            t.setText(f.moveWest());
+            t.setText(f.move(Direction.WEST));
           }
         }
 
         else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
           if (dist.contains(Character.valueOf(f.lastHit()).toString())) {
-            t.setText(f.shootEast(Integer.parseInt(Character.valueOf(f.lastHit()).toString())));
+            t.setText(f.shoot(Integer.parseInt(Character.valueOf(f.lastHit()).toString()),
+                    Direction.EAST));
           }
           else {
-            t.setText(f.moveEast());
+            t.setText(f.move(Direction.EAST));
           }
         }
 
@@ -239,7 +270,7 @@ public class DungeonSwingView extends JFrame implements IView, ActionListener {
                   Integer.parseInt(this.popUpItems.get(4).getText()),
                   Integer.parseInt(this.popUpItems.get(5).getText())));
 
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | IllegalStateException ex) {
           t.setText(ex.getMessage());
         }
         this.popUp.setVisible(false);
@@ -256,6 +287,7 @@ public class DungeonSwingView extends JFrame implements IView, ActionListener {
     try {
       for (JTextField text: this.popUpItems) {
         if (counter == 2) {
+          System.out.println("BOOLEAN STUFF");
           if (!text.getText().equals("false") && !text.getText().equals("true")) {
             throw new NumberFormatException();
           }
@@ -265,34 +297,26 @@ public class DungeonSwingView extends JFrame implements IView, ActionListener {
         }
         counter++;
       }
-    }  catch (NumberFormatException e) {
+    }
+    catch (NumberFormatException e) {
       if (counter == 2) {
-        this.updates.setText(String.format(
-                "Type mismatch passed for %s expected Boolean but got %s",
+           throw new IllegalArgumentException(
+                   String.format("Type mismatch passed for %s expected Boolean but got %s",
                 this.popUpItems.get(counter).getName(), this.popUpItems.get(counter).getText()));
       }
       else {
-        this.updates.setText(String.format(
+        throw new IllegalArgumentException(String.format(
                 "Type mismatch passed for %s expected int value but got %s",
                 this.popUpItems.get(counter).getName(), this.popUpItems.get(counter).getText()));
       }
     }
   }
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    if (e.getActionCommand().equals("New Game")) {
-      this.popUp.setVisible(true);
-    }
-    if (e.getActionCommand().equals("Quit")) {
-      System.exit(0);
-    }
 
-    if (e.getActionCommand().equals("Exit")) {
-      popUp.setVisible(false);
-    }
-  }
-
+  /**
+   * Helper method that just creates a map for all the images that I will be loading.
+   * @return The map of all the images being loaded
+   */
   private Map<String, String> generateImageMap() {
     Map<String, String> imageMap = new HashMap<>();
     imageMap.put("S", "res/dungeon-images-bw/S.png");
@@ -320,18 +344,29 @@ public class DungeonSwingView extends JFrame implements IView, ActionListener {
     imageMap.put("ruby","res/dungeon-images-bw/ruby.png");
     imageMap.put("sapphire","res/dungeon-images-bw/emerald.png");
     imageMap.put("arrow","res/dungeon-images-bw/arrow-black.png");
+    imageMap.put("Monster", "res/dungeon-images-bw/otyugh.png");
     return imageMap;
   }
 
+  /**
+   * Helper method for creating the panels and the fact that some will be rewritten when the game
+   * is set to a new game.
+   */
   private void setUp() {
     this.dungeonPanel = new GamePanel(this.model, this.generateImageMap());
     this.descriptionPanel = new DescriptionPanel(this.model, this.generateImageMap());
     this.labels = dungeonPanel.getLabels();
+    this.dungeonPanel.setMaximumSize(new Dimension(this.model.getWidth() * 64,
+            this.model.getHeight() * 64));
 
     this.add(this.descriptionPanel, BorderLayout.SOUTH);
 
     this.scroll = new JScrollPane();
+    this.scroll.setMaximumSize(new Dimension(this.model.getWidth() * 64,
+            this.model.getHeight() * 64));
     this.scroll.setViewportView(this.dungeonPanel);
+    this.setResizable(false);
+
     this.scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     this.scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     this.add(this.scroll,BorderLayout.CENTER);
@@ -339,17 +374,20 @@ public class DungeonSwingView extends JFrame implements IView, ActionListener {
     this.endGame = new ArrayList<>();
     JButton quit = new JButton();
     quit.setText("Quit");
-    quit.addActionListener(this);
     this.endGame.add(quit);
     JButton restart = new JButton();
     restart.setText("Restart");
     this.endGame.add(restart);
     JButton newGame = new JButton();
     newGame.setText("New Game");
-    newGame.addActionListener(this);
+    this.endGame.add(newGame);
+
     this.gameEnd = false;
     this.endPanel = new JPopupMenu();
+    this.endPanel.setLocation(this.getWidth()/2, this.getHeight()/2);
     this.endPanel.setLayout(new FlowLayout());
+    this.endLabel = new JLabel();
+    this.endPanel.add(endLabel, BorderLayout.NORTH);
     this.endPanel.add(quit);
     this.endPanel.add(restart);
     this.endPanel.add(newGame);

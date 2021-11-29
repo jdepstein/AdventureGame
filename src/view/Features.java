@@ -1,5 +1,7 @@
 package view;
 
+import dungeon.enums.Direction;
+
 /**
  * This interface represents a set of features that the program offers. Each
  * feature is exposed as a function in this interface. This function is used
@@ -9,56 +11,19 @@ package view;
 public interface Features {
 
   /**
-   * Moves the Player South.
-   * @return The String message tied to the Move.
+   * Move in the given direction.
+   * @param dir the direction moving
+   * @return The string message tied to moving
    */
-  String moveSouth();
+  String move(Direction dir);
 
   /**
-   * Moves the Player North.
-   * @return The String message tied to the Move.
+   * Shoot an arrow in the given direction and distance.
+   * @param dist the distance being shot
+   * @param dir the direction being shot
+   * @return The string message tied to shooting
    */
-  String moveNorth();
-
-  /**
-   * Moves the Player West.
-   * @return The String message tied to the Move.
-   */
-  String moveWest();
-
-  /**
-   * Moves the Player East.
-   * @return The String message tied to the Move.
-   */
-  String moveEast();
-
-  /**
-   * Shoots an Arrow South a distance of x.
-   * @param x the distance traveled.
-   * @return The String message tied to the Shot.
-   */
-  String shootSouth(int x);
-
-  /**
-   * Shoots an Arrow East a distance of x.
-   * @param x the distance traveled.
-   * @return The String message tied to the Shot.
-   */
-  String shootEast(int x);
-
-  /**
-   * Shoots an Arrow West a distance of x.
-   * @param x the distance traveled.
-   * @return The String message tied to the Shot.
-   */
-  String shootWest(int x);
-
-  /**
-   * Shoots an Arrow North a distance of x.
-   * @param x the distance traveled.
-   * @return The String message tied to the Shot.
-   */
-  String shootNorth(int x);
+  String shoot(int dist, Direction dir);
 
   /**
    * Picking up the items in the current Cave.
@@ -104,4 +69,5 @@ public interface Features {
    * @return the string telling us if it was built correctly or not.
    */
   String createNewGame(int w, int h, boolean wrap, int i, int p, int m);
+
 }

@@ -17,7 +17,7 @@ import java.util.Random;
  */
 class PlayerImpl implements Player {
   private final String name;
-  private final HashMap<CaveObject, Integer> items;
+  private final Map<CaveObject, Integer> items;
   private Cave cave;
   private boolean alive;
 
@@ -145,13 +145,23 @@ class PlayerImpl implements Player {
   }
 
   @Override
-  public HashMap<CaveObject, Integer> getItems() {
+  public Map<CaveObject, Integer> getItems() {
     return new HashMap<>(this.items);
   }
 
   @Override
   public boolean isAlive() {
     return this.alive;
+  }
+
+  @Override
+  public void reset(Cave start) {
+    this.alive = true;
+    this.items.put(CaveObject.DIAMOND, 0);
+    this.items.put(CaveObject.RUBY, 0);
+    this.items.put(CaveObject.SAPPHIRE, 0);
+    this.items.put(CaveObject.CROOKEDARROW, 3);
+    this.cave = start;
   }
 
 }

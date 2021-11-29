@@ -47,11 +47,10 @@ public class AdvController implements Features, AdvGameController {
   }
 
   @Override
-  public String moveSouth() {
-    System.out.println("Moving South");
+  public String move(Direction dir) {
     try {
-      if (model.movePlayer(Direction.SOUTH)) {
-        return "Successfully Moved South";
+      if (model.movePlayer(dir)) {
+        return "Successfully Moved " + dir.toString();
       }
       else {
         if (model.escaped()) {
@@ -67,123 +66,13 @@ public class AdvController implements Features, AdvGameController {
     }
   }
 
-  @Override
-  public String moveNorth() {
-    System.out.println("Moving North");
-    try {
-      if (model.movePlayer(Direction.NORTH)) {
-        return "Successfully Moved North";
-      }
-      else {
-        if (model.escaped()) {
-          return "Successfully Escaped A Otylph";
-        }
-        else {
-          return "Not A Valid Move";
-        }
-      }
-    }
-    catch (IllegalStateException e) {
-      return e.getMessage();
-    }
-  }
 
   @Override
-  public String moveWest() {
-    System.out.println("Moving West");
-    try {
-      if (model.movePlayer(Direction.WEST)) {
-        return "Successfully Moved West";
-      } else {
-        if (model.escaped()) {
-          return "Successfully Escaped A Otylph";
-        } else {
-          return "Not A Valid Move";
-        }
-      }
-    }
-    catch (IllegalStateException e) {
-      return e.getMessage();
-    }
-  }
-
-  @Override
-  public String moveEast() {
-    System.out.println("Moving East");
-    try {
-      if (model.movePlayer(Direction.EAST)) {
-        return "Successfully Moved East";
-      } else {
-        if (model.escaped()) {
-          return "Successfully Escaped A Otylph";
-        } else {
-          return "Not A Valid Move";
-        }
-      }
-    } catch (IllegalStateException e) {
-      return e.getMessage();
-    }
-  }
-
-  @Override
-  public char lastHit() {
-    return this.lastHit;
-  }
-
-  @Override
-  public String shootSouth(int x) {
-    System.out.printf("SHOOTING SOUTH %d \n", x);
+  public String shoot(int x, Direction dir) {
+    System.out.printf("shooting"+ dir.toString() + "%d \n", x);
     boolean shot;
     try {
-      shot = model.shoot(x, Direction.SOUTH);
-
-    } catch (IllegalArgumentException | IllegalStateException e ) {
-      return e.getMessage();
-    }
-    if (shot) {
-      return "Heard a Noise in distance";
-    }
-    return "Arrow shot into darkness";
-  }
-
-  @Override
-  public String shootEast(int x) {
-    System.out.printf("SHOOTING East %d \n", x);
-    boolean shot;
-    try {
-      shot = model.shoot(x, Direction.EAST);
-
-    } catch (IllegalArgumentException | IllegalStateException e ) {
-      return e.getMessage();
-    }
-    if (shot) {
-      return "Heard a Noise in distance";
-    }
-    return "Arrow shot into darkness";
-  }
-
-  @Override
-  public String shootWest(int x) {
-    System.out.printf("SHOOTING West %d \n", x);
-    boolean shot;
-    try {
-      shot = model.shoot(x, Direction.WEST);
-
-    } catch (IllegalArgumentException | IllegalStateException e ) {
-      return e.getMessage();
-    }
-    if (shot) {
-      return "Heard a Noise in distance";
-    }
-    return "Arrow shot into darkness";
-  }
-
-  @Override
-  public String shootNorth(int x) {
-    System.out.printf("SHOOTING North %d \n", x);
-    boolean shot;
-    try {
-      shot = model.shoot(x, Direction.NORTH);
+      shot = model.shoot(x, dir);
 
     } catch (IllegalArgumentException | IllegalStateException e ) {
       return e.getMessage();
@@ -201,6 +90,11 @@ public class AdvController implements Features, AdvGameController {
       return "Found Some items in the Cave";
     }
     return "There was Nothing to Find" ;
+  }
+
+  @Override
+  public char lastHit() {
+    return this.lastHit;
   }
 
   @Override

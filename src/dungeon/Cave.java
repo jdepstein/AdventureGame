@@ -29,8 +29,8 @@ public interface Cave {
   void addConnection(Direction dir, Location loc) throws IllegalArgumentException;
 
   /**
-   * Gets a HashMap of the directions and the location they connect to.
-   * @return The HashMap of Direction,Location of the caves connections and where they go to.
+   * Gets a Map of the directions and the location they connect to.
+   * @return The Map of Direction,Location of the caves connections and where they go to.
    */
   Map<Direction, Location> getDirections();
 
@@ -46,7 +46,7 @@ public interface Cave {
   /**
    * Removes the treasure from the cave and returns the treasure that was in the cave as a
    * HasMap of each type and its count.
-   * @return the HashMap of Treasure that was in the cave and their counts
+   * @return the Map of Treasure that was in the cave and their counts
    */
   Map<CaveObject, Integer> removeItems();
 
@@ -57,8 +57,8 @@ public interface Cave {
   Location getLocation();
 
   /**
-   * Gets the HashMap of treasure that is within the cave.
-   * @return The Caves Treasure HashMap
+   * Gets the Map of treasure that is within the cave.
+   * @return The Caves Treasure Map
    */
   Map<CaveObject, Integer> getItems();
 

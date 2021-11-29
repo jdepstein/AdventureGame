@@ -9,7 +9,7 @@ import dungeon.enums.Direction;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Test for the playerImpl Class.
@@ -58,7 +58,7 @@ public class PlayerTest {
    */
   @Test
   public void getterTest() {
-    HashMap<CaveObject, Integer> tres = myPlayer.getItems();
+    Map<CaveObject, Integer> tres = myPlayer.getItems();
     assertEquals( 3, tres.get(CaveObject.CROOKEDARROW).intValue());
 
   }
@@ -69,11 +69,11 @@ public class PlayerTest {
   @Test
   public void pickupTreasure() {
     assertTrue(myPlayer.search());
-    HashMap<CaveObject, Integer> tres = myPlayer.getItems();
+    Map<CaveObject, Integer> tres = myPlayer.getItems();
     assertEquals( 4, tres.get(CaveObject.CROOKEDARROW).intValue());
 
     assertFalse(myPlayer.search());
-    HashMap<CaveObject, Integer> tres2 = myPlayer.getItems();
+    Map<CaveObject, Integer> tres2 = myPlayer.getItems();
     assertEquals( 4, tres2.get(CaveObject.CROOKEDARROW).intValue());
   }
 
@@ -82,7 +82,7 @@ public class PlayerTest {
    */
   @Test
   public void shootArrow() {
-    HashMap<CaveObject, Integer> tres = myPlayer.getItems();
+    Map<CaveObject, Integer> tres = myPlayer.getItems();
     assertEquals( 3, tres.get(CaveObject.CROOKEDARROW).intValue());
     myPlayer.shootArrow();
     tres = myPlayer.getItems();
@@ -102,7 +102,7 @@ public class PlayerTest {
    */
   @Test(expected = IllegalStateException.class)
   public void shootArrow2() {
-    HashMap<CaveObject, Integer> tres = myPlayer.getItems();
+    Map<CaveObject, Integer> tres = myPlayer.getItems();
     assertEquals( 3, tres.get(CaveObject.CROOKEDARROW).intValue());
     myPlayer.shootArrow();
     myPlayer.shootArrow();

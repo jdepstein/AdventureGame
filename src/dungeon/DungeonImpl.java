@@ -31,7 +31,7 @@ public class DungeonImpl implements Dungeon {
   private Cave[][] caves;
   private final int xDim;
   private final int yDim;
-  private Player player;
+  private final Player player;
   private Location end;
   private Location start;
   private final int interConnectivity;
@@ -396,8 +396,7 @@ public class DungeonImpl implements Dungeon {
   public void reset() {
     this.caves = this.initialState;
     this.initialState = this.deepCopy();
-    this.player = new PlayerImpl(this.player.getName(),
-            this.caves[this.start.getY()][this.start.getX()]);
+    this.player.reset(this.getCave(start));
     this.visits = new ArrayList<>();
     this.visits.add(start);
   }
@@ -412,41 +411,41 @@ public class DungeonImpl implements Dungeon {
       }
       for (int x = 0; x < this.getWidth(); x++) {
         if (this.start.equals(new Location(x, y)) && this.start.equals(player.getLocation())) {
-          String[] split = this.caves[y][x].toString().split("  ");
+          String[] split = this.caves[y][x].toString().split(" {2}");
           dungeon.append(String.format("%sSP%s", split[0], split[1]));
         }
         else if (this.start.equals(new Location(x, y))) {
-          String[] split = this.caves[y][x].toString().split("  ");
+          String[] split = this.caves[y][x].toString().split(" {2}");
           dungeon.append(String.format("%s S%s", split[0], split[1]));
         }
         else if (this.end.equals(new Location(x, y)) && this.end.equals(player.getLocation())) {
-          String[] split = this.caves[y][x].toString().split("  ");
+          String[] split = this.caves[y][x].toString().split(" {2}");
           dungeon.append(String.format("%sEP%s", split[0], split[1]));
         }
         else if (this.player.getLocation().equals(new Location(x, y))) {
-          String[] split = this.caves[y][x].toString().split("  ");
+          String[] split = this.caves[y][x].toString().split(" {2}");
           dungeon.append(String.format("%s P%s", split[0], split[1]));
         }
         else if (this.end.equals(new Location(x, y))) {
           if (this.getCave(this.end).getMonster() != null) {
             if (!this.getCave(this.end).getMonster().isDead()) {
-              String[] split = this.caves[y][x].toString().split("  ");
+              String[] split = this.caves[y][x].toString().split(" {2}");
               dungeon.append(String.format("%sOE%s", split[0], split[1]));
             }
             else {
-              String[] split = this.caves[y][x].toString().split("  ");
+              String[] split = this.caves[y][x].toString().split(" {2}");
               dungeon.append(String.format("%s E%s", split[0], split[1]));
             }
           }
           else {
-            String[] split = this.caves[y][x].toString().split("  ");
+            String[] split = this.caves[y][x].toString().split(" {2}");
             dungeon.append(String.format("%s E%s", split[0], split[1]));
           }
         }
 
         else if (this.getCave(new Location(x, y)).getMonster() != null) {
           if (!this.caves[y][x].getMonster().isDead()) {
-            String[] split = this.caves[y][x].toString().split("  ");
+            String[] split = this.caves[y][x].toString().split(" {2}");
             dungeon.append(String.format("%s O%s", split[0], split[1]));
           }
           else {

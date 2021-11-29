@@ -49,7 +49,7 @@ class DescriptionPanel extends JPanel {
     labels.add(new ArrayList<>());
     JPanel caveItems = new JPanel(new GridLayout(5, 1));
     JPanel playerInfo = new JPanel(new GridLayout(5, 1));
-    JPanel caveInfo = new JPanel(new GridLayout(3, 1));
+    JPanel caveInfo = new JPanel(new GridLayout(4, 1));
 
     JLabel jLabel = new JLabel();
     jLabel.setText("Player Items");
@@ -70,6 +70,7 @@ class DescriptionPanel extends JPanel {
     jLabel = new JLabel();
     jLabel.setText("Cave Information");
     labels.get(2).add(jLabel);
+    labels.get(2).add(new JLabel());
     labels.get(2).add(new JLabel());
     labels.get(2).add(new JLabel());
 
@@ -114,6 +115,24 @@ class DescriptionPanel extends JPanel {
       labels.get(2).get(2).setText("Current Cave");
       labels.get(2).get(2).setIcon(imageIcon);
 
+      if (this.model.hasMonster()) {
+        img = ImageIO.read(new File(imageMap.get("Monster")));
+        imageIcon = new ImageIcon(img);
+        labels.get(2).get(3).setIcon(imageIcon);
+        if (this.model.hasLivingMonster()) {
+          labels.get(2).get(3).setText("Alive");
+        }
+        else {
+          labels.get(2).get(3).setText("Dead");
+        }
+      }
+      else {
+        img = ImageIO.read(new File(imageMap.get("black")));
+        imageIcon = new ImageIcon(img);
+        labels.get(2).get(3).setText("No Monster");
+        labels.get(2).get(3).setIcon(imageIcon);
+
+      }
     } catch (IOException e) {
       System.out.println(e.getMessage());
     }
@@ -138,12 +157,11 @@ class DescriptionPanel extends JPanel {
       ImageIcon imageIcon = new ImageIcon(img);
       if (player) {
         jLabel.setText(play.get(lookup).toString());
-        jLabel.setIcon(imageIcon);
       }
       else {
         jLabel.setText(cave.get(lookup).toString());
-        jLabel.setIcon(imageIcon);
       }
+      jLabel.setIcon(imageIcon);
 
 
     } catch (IOException e) {

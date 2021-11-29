@@ -3,7 +3,6 @@ package dungeon;
 import dungeon.enums.CaveObject;
 import dungeon.enums.Direction;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -61,11 +60,17 @@ interface Player {
    * Gets the players Treasure and returns the hashMap of the Treasure and each types count.
    * @return The HashMap of each treasure type and the count of each type
    */
-  HashMap<CaveObject, Integer> getItems();
+  Map<CaveObject, Integer> getItems();
 
   /**
    * Boolean to tell if the player is dead.
    * @return the boolean telling weather or not.
    */
   boolean isAlive();
+
+  /**
+   * Resets the player to their start stats.
+   * @param start the location the player started;
+   */
+  void reset(Cave start);
 }

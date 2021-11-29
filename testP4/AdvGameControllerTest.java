@@ -245,7 +245,7 @@ public class AdvGameControllerTest {
 
 
   /**
-   * Shooting at a mosnter to kill it.
+   * Shooting at a monster to kill it.
    */
   @Test
   public void shootHitTwice() {
@@ -469,7 +469,7 @@ public class AdvGameControllerTest {
   }
 
   /**
-   * Testing a dungeon run with shooting picking up and finishing it. Also with invalid cmd
+   * Testing a dungeon run with shooting picking up and finishing it. Also, with invalid cmd
    * as well as arguments mixed in as well and the error messages that you would get for
    * move that are not aloud.
    */
@@ -514,7 +514,7 @@ public class AdvGameControllerTest {
   }
 
   /**
-   *Testing the different situations of smell being 1 away 2 away from 1 being 2 aways from 2 and
+   *Testing the different situations of smell being 1 away 2 away from 1 being 2 always from 2 and
    * being more than 2 away from.
    */
   @Test

@@ -111,6 +111,22 @@ public class ReadOnlyDungeon {
   }
 
   /**
+   * Tells us if the Current Cave has a Monster.
+   * @return boolean if there is a monster or not
+   */
+  public  boolean hasMonster() {
+    return  this.d.getCave(this.getPlayerLoc()).getMonster() != null;
+  }
+
+  /**
+   * Tells us if the Current Cave has a living Monster.
+   * @return boolean if there is a living monster or not
+   */
+  public  boolean hasLivingMonster() {
+    return this.hasMonster() && !this.d.getCave(this.getPlayerLoc()).getMonster().isDead();
+  }
+
+  /**
    * Gets the string smell of the player is cave they are in.
    * @return The String representation of the current caves smell
    */
