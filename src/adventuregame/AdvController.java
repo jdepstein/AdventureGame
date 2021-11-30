@@ -15,7 +15,7 @@ import view.IView;
  * the two and access to info about the keys pressed. The Controller will send the update info to
  * model that was taken in. The controller also keeps track of the last hit key.
  */
-public class AdvController implements Features, AdvGameController {
+public class AdvController implements Features {
   private Dungeon model;
   private IView view;
   private char lastHit;
@@ -51,18 +51,23 @@ public class AdvController implements Features, AdvGameController {
     if (!model.hasSolved() && !model.hasLost()) {
       try {
         if (model.movePlayer(dir)) {
+          this.view.refresh();
           return "Successfully Moved " + dir.toString();
         } else {
           if (model.escaped()) {
+            this.view.refresh();
             return "Successfully Escaped A Otylph";
           } else {
+            this.view.refresh();
             return "Not A Valid Move";
           }
         }
       } catch (IllegalStateException e) {
+        this.view.refresh();
         return e.getMessage();
       }
     }
+    this.view.refresh();
     return "Game is over no More moves to be made";
   }
 
@@ -75,13 +80,17 @@ public class AdvController implements Features, AdvGameController {
         shot = model.shoot(x, dir);
 
       } catch (IllegalArgumentException | IllegalStateException e) {
+        this.view.refresh();
         return e.getMessage();
       }
       if (shot) {
+        this.view.refresh();
         return "Heard a Noise in distance";
       }
+      this.view.refresh();
       return "Arrow shot into darkness";
     }
+    this.view.refresh();
     return "Game is over no shooting to be done";
   }
 
@@ -89,10 +98,13 @@ public class AdvController implements Features, AdvGameController {
   public String pickup() {
     if (!model.hasSolved() && !model.hasLost()) {
       if (model.search()) {
+        this.view.refresh();
         return "Found Some items in the Cave";
       }
+      this.view.refresh();
       return "There was Nothing to Find";
     }
+    this.view.refresh();
     return "Game is over no Picking up";
   }
 
@@ -119,22 +131,27 @@ public class AdvController implements Features, AdvGameController {
               direction = dir.toString();
               break;
             } catch (IllegalStateException e) {
+              this.view.refresh();
               return "Can't Move When your dead";
             }
           }
         }
+        this.view.refresh();
         return "Successfully Moved " + direction;
       } else {
+        this.view.refresh();
         return "Invalid Move";
 
       }
     }
+    this.view.refresh();
     return "Game is over no More moves to be made";
   }
 
   @Override
   public String restart() {
     this.model.reset();
+    this.view.refresh();
     return "Dungeon Rest";
   }
 
@@ -149,16 +166,8 @@ public class AdvController implements Features, AdvGameController {
       return e.getMessage();
     }
     this.view.resetModel(this.model.makeReadOnly());
+    this.view.refresh();
     return "New Dungeon Created";
   }
-
-
-  @Override
-  public void playGame(Dungeon d) {
-    view.makeVisible();
-    view.refresh();
-    while (true) {
-      view.refresh();
-    }
-  }
 }
+

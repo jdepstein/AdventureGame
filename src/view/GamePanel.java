@@ -42,14 +42,22 @@ class GamePanel extends JPanel {
     }
     this.board = model;
     this.imageMap = imageMap;
-    this.setLayout(new GridLayout(model.getHeight(), model.getWidth(), 0,0));
+    this.setLayout(new GridLayout(model.getHeight(), model.getWidth(), 0, 0));
     this.caves = new JLabel[model.getHeight()][model.getWidth()];
     for (int y = 0; y < board.getHeight(); y++) {
       for (int x = 0; x < board.getWidth(); x++) {
         this.caves[y][x] = new JLabel();
-        this.caves[y][x].setName(String.format("(%d, %d)", x,y));
+        this.caves[y][x].setName(String.format("(%d, %d)", x, y));
+        this.caves[y][x].setHorizontalTextPosition(JLabel.CENTER);
+        this.caves[y][x].setVerticalTextPosition(JLabel.CENTER);
+        try {
+          BufferedImage img = ImageIO.read(new File(imageMap.get("black")));
+          ImageIcon imageIcon = new ImageIcon(img);
+          this.caves[y][x].setIcon(imageIcon);
+        } catch (IOException e) {
+          System.out.println(e.getMessage());
+        }
         this.add(this.caves[y][x]);
-
       }
     }
   }
@@ -64,28 +72,15 @@ class GamePanel extends JPanel {
     try {
       BufferedImage img;
       ImageIcon imageIcon;
-      for (int y = 0; y < board.getHeight(); y++) {
-        for (int x = 0; x < board.getWidth(); x++) {
-          if (board.hasVisited(x, y)) {
-            img = ImageIO.read(new File(imageMap.get(board.getConnections(x, y))));
-          } else {
-            img = ImageIO.read(new File(imageMap.get("black")));
-          }
-          imageIcon = new ImageIcon(img);
-          this.caves[y][x].setIcon(imageIcon);
-          this.caves[y][x].setIconTextGap(0);
-          this.caves[y][x].setVerticalAlignment(1);
-          this.caves[y][x].setHorizontalTextPosition(JLabel.CENTER);
-          this.caves[y][x].setVerticalTextPosition(JLabel.CENTER);
-
-          if (new Location(x,y).equals(board.getPlayerLoc())) {
-            this.caves[y][x].setForeground(Color.RED);
-            this.caves[y][x].setText("X");
-          }
-          else {
-            this.caves[y][x].setText("");
-          }
-
+      for (Location loc : board.getvisits()) {
+        img = ImageIO.read(new File(imageMap.get(board.getConnections(loc.getX(), loc.getY()))));
+        imageIcon = new ImageIcon(img);
+        this.caves[loc.getY()][loc.getX()].setIcon(imageIcon);
+        if (loc.equals(board.getPlayerLoc())) {
+          this.caves[loc.getY()][loc.getX()].setForeground(Color.RED);
+          this.caves[loc.getY()][loc.getX()].setText("X");
+        } else {
+          this.caves[loc.getY()][loc.getX()].setText(" ");
         }
       }
     }
@@ -94,5 +89,23 @@ class GamePanel extends JPanel {
     }
   }
 
+  /**
+   * Just resets the panel to an intial state where all the image icons are black and the text
+   * an empty string.
+   */
+  void resetPanel() {
+    for (int y = 0; y < this.board.getHeight(); y++) {
+      for (int x = 0; x < board.getWidth(); x++) {
+        try {
+          BufferedImage img = ImageIO.read(new File(this.imageMap.get("black")));
+          ImageIcon imageIcon = new ImageIcon(img);
+          this.caves[y][x].setIcon(imageIcon);
+          this.caves[y][x].setText(" ");
+        } catch (IOException e) {
+          System.out.println(e.getMessage());
+        }
+      }
+    }
+  }
 }
 

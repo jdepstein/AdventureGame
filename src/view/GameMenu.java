@@ -20,7 +20,7 @@ import javax.swing.JTextField;
  * The ability to restart the game from its initial state. This class just builds up the menu
  * bar itself as well as the popUp window that can appear from the menu bar.
  */
-public class GameMenu  {
+class GameMenu  {
   private final JMenuBar menuBar;
   private final List<JTextField> textFields;
   private final List<JButton> buttons;
@@ -32,7 +32,7 @@ public class GameMenu  {
    * to the initial state of the values in the model.
    * @param model The model that is being used for info being accessed.
    */
-  public GameMenu(ReadOnlyDungeon model) {
+  GameMenu(ReadOnlyDungeon model) {
     this.menuBar = new JMenuBar();
     this.menuItems = new ArrayList<>();
     this.buttons = new ArrayList<>();
@@ -68,7 +68,7 @@ public class GameMenu  {
    * Gets the MenuBar of the Menu.
    * @return the Menu Bar
    */
-  public JMenuBar getBar() {
+  JMenuBar getBar() {
     return this.menuBar;
   }
 
@@ -76,7 +76,7 @@ public class GameMenu  {
    * Gets the List of all the Text Fields.
    * @return All the Text fields in the popup
    */
-  public List<JTextField> getTextFields() {
+  List<JTextField> getTextFields() {
     return this.textFields;
   }
 
@@ -84,7 +84,7 @@ public class GameMenu  {
    * Gets the List of the Buttons.
    * @return All the Buttons in the popup
    */
-  public List<JButton> getButtons() {
+  List<JButton> getButtons() {
     return this.buttons;
   }
 
@@ -92,7 +92,7 @@ public class GameMenu  {
    * Gets the Popup itself.
    * @return the popup
    */
-  public JFrame getPopUp() {
+  JFrame getPopUp() {
     return this.popUp;
   }
 
@@ -100,7 +100,7 @@ public class GameMenu  {
    * Gets the Menu items.
    * @return the list of all the menu items.
    */
-  public List<JMenuItem>  getMenu() {
+  List<JMenuItem>  getMenu() {
     return this.menuItems;
   }
 

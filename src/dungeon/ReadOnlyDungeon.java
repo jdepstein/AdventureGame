@@ -2,6 +2,10 @@ package dungeon;
 
 import dungeon.enums.CaveObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 /**
  * This is a readOnly version of the dungeon model that is used to get info about the dungeon to
  * the view. The method in this will only return info about the state of the dungeon model. It
@@ -136,12 +140,10 @@ public class ReadOnlyDungeon {
 
   /**
    * Checks to see if this current location x and y has been visited.
-   * @param x The Locations x value.
-   * @param y The Locations y value.
    * @return boolean if this cave has been visited or not.
    */
-  public boolean hasVisited(int x, int y) {
-    return d.getVisits().contains(new Location(x, y));
+  public List<Location> getvisits() {
+    return new ArrayList<>(d.getVisits());
   }
 
   /**

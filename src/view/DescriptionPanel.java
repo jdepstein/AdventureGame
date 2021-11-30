@@ -131,7 +131,6 @@ class DescriptionPanel extends JPanel {
         imageIcon = new ImageIcon(img);
         labels.get(2).get(3).setText("No Monster");
         labels.get(2).get(3).setIcon(imageIcon);
-
       }
     } catch (IOException e) {
       System.out.println(e.getMessage());

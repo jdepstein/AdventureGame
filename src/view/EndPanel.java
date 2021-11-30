@@ -13,7 +13,7 @@ import javax.swing.JLabel;
  * restart from the original state or create a new game with some new values for the information
  * or the same information and just set up a completely new dungeon.
  */
-public class EndPanel extends JFrame {
+class EndPanel extends JFrame {
   private final List<JButton> endButtons;
   private final JLabel endLabel;
 
@@ -21,7 +21,7 @@ public class EndPanel extends JFrame {
    * Creates an end Frame this is just a frame that has 3 buttons, and it also sets up our list of
    * buttons plus the label attached that will be used to tell if it's a win or a loss.
    */
-  public EndPanel() {
+  EndPanel() {
     this.setLayout(new FlowLayout());
     this.setMinimumSize(new Dimension(500, 75));
     this.setResizable(false);
@@ -43,11 +43,11 @@ public class EndPanel extends JFrame {
     this.add(newGame);
   }
 
-  public List<JButton> getEndButtons() {
+  List<JButton> getEndButtons() {
     return this.endButtons;
   }
 
-  public JLabel getEndLabel() {
+  JLabel getEndLabel() {
     return this.endLabel;
   }
 }
