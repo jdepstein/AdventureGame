@@ -48,48 +48,52 @@ public class AdvController implements Features, AdvGameController {
 
   @Override
   public String move(Direction dir) {
-    try {
-      if (model.movePlayer(dir)) {
-        return "Successfully Moved " + dir.toString();
-      }
-      else {
-        if (model.escaped()) {
-          return "Successfully Escaped A Otylph";
+    if (!model.hasSolved() && !model.hasLost()) {
+      try {
+        if (model.movePlayer(dir)) {
+          return "Successfully Moved " + dir.toString();
+        } else {
+          if (model.escaped()) {
+            return "Successfully Escaped A Otylph";
+          } else {
+            return "Not A Valid Move";
+          }
         }
-        else {
-          return "Not A Valid Move";
-        }
+      } catch (IllegalStateException e) {
+        return e.getMessage();
       }
     }
-    catch (IllegalStateException e) {
-      return e.getMessage();
-    }
+    return "Game is over no More moves to be made";
   }
 
 
   @Override
   public String shoot(int x, Direction dir) {
-    System.out.printf("shooting" + dir.toString() + "%d \n", x);
     boolean shot;
-    try {
-      shot = model.shoot(x, dir);
+    if (!model.hasSolved() && !model.hasLost()) {
+      try {
+        shot = model.shoot(x, dir);
 
-    } catch (IllegalArgumentException | IllegalStateException e ) {
-      return e.getMessage();
+      } catch (IllegalArgumentException | IllegalStateException e) {
+        return e.getMessage();
+      }
+      if (shot) {
+        return "Heard a Noise in distance";
+      }
+      return "Arrow shot into darkness";
     }
-    if (shot) {
-      return "Heard a Noise in distance";
-    }
-    return "Arrow shot into darkness";
+    return "Game is over no shooting to be done";
   }
 
   @Override
   public String pickup() {
-    System.out.println("Picking up");
-    if (model.search()) {
-      return "Found Some items in the Cave";
+    if (!model.hasSolved() && !model.hasLost()) {
+      if (model.search()) {
+        return "Found Some items in the Cave";
+      }
+      return "There was Nothing to Find";
     }
-    return "There was Nothing to Find" ;
+    return "Game is over no Picking up";
   }
 
   @Override
@@ -104,27 +108,28 @@ public class AdvController implements Features, AdvGameController {
 
   @Override
   public String clickMove(int x, int y) {
-    Cave cave = model.getCave(model.getPlayerLocation());
-    if (cave.getDirections().containsValue(new Location(x,y))) {
-      String direction = "";
-      for (Direction dir: cave.getDirections().keySet()) {
-        if (cave.getDirections().get(dir).equals(new Location(x, y))) {
-          try {
-            model.movePlayer(dir);
-            direction = dir.toString();
-            break;
-          }
-          catch (IllegalStateException e) {
-            return "Can't Move When your dead";
+    if (!model.hasSolved() && !model.hasLost()) {
+      Cave cave = model.getCave(model.getPlayerLocation());
+      if (cave.getDirections().containsValue(new Location(x, y))) {
+        String direction = "";
+        for (Direction dir : cave.getDirections().keySet()) {
+          if (cave.getDirections().get(dir).equals(new Location(x, y))) {
+            try {
+              model.movePlayer(dir);
+              direction = dir.toString();
+              break;
+            } catch (IllegalStateException e) {
+              return "Can't Move When your dead";
+            }
           }
         }
-      }
-      return "Successfully Moved " + direction;
-    }
-    else {
-      return "Invalid Move";
+        return "Successfully Moved " + direction;
+      } else {
+        return "Invalid Move";
 
+      }
     }
+    return "Game is over no More moves to be made";
   }
 
   @Override

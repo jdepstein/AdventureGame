@@ -1274,7 +1274,6 @@ public class DungeonTestOld {
     dung.movePlayer(Direction.SOUTH);
     assertNotNull(dung.getCave(new Location(1, 0)).getMonster());
     assertTrue(dung.shoot(2, Direction.NORTH));
-    System.out.println(dung.getCave(new Location(1, 0)).getMonster().isShot());
     assertTrue(dung.getCave(new Location(1, 0)).getMonster().isShot());
     assertFalse(dung.getCave(new Location(1, 0)).getMonster().isDead());
     assertTrue(dung.shoot(2, Direction.NORTH));
