@@ -43,12 +43,13 @@ public class AdvController implements Features {
    */
   public void setView(IView v) {
     this.view = v;
-    view.setFeatures(this);
+    this.view.setFeatures(this);
+    this.view.makeVisible();
   }
 
   @Override
   public String move(Direction dir) {
-    if (!model.hasSolved() && !model.hasLost()) {
+    if (!model.hasSolved()) {
       try {
         if (model.movePlayer(dir)) {
           this.view.refresh();
@@ -75,7 +76,7 @@ public class AdvController implements Features {
   @Override
   public String shoot(int x, Direction dir) {
     boolean shot;
-    if (!model.hasSolved() && !model.hasLost()) {
+    if (!model.hasSolved()) {
       try {
         shot = model.shoot(x, dir);
 
@@ -96,7 +97,7 @@ public class AdvController implements Features {
 
   @Override
   public String pickup() {
-    if (!model.hasSolved() && !model.hasLost()) {
+    if (!model.hasSolved()) {
       if (model.search()) {
         this.view.refresh();
         return "Found Some items in the Cave";
@@ -149,10 +150,9 @@ public class AdvController implements Features {
   }
 
   @Override
-  public String restart() {
+  public void restart() {
     this.model.reset();
     this.view.refresh();
-    return "Dungeon Rest";
   }
 
   @Override

@@ -54,9 +54,8 @@ public interface Features {
 
   /**
    * Restarts the game from its dungeon state.
-   * @return the string telling that the dungeon was reset
    */
-  String restart();
+  void restart();
 
   /**
    * Sets up the game with a new dungeon with the given values for the requirements of the dungeon.

@@ -54,6 +54,7 @@ class GamePanel extends JPanel {
           BufferedImage img = ImageIO.read(new File(imageMap.get("black")));
           ImageIcon imageIcon = new ImageIcon(img);
           this.caves[y][x].setIcon(imageIcon);
+          this.caves[y][x].setForeground(Color.RED);
         } catch (IOException e) {
           System.out.println(e.getMessage());
         }
@@ -69,28 +70,31 @@ class GamePanel extends JPanel {
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-    try {
-      BufferedImage img;
-      ImageIcon imageIcon;
-      for (Location loc : board.getvisits()) {
-        img = ImageIO.read(new File(imageMap.get(board.getConnections(loc.getX(), loc.getY()))));
+    BufferedImage img;
+    ImageIcon imageIcon;
+    if (this.board.getPlayerLoc().equals(board.getVisits().get(board.getVisits().size() - 1))) {
+      try {
+        img = ImageIO.read(new File(imageMap.get(board.getConnections
+                (this.board.getPlayerLoc().getX(), this.board.getPlayerLoc().getY()))));
         imageIcon = new ImageIcon(img);
-        this.caves[loc.getY()][loc.getX()].setIcon(imageIcon);
-        if (loc.equals(board.getPlayerLoc())) {
-          this.caves[loc.getY()][loc.getX()].setForeground(Color.RED);
-          this.caves[loc.getY()][loc.getX()].setText("X");
-        } else {
-          this.caves[loc.getY()][loc.getX()].setText(" ");
-        }
+        this.caves[this.board.getPlayerLoc().getY()]
+                [this.board.getPlayerLoc().getX()].setIcon(imageIcon);
+      } catch (IOException e) {
+        System.out.println(e.getMessage());
       }
     }
-    catch (IOException e) {
-      System.out.println(e.getMessage());
+    for (Location loc: this.board.getVisits()) {
+      if (loc.equals(this.board.getPlayerLoc())) {
+        this.caves[this.board.getPlayerLoc().getY()]
+                [this.board.getPlayerLoc().getX()].setText("X");
+      } else {
+        this.caves[loc.getY()][loc.getX()].setText(" ");
+      }
     }
   }
 
   /**
-   * Just resets the panel to an intial state where all the image icons are black and the text
+   * Just resets the panel to an initial state where all the image icons are black and the text
    * an empty string.
    */
   void resetPanel() {

@@ -142,7 +142,7 @@ public class ReadOnlyDungeon {
    * Checks to see if this current location x and y has been visited.
    * @return boolean if this cave has been visited or not.
    */
-  public List<Location> getvisits() {
+  public List<Location> getVisits() {
     return new ArrayList<>(d.getVisits());
   }
 

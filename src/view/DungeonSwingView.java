@@ -206,7 +206,8 @@ public class DungeonSwingView extends JFrame implements IView {
     }
     ActionListener action = e -> {
       if (e.getActionCommand().equals("Restart")) {
-        t.setText(f.restart());
+        f.restart();
+        t.setText("Dungeon Rest");
         dungeonPanel.resetPanel();
         this.endGamePopUp.setVisible(false);
         this.newGamePopUP.setVisible(false);
