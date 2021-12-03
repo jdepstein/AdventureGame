@@ -11,6 +11,15 @@ import dungeon.enums.Direction;
 public interface Features {
 
   /**
+   * Sets up the view for the controller but also sets up the connection between the view and
+   * the controller by setting the features for the view with this since it's an implementation of
+   * features.
+   * @param v The view.
+   * @throws IllegalArgumentException If the view is null.
+   */
+  void setView(IView v);
+
+  /**
    * Move in the given direction.
    * @param dir the direction moving
    * @return The string message tied to moving

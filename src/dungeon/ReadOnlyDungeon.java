@@ -21,7 +21,7 @@ public class ReadOnlyDungeon {
    * @param d the Dungeon.
    * @param p the player in the dungeon.
    */
-  public ReadOnlyDungeon(Dungeon d, Player p) {
+  ReadOnlyDungeon(Dungeon d, Player p) {
     this.d = d;
     this.p = p;
   }

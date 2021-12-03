@@ -34,14 +34,12 @@ public class AdvController implements Features {
     this.model = model;
   }
 
-  /**
-   * Sets up the view for the controller but also sets up the connection between the view and
-   * the controller by setting the features for the view with this since it's an implementation of
-   * features.
-   * @param v The view.
-   * @throws IllegalArgumentException If the view is null.
-   */
+  @Override
   public void setView(IView v) {
+    if (v == null) {
+      throw new IllegalArgumentException(
+              "view passed is null");
+    }
     this.view = v;
     this.view.setFeatures(this);
     this.view.makeVisible();
@@ -49,11 +47,15 @@ public class AdvController implements Features {
 
   @Override
   public String move(Direction dir) {
+    if (dir == null) {
+      throw new IllegalArgumentException(
+              "Null passed for direction");
+    }
     if (!model.hasSolved()) {
       try {
         if (model.movePlayer(dir)) {
           this.view.refresh();
-          return "Successfully Moved " + dir.toString();
+          return "Successfully Moved " + dir;
         } else {
           if (model.escaped()) {
             this.view.refresh();
@@ -69,13 +71,18 @@ public class AdvController implements Features {
       }
     }
     this.view.refresh();
-    return "Game is over no More moves to be made";
+    return "Game is over no more moves to be made";
   }
 
 
   @Override
   public String shoot(int x, Direction dir) {
     boolean shot;
+    if (dir == null) {
+      throw new IllegalArgumentException(
+              "Null passed for direction");
+    }
+
     if (!model.hasSolved()) {
       try {
         shot = model.shoot(x, dir);
@@ -98,15 +105,20 @@ public class AdvController implements Features {
   @Override
   public String pickup() {
     if (!model.hasSolved()) {
-      if (model.search()) {
+      try {
+        if (model.search()) {
+          this.view.refresh();
+          return "Found Some items in the Cave";
+        }
         this.view.refresh();
-        return "Found Some items in the Cave";
+        return "There was Nothing to Find";
       }
-      this.view.refresh();
-      return "There was Nothing to Find";
+      catch (IllegalStateException e) {
+        return e.getMessage();
+      }
     }
     this.view.refresh();
-    return "Game is over no Picking up";
+    return "Game is over no picking up";
   }
 
   @Override
@@ -121,7 +133,7 @@ public class AdvController implements Features {
 
   @Override
   public String clickMove(int x, int y) {
-    if (!model.hasSolved() && !model.hasLost()) {
+    if (!model.hasSolved()) {
       Cave cave = model.getCave(model.getPlayerLocation());
       if (cave.getDirections().containsValue(new Location(x, y))) {
         String direction = "";
@@ -133,7 +145,7 @@ public class AdvController implements Features {
               break;
             } catch (IllegalStateException e) {
               this.view.refresh();
-              return "Can't Move When your dead";
+              return "Can't move when you're dead";
             }
           }
         }
@@ -141,12 +153,12 @@ public class AdvController implements Features {
         return "Successfully Moved " + direction;
       } else {
         this.view.refresh();
-        return "Invalid Move";
+        return "Not A Valid Move";
 
       }
     }
     this.view.refresh();
-    return "Game is over no More moves to be made";
+    return "Game is over no more moves to be made";
   }
 
   @Override

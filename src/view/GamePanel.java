@@ -74,8 +74,8 @@ class GamePanel extends JPanel {
     ImageIcon imageIcon;
     if (this.board.getPlayerLoc().equals(board.getVisits().get(board.getVisits().size() - 1))) {
       try {
-        img = ImageIO.read(new File(imageMap.get(board.getConnections
-                (this.board.getPlayerLoc().getX(), this.board.getPlayerLoc().getY()))));
+        img = ImageIO.read(new File(imageMap.get(board.getConnections(
+                this.board.getPlayerLoc().getX(), this.board.getPlayerLoc().getY()))));
         imageIcon = new ImageIcon(img);
         this.caves[this.board.getPlayerLoc().getY()]
                 [this.board.getPlayerLoc().getX()].setIcon(imageIcon);

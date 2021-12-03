@@ -141,6 +141,11 @@ public class DungeonSwingView extends JFrame implements IView {
 
   @Override
   public void setFeatures(Features f) {
+    if (f == null ) {
+      throw new IllegalArgumentException(
+              "Null passed for f");
+
+    }
     JLabel t = this.updates;
     this.addKeyListener(new KeyAdapter() {
       @Override
@@ -177,7 +182,9 @@ public class DungeonSwingView extends JFrame implements IView {
           }
         } else if (e.getKeyCode() == KeyEvent.VK_P) {
           t.setText(f.pickup());
-        } else {
+        } else if (dist.contains(Character.valueOf(e.getKeyChar()).toString())) {
+          t.setText("Recorded the distance of " + Character.valueOf(e.getKeyChar()).toString());
+        }  else {
           t.setText("The Key Entered did not do anything");
         }
         f.setLast(e.getKeyChar());
