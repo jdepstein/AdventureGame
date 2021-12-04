@@ -368,6 +368,52 @@ At the end of the game, a window will popup and allow for a restart, create a ne
 </ul>
 
 ### Design/Model Changes:
+<b><ins> Players </ins> </b>
+<p>
+&nbsp &nbsp &nbsp &nbsp The one slight change I made to the player class was resetting the player to a location and 
+starting ideas of being alive and having three arrows and no other items.  
+
+</p>
+
+<b><ins> Dungeon Model </ins> </b>
+<p>
+&nbsp &nbsp &nbsp &nbsp At the dungeon level, I had the read-only version of the dungeon but found I needed to add 
+some getters to the Dungeon interface so the read-only could give out certain pieces of info. I also
+added a field of the initial state of the dungeon to the DungeonImpl, so I had a way to have a deep 
+copy of the dungeon state at the start of the game, so when it comes to resetting the model, there are 
+no issues. Continuing on the idea of resetting, the dungeon reset method was added on as well.
+</p>
+
+<b><ins> Controller/Features </ins> </b>
+<p>
+  &nbsp &nbsp &nbsp &nbsp At the Controller level for my features class, I condensed my move and shoot functions into one for
+each one. I also changed the return type of my functions to return a string. This makes it, so 
+the view gets some feedback about the action taken and an error with some entered info. The gave 
+view access to the error message but not the error itself. I also added a new game into features that
+take the arguments required for a new dungeon model. It then resets all the necessary parts in the 
+controller and sends info to the view about the new model used.
+</p>
+
+<b><ins> View </ins> </b>
+<p>
+  &nbsp &nbsp &nbsp &nbsp At the level of my iView interface, nothing changed other than the addition of the ability to reset
+the read-only model to a new model. This method is called when a new game is created.
+</p>
+<p>
+  &nbsp &nbsp &nbsp &nbsp The significant changes come at the class level, so I found the need for a few added panels to be 
+kept as fields in my class and a few other pieces of info for my view implementation. I
+initially thought I would only need one panel, and the updates would be done at the repaint level,
+but I found that not to work.
+</p>
+<p>
+  &nbsp &nbsp &nbsp &nbsp I split up the ideas I wanted to present into four separate parts—the GamePanel, which represents
+the board, or the dungeon's map. The DescriptionPanel handles all of the info about the current cave 
+you are in and the player's current state regarding items they carry. Then I have an EndPanel, 
+a window that will pop up at the end of the game and provide the option to the player on what they 
+wish to do. Then finally, I have my GameMenu, which is the JMenu attached to the game, 
+and this builds all the things the menu might lead to as well. Each of these Panels had getters for 
+the info they contained attached to specific actions set in the Main View implantation. 
+</p>
 
 ### Assumptions:
 <ul>

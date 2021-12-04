@@ -24,7 +24,7 @@ public class FeaturesTest {
   private IView view;
 
   /**
-   * Set up the features controller and set all the feilds.
+   * Set up the features controller and set all the fields.
    */
   @Before
   public void setUp() {

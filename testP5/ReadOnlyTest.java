@@ -166,6 +166,9 @@ public class ReadOnlyTest {
    */
   @Test
   public void dyingTest() {
+    dungeon = new DungeonImpl(6, 7, 43,
+          true, 100, "Jack", false, 1);
+    read = dungeon.makeReadOnly();
     dungeon.movePlayer(Direction.SOUTH);
     dungeon.movePlayer(Direction.SOUTH);
     dungeon.movePlayer(Direction.SOUTH);
