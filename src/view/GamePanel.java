@@ -56,7 +56,7 @@ class GamePanel extends JPanel {
           this.caves[y][x].setIcon(imageIcon);
           this.caves[y][x].setForeground(Color.RED);
         } catch (IOException e) {
-          System.out.println(e.getMessage());
+          System.out.println(imageMap.get("black"));
         }
         this.add(this.caves[y][x]);
       }
@@ -80,7 +80,8 @@ class GamePanel extends JPanel {
         this.caves[this.board.getPlayerLoc().getY()]
                 [this.board.getPlayerLoc().getX()].setIcon(imageIcon);
       } catch (IOException e) {
-        System.out.println(e.getMessage());
+        System.out.println(imageMap.get(board.getConnections(
+                this.board.getPlayerLoc().getX(), this.board.getPlayerLoc().getY())));
       }
     }
     for (Location loc: this.board.getVisits()) {

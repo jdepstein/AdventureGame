@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,7 +134,7 @@ class DescriptionPanel extends JPanel {
         labels.get(2).get(3).setIcon(imageIcon);
       }
     } catch (IOException e) {
-      System.out.println(e.getMessage());
+      System.out.println(Arrays.toString(e.getStackTrace()));
     }
 
   }

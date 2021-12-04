@@ -282,32 +282,32 @@ public class DungeonSwingView extends JFrame implements IView {
    */
   private Map<String, String> generateImageMap() {
     Map<String, String> imageMap = new HashMap<>();
-    imageMap.put("S", "res/dungeon-images-bw/S.png");
-    imageMap.put("E", "res/dungeon-images-bw/E.png");
-    imageMap.put("W", "res/dungeon-images-bw/W.png");
-    imageMap.put("N", "res/dungeon-images-bw/N.png");
-    imageMap.put("SE", "res/dungeon-images-bw/ES.png");
-    imageMap.put("EW", "res/dungeon-images-bw/EW.png");
-    imageMap.put("NE", "res/dungeon-images-bw/NE.png");
-    imageMap.put("NS", "res/dungeon-images-bw/NS.png");
-    imageMap.put("SW", "res/dungeon-images-bw/SW.png");
-    imageMap.put("NW", "res/dungeon-images-bw/WN.png");
-    imageMap.put("SEW", "res/dungeon-images-bw/ESW.png");
-    imageMap.put("NEW", "res/dungeon-images-bw/NEW.png");
-    imageMap.put("NSE", "res/dungeon-images-bw/NES.png");
-    imageMap.put("NSW", "res/dungeon-images-bw/SWN.png");
-    imageMap.put("NSEW", "res/dungeon-images-bw/NESW.png");
-    imageMap.put("black", "res/dungeon-images-bw/black.png");
+    imageMap.put("S", "res/dungeonImages/S.png");
+    imageMap.put("E", "res/dungeonImages/E.png");
+    imageMap.put("W", "res/dungeonImages/W.png");
+    imageMap.put("N", "res/dungeonImages/N.png");
+    imageMap.put("SE", "res/dungeonImages/ES.png");
+    imageMap.put("EW", "res/dungeonImages/EW.png");
+    imageMap.put("NE", "res/dungeonImages/NE.png");
+    imageMap.put("NS", "res/dungeonImages/NS.png");
+    imageMap.put("SW", "res/dungeonImages/SW.png");
+    imageMap.put("NW", "res/dungeonImages/WN.png");
+    imageMap.put("SEW", "res/dungeonImages/ESW.png");
+    imageMap.put("NEW", "res/dungeonImages/NEW.png");
+    imageMap.put("NSE", "res/dungeonImages/NES.png");
+    imageMap.put("NSW", "res/dungeonImages/SWN.png");
+    imageMap.put("NSEW", "res/dungeonImages/NESW.png");
+    imageMap.put("black", "res/dungeonImages/black.png");
 
-    imageMap.put("Smell0","res/dungeon-images-bw/blank.png");
-    imageMap.put("Smell1","res/dungeon-images-bw/stench01.png");
-    imageMap.put("Smell2","res/dungeon-images-bw/stench02.png");
+    imageMap.put("Smell0","res/dungeonImages/blank.png");
+    imageMap.put("Smell1","res/dungeonImages/stench01.png");
+    imageMap.put("Smell2","res/dungeonImages/stench02.png");
 
-    imageMap.put("diamond","res/dungeon-images-bw/diamond.png");
-    imageMap.put("ruby","res/dungeon-images-bw/ruby.png");
-    imageMap.put("sapphire","res/dungeon-images-bw/emerald.png");
-    imageMap.put("arrow","res/dungeon-images-bw/arrow-black.png");
-    imageMap.put("Monster", "res/dungeon-images-bw/otyugh.png");
+    imageMap.put("diamond","res/dungeonImages/diamond.png");
+    imageMap.put("ruby","res/dungeonImages/ruby.png");
+    imageMap.put("sapphire","res/dungeonImages/emerald.png");
+    imageMap.put("arrow","res/dungeonImages/arrow-black.png");
+    imageMap.put("Monster", "res/dungeonImages/otyugh.png");
     return imageMap;
   }
 
