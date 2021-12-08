@@ -132,7 +132,12 @@ safely.
 
 ### How To Run:
 Run the jar file will just run if you use java -jar (File path)
-If you wish to run normally with the GUI, do not pass any arguments other than the file path.
+
+If you wish to run normally with the GUI,
+
+You first need to cd into Project5Folder from the Zip then cd into the res folder 
+
+Once there do not pass any arguments other than the file path with the java -jar (File path)
 
 If you want to Run in Console Text Mode, you Must Give Arguments below:
 There is a Total of 6 Arguments you must provide in the order described below

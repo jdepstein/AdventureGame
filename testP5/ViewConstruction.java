@@ -9,7 +9,7 @@ import view.IView;
 /**
  * Tests for the view Construction arguments thrown.
  */
-public class viewConstruction {
+public class ViewConstruction {
 
   /**
    * Null passed in the constructor.

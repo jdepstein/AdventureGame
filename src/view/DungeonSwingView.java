@@ -299,7 +299,7 @@ public class DungeonSwingView extends JFrame implements IView {
     imageMap.put("NSEW", "res/dungeonImages/NESW.png");
     imageMap.put("black", "res/dungeonImages/black.png");
 
-    imageMap.put("Smell0","res/dungeonImages/blank.png");
+    imageMap.put("Smell0","res/dungeonImages/black.png");
     imageMap.put("Smell1","res/dungeonImages/stench01.png");
     imageMap.put("Smell2","res/dungeonImages/stench02.png");
 

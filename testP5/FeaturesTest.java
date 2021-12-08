@@ -31,7 +31,7 @@ public class FeaturesTest {
     model = new DungeonImpl(6,6,25,false, 100,
             "Jack",false, 1);
     controller = new AdvController(model);
-    view = new MockView(model.makeReadOnly());
+    view = new MockView();
     controller.setView(view);
   }
 
@@ -208,7 +208,7 @@ public class FeaturesTest {
     model = new DungeonImpl(6,6,37,true, 100,
             "Jack",false, 1);
     controller = new AdvController(model);
-    view = new MockView(model.makeReadOnly());
+    view = new MockView();
     controller.setView(view);
     assertEquals(new Location(0, 0), model.getPlayerLocation());
     assertEquals("Successfully Moved NORTH", controller.move(Direction.NORTH));
@@ -239,7 +239,7 @@ public class FeaturesTest {
       model = new DungeonImpl(6, 6, 37, true, 100,
             "Jack", true, 1);
       controller = new AdvController(model);
-      view = new MockView(model.makeReadOnly());
+      view = new MockView();
       controller.setView(view);
       ReadOnlyDungeon info = model.makeReadOnly();
       Location initialLocation = info.getPlayerLoc();

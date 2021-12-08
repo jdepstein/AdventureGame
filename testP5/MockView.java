@@ -6,33 +6,24 @@ import view.IView;
  * Mock of the view.
  */
 public class MockView implements IView {
-  private ReadOnlyDungeon board;
-
-  /**
-   * Sets up the Mock board.
-   * @param board the board for the board.
-   */
-  public MockView(ReadOnlyDungeon board) {
-    this.board = board;
-  }
 
   @Override
   public void resetModel(ReadOnlyDungeon board) {
-    this.board = board;
+    assert true;
   }
 
   @Override
   public void makeVisible() {
-    System.out.println("Make Visible");
+    assert true;
   }
 
   @Override
   public void refresh() {
-    System.out.println("Refresh");
+    assert true;
   }
 
   @Override
   public void setFeatures(Features f) {
-    System.out.println("Set Features");
+    assert true;
   }
 }
