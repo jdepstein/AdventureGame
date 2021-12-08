@@ -1,9 +1,6 @@
 # Default ignored files
 /shelf/
 /.idea
-/src/driver
 Project5.iml
 /out
 /src/META-INF/
-/src/view/practice.java
-/src/view/testing.java
