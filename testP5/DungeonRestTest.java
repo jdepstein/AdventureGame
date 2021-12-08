@@ -2,11 +2,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import dungeon.Cave;
-import dungeon.Dungeon;
-import dungeon.DungeonImpl;
-import dungeon.Location;
-import dungeon.enums.Direction;
+import model.Cave;
+import model.Dungeon;
+import model.DungeonImpl;
+import model.Location;
+import model.enums.Direction;
 import org.junit.Before;
 import org.junit.Test;
 

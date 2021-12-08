@@ -1,9 +1,9 @@
 package driver;
 
-import adventuregame.AdvController;
-import adventuregame.AdvGameConsoleController;
-import dungeon.Dungeon;
-import dungeon.DungeonImpl;
+import controller.AdvController;
+import controller.AdvGameConsoleController;
+import model.Dungeon;
+import model.DungeonImpl;
 import view.DungeonSwingView;
 import view.IView;
 
@@ -48,4 +48,5 @@ public class GameRun {
       control.setView(view);
     }
   }
+
 }

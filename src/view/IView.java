@@ -1,6 +1,6 @@
 package view;
 
-import dungeon.ReadOnlyDungeon;
+import model.ReadOnlyDungeon;
 
 /**
  * The View interface is very simple and is just for general methods of making the actual window

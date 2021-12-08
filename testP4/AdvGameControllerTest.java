@@ -2,10 +2,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import adventuregame.AdvGameConsoleController;
-import dungeon.Dungeon;
-import dungeon.DungeonImpl;
-import dungeon.Location;
+import controller.AdvGameConsoleController;
+import model.Dungeon;
+import model.DungeonImpl;
+import model.Location;
 import org.junit.Test;
 
 import java.io.StringReader;

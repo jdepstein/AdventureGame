@@ -3,13 +3,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import dungeon.Cave;
-import dungeon.Dungeon;
-import dungeon.DungeonImpl;
-import dungeon.Location;
-import dungeon.ReadOnlyDungeon;
-import dungeon.enums.CaveObject;
-import dungeon.enums.Direction;
+import model.Cave;
+import model.Dungeon;
+import model.DungeonImpl;
+import model.Location;
+import model.ReadOnlyDungeon;
+import model.enums.CaveObject;
+import model.enums.Direction;
 import org.junit.Before;
 import org.junit.Test;
 

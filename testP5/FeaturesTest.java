@@ -3,12 +3,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import adventuregame.AdvController;
-import dungeon.Dungeon;
-import dungeon.DungeonImpl;
-import dungeon.Location;
-import dungeon.ReadOnlyDungeon;
-import dungeon.enums.Direction;
+import controller.AdvController;
+import model.Dungeon;
+import model.DungeonImpl;
+import model.Location;
+import model.ReadOnlyDungeon;
+import model.enums.Direction;
 import org.junit.Before;
 import org.junit.Test;
 import view.Features;

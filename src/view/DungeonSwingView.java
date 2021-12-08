@@ -1,7 +1,7 @@
 package view;
 
-import dungeon.ReadOnlyDungeon;
-import dungeon.enums.Direction;
+import model.ReadOnlyDungeon;
+import model.enums.Direction;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

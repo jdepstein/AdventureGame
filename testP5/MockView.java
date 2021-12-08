@@ -1,4 +1,4 @@
-import dungeon.ReadOnlyDungeon;
+import model.ReadOnlyDungeon;
 import view.Features;
 import view.IView;
 

@@ -4,14 +4,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import dungeon.Cave;
-import dungeon.Description;
-import dungeon.Dungeon;
-import dungeon.DungeonImpl;
-import dungeon.Location;
-import dungeon.enums.CaveObject;
-import dungeon.enums.Direction;
-import dungeon.enums.Smell;
+import model.Cave;
+import model.Description;
+import model.Dungeon;
+import model.DungeonImpl;
+import model.Location;
+import model.enums.CaveObject;
+import model.enums.Direction;
+import model.enums.Smell;
 import org.junit.Before;
 import org.junit.Test;
 

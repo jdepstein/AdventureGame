@@ -1,6 +1,6 @@
 package view;
 
-import dungeon.enums.Direction;
+import model.enums.Direction;
 
 /**
  * This interface represents a set of features that the program offers. Each

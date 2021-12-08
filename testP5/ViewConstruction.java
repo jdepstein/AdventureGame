@@ -1,6 +1,6 @@
 
-import dungeon.Dungeon;
-import dungeon.DungeonImpl;
+import model.Dungeon;
+import model.DungeonImpl;
 import org.junit.Test;
 import view.DungeonSwingView;
 import view.IView;

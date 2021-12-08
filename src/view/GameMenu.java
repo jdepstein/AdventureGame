@@ -1,6 +1,6 @@
 package view;
 
-import dungeon.ReadOnlyDungeon;
+import model.ReadOnlyDungeon;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;

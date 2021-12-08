@@ -1,7 +1,7 @@
 package view;
 
-import dungeon.Location;
-import dungeon.ReadOnlyDungeon;
+import model.Location;
+import model.ReadOnlyDungeon;
 
 import java.awt.Color;
 import java.awt.Graphics;
